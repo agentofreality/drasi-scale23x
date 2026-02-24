@@ -1,0 +1,38 @@
+/* Custom styles for Drasi SCaLE 23x presentation */
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  text-transform: none;
+}
+
+.reveal blockquote {
+  width: 85%;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid #42affa;
+  padding: 0.5em 1em;
+}
+
+.reveal table {
+  margin: 0 auto;
+}
+
+.reveal table th,
+.reveal table td {
+  text-align: left;
+  padding: 0.4em 0.8em;
+}
+
+.reveal pre {
+  width: 90%;
+  font-size: 0.55em;
+}
+
+.reveal .r-stack {
+  min-height: 200px;
+}
+
+.reveal small {
+  vertical-align: baseline;
+}

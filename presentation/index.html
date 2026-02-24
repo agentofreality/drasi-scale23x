@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drasi: A New Take on Change-Driven Architectures</title>
+  <link rel="stylesheet" href="node_modules/reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="node_modules/reveal.js/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ============================================================ -->
+      <!-- TITLE -->
+      <!-- ============================================================ -->
+      <section>
+        <h1>Drasi</h1>
+        <h3>A New Take on Change-Driven Architectures</h3>
+        <p>
+          <small>Allen Jones — SCaLE 23x</small>
+        </p>
+        <p>
+          <small>
+            <a href="https://drasi.io">drasi.io</a> ·
+            <a href="https://github.com/drasi-project">github.com/drasi-project</a>
+          </small>
+        </p>
+        <aside class="notes">
+          Welcome. Today we're going to talk about a different way to think about
+          reacting to data changes — and an open-source project that makes it practical.
+        </aside>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- I. THE PROBLEM -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>The Problem</h2>
+          <h4>Reacting to Change is Harder Than It Should Be</h4>
+          <aside class="notes">
+            Let's start with something every backend engineer has dealt with.
+          </aside>
+        </section>
+
+        <section>
+          <h3>A Familiar Scenario</h3>
+          <ul>
+            <li class="fragment">You have data spread across multiple systems</li>
+            <li class="fragment">Something changes — downstream systems need to know</li>
+            <li class="fragment">Fast. Precisely. Reliably.</li>
+          </ul>
+          <p class="fragment"><em>Sounds simple…</em></p>
+          <aside class="notes">
+            Databases, APIs, Kubernetes resources — data is everywhere.
+            When something changes, other parts of the system need to react.
+            This should be a solved problem by now. It isn't.
+          </aside>
+        </section>
+
+        <section>
+          <h3>How Teams Solve This Today</h3>
+          <div class="r-stack">
+            <div class="fragment fade-in-then-out">
+              <h4>🔄 Polling</h4>
+              <p>Wasteful · Latent · Scales poorly</p>
+            </div>
+            <div class="fragment fade-in-then-out">
+              <h4>📋 Change Data Capture (CDC)</h4>
+              <p>Low-level · Row-oriented · Producer-defined semantics</p>
+            </div>
+            <div class="fragment fade-in-then-out">
+              <h4>⚡ Event-Driven Architectures</h4>
+              <p>Powerful, but shifts complexity to consumers</p>
+              <p><small>Parsing · Filtering · State management · Deduplication</small></p>
+            </div>
+            <div class="fragment fade-in">
+              <h4>🔧 Custom Glue Code</h4>
+              <p>Brittle · Inconsistent · Hard to maintain across teams</p>
+            </div>
+          </div>
+          <aside class="notes">
+            Walk through each approach and its trade-offs.
+            The key takeaway: every approach has significant downsides.
+          </aside>
+        </section>
+
+        <section>
+          <h3>The Core Tension</h3>
+          <blockquote class="fragment">
+            Producers define what changes <strong>look like</strong>,<br>
+            but consumers define what changes <strong>matter</strong>.
+          </blockquote>
+          <ul>
+            <li class="fragment">Every consumer rebuilds the same filtering &amp; state logic</li>
+            <li class="fragment">No standard way to say:<br>
+              <em>"Tell me when <strong>this specific condition</strong> changes"</em>
+            </li>
+          </ul>
+          <aside class="notes">
+            This is the fundamental mismatch. The producer decides what to emit,
+            but the consumer is the one who knows what's meaningful.
+          </aside>
+        </section>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- II. CHANGE-DRIVEN vs EVENT-DRIVEN -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>Change-Driven vs. Event-Driven</h2>
+          <h4>A Key Distinction</h4>
+        </section>
+
+        <section>
+          <h3>What Event-Driven Gets Right</h3>
+          <ul>
+            <li class="fragment">Decoupled producers and consumers</li>
+            <li class="fragment">Asynchronous &amp; scalable</li>
+            <li class="fragment">Well-understood patterns<br>
+              <small>pub/sub · event sourcing · CQRS</small>
+            </li>
+          </ul>
+          <aside class="notes">
+            Event-driven architectures are powerful and widely adopted for good reason.
+            We're not here to dismiss them.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Where Event-Driven Falls Short</h3>
+          <ul>
+            <li class="fragment">Events are <strong>producer-defined</strong> — consumers must parse, filter, correlate</li>
+            <li class="fragment">Consumers need <strong>external state</strong> to determine if an event is meaningful</li>
+            <li class="fragment">High fan-out of <strong>irrelevant events</strong></li>
+            <li class="fragment">Semantic meaning is buried in <strong>payload parsing logic</strong></li>
+          </ul>
+          <aside class="notes">
+            The consumer ends up doing all the hard work — maintaining state,
+            filtering noise, and parsing payloads to find meaning.
+          </aside>
+        </section>
+
+        <section>
+          <h3>The Change-Driven Model</h3>
+          <ul>
+            <li class="fragment"><strong>Consumer-driven semantics</strong><br>
+              <small>The consumer declares what constitutes a meaningful change</small></li>
+            <li class="fragment"><strong>Query-defined, not schema-defined</strong><br>
+              <small>Change semantics come from your query, not the source system</small></li>
+            <li class="fragment"><strong>Result set transitions</strong><br>
+              <small>Items entering and exiting a live result set — not events on a topic</small></li>
+            <li class="fragment"><strong>Less infrastructure, less code</strong><br>
+              <small>No polling loops · No custom filters · No state management boilerplate</small></li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>The Analogy</h3>
+          <div class="fragment">
+            <p><strong>Event-Driven</strong></p>
+            <blockquote>"Here's everything that happened.<br>Figure out what you care about."</blockquote>
+          </div>
+          <div class="fragment">
+            <p><strong>Change-Driven</strong></p>
+            <blockquote>"Tell me exactly what you care about.<br>I'll tell you when it changes."</blockquote>
+          </div>
+          <aside class="notes">
+            This is the key mental shift. Let the analogy land before moving on.
+          </aside>
+        </section>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- III. INTRODUCING DRASI -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>Introducing Drasi</h2>
+          <aside class="notes">
+            Now that we've set up the paradigm, let's meet the project.
+          </aside>
+        </section>
+
+        <section>
+          <h3>What is Drasi?</h3>
+          <ul>
+            <li class="fragment">Open-source <strong>Data Change Processing</strong> platform</li>
+            <li class="fragment"><strong>CNCF Sandbox</strong> project · Apache 2.0</li>
+            <li class="fragment">Simplifies the creation and operation of <strong>change-driven solutions</strong></li>
+            <li class="fragment">Works with your <strong>existing databases and systems</strong> — not a rip-and-replace</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Core Mental Model</h3>
+          <h2 class="fragment">Sources → Continuous Queries → Reactions</h2>
+          <aside class="notes">
+            This is the entire data flow. Three concepts — that's it.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Sources</h3>
+          <p>Connect to your existing data</p>
+          <p>
+            <span class="fragment">PostgreSQL ·</span>
+            <span class="fragment">MySQL ·</span>
+            <span class="fragment">SQL Server ·</span>
+            <span class="fragment">Cosmos DB ·</span>
+            <span class="fragment">Kubernetes ·</span>
+            <span class="fragment">Event Hubs ·</span>
+            <span class="fragment">Dataverse</span>
+          </p>
+          <aside class="notes">
+            Sources connect to your existing infrastructure. No new databases or queues required.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Continuous Queries</h3>
+          <p>Declarative queries that run <strong>perpetually</strong></p>
+          <ul>
+            <li class="fragment">Written in <strong>openCypher</strong> or <strong>GQL</strong> (ISO 9074:2024)</li>
+            <li class="fragment">Maintain a <strong>live result set</strong></li>
+            <li class="fragment">Can span <strong>multiple sources</strong> in a single query</li>
+          </ul>
+          <aside class="notes">
+            This is where the magic happens. Your query defines what "change" means.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Reactions</h3>
+          <p>Actions triggered when the result set changes</p>
+          <ul>
+            <li class="fragment"><strong>Added</strong> — new item matches query criteria</li>
+            <li class="fragment"><strong>Updated</strong> — item still matches, but changed <small>(with before &amp; after)</small></li>
+            <li class="fragment"><strong>Deleted</strong> — item no longer matches criteria</li>
+          </ul>
+          <aside class="notes">
+            Three change types: added, updated, deleted. Clean, typed, unambiguous.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Why This Architecture Matters</h3>
+          <ul>
+            <li class="fragment">Queries span multiple sources in a <strong>single statement</strong></li>
+            <li class="fragment">Change semantics defined by the <strong>query author</strong>, not the source</li>
+            <li class="fragment"><strong>Graph data model</strong> — tables → nodes, relationships are first-class</li>
+            <li class="fragment">Result change events are <strong>typed &amp; structured</strong></li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Deployment Flexibility</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Use When</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fragment">
+                <td><strong>drasi-lib</strong></td>
+                <td>Rust crate · Embedded in-process<br><small>Edge · IoT · Custom pipelines</small></td>
+              </tr>
+              <tr class="fragment">
+                <td><strong>Drasi Server</strong></td>
+                <td>Single binary or Docker container<br><small>No Kubernetes required</small></td>
+              </tr>
+              <tr class="fragment">
+                <td><strong>Drasi for K8s</strong></td>
+                <td>Full platform with scaling &amp; observability<br><small>AKS · EKS · GKE</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- IV. HOW IT WORKS -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>How It Works</h2>
+          <h4>A Closer Look</h4>
+        </section>
+
+        <section>
+          <h3>Continuous Query Lifecycle</h3>
+          <ol>
+            <li class="fragment">Subscribe to sources &amp; describe expected labels</li>
+            <li class="fragment">Bootstrap — load initial result set from sources</li>
+            <li class="fragment">Process source change events continuously</li>
+            <li class="fragment">Emit result change events (added / updated / deleted)</li>
+          </ol>
+        </section>
+
+        <section>
+          <h3>Expressing Change with Queries</h3>
+          <p><small>Simple — find all delayed orders</small></p>
+          <pre><code class="language-cypher" data-trim>
+MATCH (o:Order)
+WHERE o.status = 'delayed'
+RETURN o
+          </code></pre>
+          <div class="fragment">
+            <p><small>Cross-source — orders with customer details</small></p>
+            <pre><code class="language-cypher" data-trim>
+MATCH (o:Order)-[:PLACED_BY]->(c:Customer)
+WHERE o.total > 1000
+RETURN o, c.name, c.email
+            </code></pre>
+          </div>
+          <div class="fragment">
+            <p><small>Temporal — absence of change</small></p>
+            <pre><code class="language-cypher" data-trim>
+MATCH (o:Order)
+WHERE o.status = 'processing'
+  AND trueFor(o.status = 'processing', 30, 'minutes')
+RETURN o
+            </code></pre>
+          </div>
+          <aside class="notes">
+            Show how queries go from simple to sophisticated.
+            The temporal example is often the "aha" moment.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Reactions: Detection → Action</h3>
+          <ul>
+            <li class="fragment"><strong>Webhooks</strong> — HTTP to any endpoint</li>
+            <li class="fragment"><strong>Real-time UI</strong> — SignalR, SSE</li>
+            <li class="fragment"><strong>Cloud events</strong> — Event Grid, EventBridge</li>
+            <li class="fragment"><strong>Data operations</strong> — Stored procedures, Gremlin, Dataverse</li>
+            <li class="fragment"><strong>Integration</strong> — Debezium, Dapr pub/sub &amp; state store</li>
+          </ul>
+          <p class="fragment"><small>One query → many reactions · One reaction → many queries</small></p>
+        </section>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- V. DEMO 1 -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>Demo 1</h2>
+          <p><em>[ Placeholder — TBD ]</em></p>
+          <aside class="notes">
+            Foundational demo: Source → Continuous Query → Reaction.
+            Show the core flow end-to-end with a concrete scenario.
+          </aside>
+        </section>
+
+        <!-- Add demo-specific slides here -->
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- VI. PATTERNS & ADVANCED CAPABILITIES -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>Patterns &amp; Advanced Capabilities</h2>
+        </section>
+
+        <section>
+          <h3>Multi-Source Queries</h3>
+          <ul>
+            <li class="fragment">Join data across <strong>heterogeneous systems</strong> in a single query</li>
+            <li class="fragment">No shared schema or common event bus required</li>
+          </ul>
+          <pre class="fragment"><code class="language-cypher" data-trim>
+MATCH (o:Order)-[:CONTAINS]->(p:Product)
+// Order from PostgreSQL, Product from Cosmos DB
+WHERE p.inventory < 10
+RETURN o.id, p.name, p.inventory
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Temporal Capabilities</h3>
+          <div class="fragment">
+            <p><strong>trueFor</strong></p>
+            <p><small>"Alert me if a sensor stays above threshold for 5 minutes"</small></p>
+          </div>
+          <div class="fragment">
+            <p><strong>trueLater</strong></p>
+            <p><small>"Check back in 30 minutes — did this order ship?"</small></p>
+          </div>
+          <p class="fragment">Responding to the <strong>absence</strong> of change</p>
+          <aside class="notes">
+            This is a capability most event-driven systems simply can't do natively.
+            Detecting that something DIDN'T happen is as important as detecting that it did.
+          </aside>
+        </section>
+
+        <section>
+          <h3>AI-Driven Workloads</h3>
+          <ul>
+            <li class="fragment">Keep embeddings &amp; model inputs aligned with <strong>live data</strong></li>
+            <li class="fragment">React to the <em>specific</em> data changes that matter to your AI pipeline</li>
+            <li class="fragment"><strong>No stale context</strong> — continuous freshness without polling</li>
+          </ul>
+          <aside class="notes">
+            RAG pipelines, embedding updates, model retraining triggers —
+            Drasi ensures AI systems stay aligned with reality.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Middleware Pipeline</h3>
+          <ul>
+            <li class="fragment">Transform &amp; enrich incoming changes before they reach queries</li>
+            <li class="fragment"><strong>Unwind</strong> — expand nested arrays into separate elements</li>
+            <li class="fragment"><strong>jq</strong> — complex transformations with jq expressions</li>
+            <li class="fragment"><strong>Decode · Relabel · Promote</strong> — normalize heterogeneous data</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- VII. DEMO 2 -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>Demo 2</h2>
+          <p><em>[ Placeholder — TBD ]</em></p>
+          <aside class="notes">
+            Advanced demo: multi-source joins, temporal queries, or AI/RAG scenario.
+            This is the "wow" moment.
+          </aside>
+        </section>
+
+        <!-- Add demo-specific slides here -->
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- VIII. TAKEAWAYS & GETTING STARTED -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>Practical Takeaways</h2>
+        </section>
+
+        <section>
+          <h3>When to Reach for Drasi</h3>
+          <ul>
+            <li class="fragment">You need to react to <strong>specific, meaningful</strong> data changes</li>
+            <li class="fragment">You're tired of building custom polling / filtering / state logic</li>
+            <li class="fragment">You want to <strong>standardize</strong> change detection across your org</li>
+            <li class="fragment">You're building <strong>AI systems</strong> that need continuously fresh data</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Getting Started</h3>
+          <table>
+            <tbody>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://drasi.io">drasi.io</a> — docs, tutorials, quickstarts</td>
+              </tr>
+              <tr>
+                <td>💻</td>
+                <td><a href="https://github.com/drasi-project">github.com/drasi-project</a></td>
+              </tr>
+              <tr>
+                <td>🐳</td>
+                <td>Try Drasi Server locally with Docker in minutes</td>
+              </tr>
+              <tr>
+                <td>🏛️</td>
+                <td>CNCF Sandbox · Open governance · Apache 2.0</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h3>Try the Tutorials</h3>
+          <ul>
+            <li>🛒 <strong>Curbside Pickup</strong> — reactive dashboards over multiple sources</li>
+            <li>🏢 <strong>Building Comfort</strong> — sensors and HVAC management</li>
+            <li>🔒 <strong>Risky Containers</strong> — no-code real-time security dashboard</li>
+            <li>🤖 <strong>GitHub Bot</strong> — automated workflows from data changes</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Thank You</h2>
+          <p>
+            <a href="https://drasi.io">drasi.io</a> ·
+            <a href="https://github.com/drasi-project">github.com/drasi-project</a>
+          </p>
+          <p><small>Allen Jones · SCaLE 23x</small></p>
+        </section>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="node_modules/reveal.js/dist/reveal.js"></script>
+  <script src="node_modules/reveal.js/plugin/notes/notes.js"></script>
+  <script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      transition: 'slide',
+      plugins: [RevealNotes, RevealHighlight]
+    });
+  </script>
+</body>
+</html>
