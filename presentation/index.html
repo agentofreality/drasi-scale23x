@@ -517,6 +517,26 @@ RETURN o.id, p.name, p.inventory
       slideNumber: true,
       transition: 'slide',
       plugins: [RevealNotes, RevealHighlight]
+    }).then(() => {
+      // Enable trackpad/mouse scrolling in overview mode
+      const revealEl = document.querySelector('.reveal');
+      const slidesEl = document.querySelector('.reveal .slides');
+      let pan = { x: 0, y: 0 };
+
+      Reveal.on('overviewshown', () => { pan = { x: 0, y: 0 }; });
+      Reveal.on('overviewhidden', () => {
+        pan = { x: 0, y: 0 };
+        slidesEl.style.translate = '';
+      });
+
+      revealEl.addEventListener('wheel', (e) => {
+        if (!Reveal.isOverview()) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        pan.x -= e.deltaX;
+        pan.y -= e.deltaY;
+        slidesEl.style.translate = pan.x + 'px ' + pan.y + 'px';
+      }, { capture: true, passive: false });
     });
   </script>
 </body>

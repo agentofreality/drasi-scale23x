@@ -28,6 +28,7 @@ This installs dependencies (if needed) and serves the presentation at **http://l
 | `→` / `↓` | Next slide |
 | `←` / `↑` | Previous slide |
 | `Esc` | Slide overview |
+| `Home` (`Fn + ←` on Mac) | Jump to first slide |
 | `F` | Fullscreen |
 
 ## Links
