@@ -17,8 +17,8 @@
       <!-- ============================================================ -->
       <!-- TITLE -->
       <!-- ============================================================ -->
-      <section>
-        <h1>Drasi</h1>
+      <section data-background-image="images/water-ripple.jpg" data-background-opacity="0.25">
+        <img src="images/drasi-logo.svg" alt="Drasi" style="width: 320px; margin-bottom: 0.3em; filter: drop-shadow(0 0 20px rgba(66,175,250,0.4));">
         <h3>A New Take on Change-Driven Architectures</h3>
         <p>
           <small>Allen Jones — SCaLE 23x</small>
@@ -39,7 +39,7 @@
       <!-- I. THE PROBLEM -->
       <!-- ============================================================ -->
       <section>
-        <section>
+        <section data-background-image="images/data-center.jpg" data-background-opacity="0.2">
           <h2>The Problem</h2>
           <h4>Reacting to Change is Harder Than It Should Be</h4>
           <aside class="notes">
@@ -51,9 +51,10 @@
           <h3>A Familiar Scenario</h3>
           <ul>
             <li class="fragment">You have data spread across multiple systems</li>
-            <li class="fragment">Something changes — downstream systems need to know</li>
-            <li class="fragment">Fast. Precisely. Reliably.</li>
+            <li class="fragment">Something changes.</li>
+            <li class="fragment">Downstream systems need to know</li>
           </ul>
+          <p class="fragment callout">Fast. Precisely. Reliably.</p>
           <p class="fragment"><em>Sounds simple…</em></p>
           <aside class="notes">
             Databases, APIs, Kubernetes resources — data is everywhere.
@@ -112,7 +113,7 @@
       <!-- II. CHANGE-DRIVEN vs EVENT-DRIVEN -->
       <!-- ============================================================ -->
       <section>
-        <section>
+        <section data-background-image="images/focus-lens.jpg" data-background-opacity="0.15">
           <h2>Change-Driven vs. Event-Driven</h2>
           <h4>A Key Distinction</h4>
         </section>
@@ -181,6 +182,7 @@
       <!-- ============================================================ -->
       <section>
         <section>
+          <img src="images/drasi-logo.svg" alt="Drasi" style="width: 260px; margin-bottom: 0.2em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <h2>Introducing Drasi</h2>
           <aside class="notes">
             Now that we've set up the paradigm, let's meet the project.
@@ -259,29 +261,24 @@
         </section>
 
         <section>
-          <h3>Deployment Flexibility</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Use When</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="fragment">
-                <td><strong>drasi-lib</strong></td>
-                <td>Rust crate · Embedded in-process<br><small>Edge · IoT · Custom pipelines</small></td>
-              </tr>
-              <tr class="fragment">
-                <td><strong>Drasi Server</strong></td>
-                <td>Single binary or Docker container<br><small>No Kubernetes required</small></td>
-              </tr>
-              <tr class="fragment">
-                <td><strong>Drasi for K8s</strong></td>
-                <td>Full platform with scaling &amp; observability<br><small>AKS · EKS · GKE</small></td>
-              </tr>
-            </tbody>
-          </table>
+          <h3>Deployment Options</h3>
+          <div class="deployment-options">
+            <div class="deployment-option fragment">
+              <img src="images/rust-logo.png" alt="Rust" class="deployment-icon">
+              <h4>drasi-lib</h4>
+              <p>Rust crate · Embedded in-process<br><small>Edge · IoT · Custom pipelines</small></p>
+            </div>
+            <div class="deployment-option fragment">
+              <img src="images/docker-logo.png" alt="Docker" class="deployment-icon">
+              <h4>Drasi Server</h4>
+              <p>Single binary or Docker container<br><small>No Kubernetes required</small></p>
+            </div>
+            <div class="deployment-option fragment">
+              <img src="images/kubernetes-logo.svg" alt="Kubernetes" class="deployment-icon">
+              <h4>D4K8s</h4>
+              <p>Full platform with scaling &amp; observability<br><small>AKS · EKS · GKE</small></p>
+            </div>
+          </div>
         </section>
       </section>
 
@@ -372,7 +369,7 @@ RETURN o
       <!-- VI. PATTERNS & ADVANCED CAPABILITIES -->
       <!-- ============================================================ -->
       <section>
-        <section>
+        <section data-background-image="images/network-abstract.jpg" data-background-opacity="0.2">
           <h2>Patterns &amp; Advanced Capabilities</h2>
         </section>
 
@@ -503,7 +500,8 @@ RETURN o.id, p.name, p.inventory
           </ul>
         </section>
 
-        <section>
+        <section data-background-image="images/water-ripple.jpg" data-background-opacity="0.2">
+          <img src="images/drasi-logo.svg" alt="Drasi" style="width: 200px; margin-bottom: 0.3em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <h2>Thank You</h2>
           <p>
             <a href="https://drasi.io">drasi.io</a> ·

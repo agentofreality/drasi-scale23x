@@ -2,8 +2,26 @@
 
 .reveal h1,
 .reveal h2,
-.reveal h3 {
+.reveal h3,
+.reveal h4 {
   text-transform: none;
+}
+
+.reveal h4 {
+  font-size: 0.85em;
+}
+
+.reveal ul li,
+.reveal ol li {
+  font-size: 0.85em;
+}
+
+.reveal .callout {
+  font-size: 1.2em;
+  font-weight: bold;
+  font-style: italic;
+  color: #42affa;
+  margin-top: 0.8em;
 }
 
 .reveal blockquote {
@@ -35,4 +53,31 @@
 
 .reveal small {
   vertical-align: baseline;
+}
+
+.deployment-options {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  margin-top: 1em;
+}
+
+.deployment-option {
+  flex: 1;
+  max-width: 280px;
+  text-align: center;
+}
+
+.deployment-option h4 {
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+}
+
+.deployment-option p {
+  font-size: 0.75em;
+}
+
+.deployment-icon {
+  height: 80px;
+  width: auto;
 }
