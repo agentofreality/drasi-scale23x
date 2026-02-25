@@ -64,7 +64,43 @@
         </section>
 
         <section>
-          <h3>Change-Driven Systems</h3>
+          <h3>Example: Proactive Customer Care</h3>
+          <p>A shipping carrier marks a delivery as "delayed" — your
+            e-commerce platform needs to identify affected customers,
+            check their loyalty tier, and offer compensation
+            <em>before</em> they complain</p>
+          <aside class="notes">
+            The carrier system doesn't know your customers or their loyalty tier.
+            The reaction must cross system boundaries.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Example: Supply Chain Deadlines</h3>
+          <p>A supplier committed to delivering parts by a deadline,
+            but the warehouse receiving system <em>hasn't</em> logged
+            an arrival — production planning needs to adjust the
+            schedule before the line stops</p>
+          <aside class="notes">
+            Absence of change — detecting something that didn't happen.
+            No single system monitors this gap.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Example: Field Service Dispatch</h3>
+          <p>Maintain a live set of technicians who are near an open
+            high-priority ticket, certified for the equipment, and not
+            already dispatched — across GPS, ticketing, HR, and
+            dispatch systems</p>
+          <aside class="notes">
+            Dynamic collection whose membership changes constantly
+            across four separate systems. Tracking who's in/out is the hard part.
+          </aside>
+        </section>
+
+        <section>
+          <h3>These are Change-Driven Systems</h3>
           <blockquote style="border-left-color: #42affa; font-size: 0.9em;">
             Systems that do something in response to a <strong>meaningful change</strong> —
             or the <strong>absence of change</strong> — in relevant data.
@@ -72,32 +108,6 @@
           <aside class="notes">
             This is the definition we'll use for the rest of the talk.
             The key words are "meaningful" and "absence" — both are important.
-          </aside>
-        </section>
-
-        <section>
-          <h3>For Example…</h3>
-          <ul>
-            <li class="fragment"><strong>Proactive customer care</strong> — a shipping carrier
-              marks a delivery as "delayed," and your e-commerce platform
-              needs to identify affected customers, check their loyalty tier,
-              and offer compensation <em>before</em> they complain</li>
-            <li class="fragment"><strong>Supply chain deadlines</strong> — a supplier committed
-              to delivering parts by a deadline, but the warehouse receiving
-              system <em>hasn't</em> logged an arrival — production planning
-              needs to adjust the schedule before the line stops</li>
-            <li class="fragment"><strong>Field service dispatch</strong> — maintain a live set of
-              technicians who are near an open high-priority ticket, certified
-              for the equipment, and not already dispatched — across GPS,
-              ticketing, HR, and dispatch systems</li>
-          </ul>
-          <aside class="notes">
-            Each example deliberately crosses system boundaries — the system
-            that owns the data can't trigger the reaction alone.
-            First: carrier system doesn't know your customers.
-            Second: absence of change — detecting something that didn't happen.
-            Third: dynamic collection whose membership changes constantly
-            across four separate systems.
           </aside>
         </section>
 
@@ -135,20 +145,6 @@
             These are the three real approaches teams use to build change-driven systems.
             Each works for certain cases, but none makes detecting and
             reacting to meaningful change simple and declarative.
-          </aside>
-        </section>
-
-        <section>
-          <h3>Sound Familiar?</h3>
-          <blockquote style="border-left-color: #e74c3c; font-size: 0.85em;">
-            "We needed to know when an order was delayed. We ended up with a
-            CDC pipeline, three Kafka topics, a stream processor to correlate
-            with customer data, and a custom service to manage state. It took
-            a team of four engineers two sprints — for one business condition."
-          </blockquote>
-          <aside class="notes">
-            The complexity isn't in the business logic — it's in the plumbing
-            to detect and react to the change. That's the problem.
           </aside>
         </section>
 
@@ -345,15 +341,19 @@ RETURN o, c.name, c.email
 
         <section>
           <h3>Reactions</h3>
-          <p>Actions triggered when items are <strong>added</strong>, <strong>updated</strong>, or <strong>deleted</strong> from the result set</p>
-          <ul>
-            <li class="fragment"><strong>Webhooks</strong> — HTTP to any endpoint</li>
-            <li class="fragment"><strong>Real-time UI</strong> — SignalR, SSE</li>
-            <li class="fragment"><strong>Cloud events</strong> — Event Grid, EventBridge</li>
-            <li class="fragment"><strong>Data operations</strong> — Stored procedures, Gremlin, Dataverse</li>
-            <li class="fragment"><strong>Integration</strong> — Debezium, Dapr pub/sub &amp; state store</li>
-          </ul>
-          <p class="fragment"><small>One query → many reactions · One reaction → many queries</small></p>
+          <p>Act when query results change</p>
+          <div class="source-grid">
+            <span class="source-badge">Webhooks</span>
+            <span class="source-badge">SignalR</span>
+            <span class="source-badge">SSE</span>
+            <span class="source-badge">Event Grid</span>
+            <span class="source-badge">Debezium</span>
+            <span class="source-badge">Dapr</span>
+            <span class="source-badge">Stored Procs</span>
+            <span class="source-badge">Gremlin</span>
+            <span class="source-badge">Dataverse</span>
+          </div>
+          <p class="fragment" style="font-size: 0.65em; margin-top: 1.2em; opacity: 0.6;">One query → many reactions · One reaction → many queries</p>
           <aside class="notes">
             Three change types: added, updated, deleted. Clean, typed, unambiguous.
             Any combination of queries and reactions can be wired together.
@@ -621,7 +621,7 @@ RETURN p.name, p.room, m.lastReading
           <img src="images/drasi-logo.svg" alt="Drasi" style="width: 200px; margin-bottom: 0.3em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <p class="callout" style="font-size: 1.1em; margin-bottom: 1.2em;">
             Stop writing code to watch for changes.<br>
-            Describe what matters. Let the platform do the watching.
+            Describe what matters. Let Drasi do the rest.
           </p>
           <div class="fragment">
             <p>
