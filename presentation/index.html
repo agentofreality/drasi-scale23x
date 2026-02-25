@@ -129,30 +129,9 @@
             The simplest approach — your application queries the data store on a fixed interval,
             compares results to what it saw last time, and reacts to anything that changed.
           </p>
-          <div class="pipeline">
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">⏱️</span>
-              <span class="pipeline-label">Timer /<br>Scheduler</span>
-            </div>
-            <span class="pipeline-arrow fragment">→</span>
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">🗄️</span>
-              <span class="pipeline-label">Query<br>Database</span>
-            </div>
-            <span class="pipeline-arrow fragment">→</span>
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">🔍</span>
-              <span class="pipeline-label">Compare to<br>Last Result</span>
-            </div>
-            <span class="pipeline-arrow fragment">→</span>
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">⚡</span>
-              <span class="pipeline-label">Act on<br>Difference</span>
-            </div>
-          </div>
-          <p class="fragment" style="font-size: 0.65em; opacity: 0.65; margin-top: 0.9em;">
-            ↺ Repeat every N seconds — forever
-          </p>
+          <img src="images/polling-diagram.svg"
+               alt="Polling flow: Timer/Scheduler → Query Database → Compare Results → Act on Difference → repeat"
+               style="width: 92%; max-width: 860px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
             Polling is everyone's first solution. Intuitive, easy to implement,
             requires no new infrastructure. Just query and compare.
@@ -166,10 +145,10 @@
           <div class="split-slide">
             <div class="split-col">
               <ul>
-                <li class="fragment"><strong>Latency</strong> — faster reaction = more polling</li>
-                <li class="fragment"><strong>Waste</strong> — most queries return nothing</li>
-                <li class="fragment"><strong>State</strong> — every consumer tracks "last seen"</li>
-                <li class="fragment"><strong>Fan-out</strong> — N consumers × M sources</li>
+                <li class="fragment"><strong>Latency</strong> — Detection lag equals the poll interval; faster reaction means more polling</li>
+                <li class="fragment"><strong>Wasted Resources</strong> — Most queries return nothing; you're taxing the DB even when nothing changed</li>
+                <li class="fragment"><strong>State Management</strong> — Every consumer must store and compare its own "last seen" snapshot</li>
+                <li class="fragment"><strong>Fan-out</strong> — N consumers × M sources = N×M polling loops hammering your databases</li>
               </ul>
             </div>
             <div class="split-col" style="display: flex; align-items: center; justify-content: center;">
@@ -193,30 +172,9 @@
             Bring data together in a central analytics platform — a data warehouse or BI tool —
             where rich queries and dashboards can surface meaningful conditions across all your data.
           </p>
-          <div class="pipeline">
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">🗄️</span>
-              <span class="pipeline-label">Source Systems<br><small>DBs · APIs · SaaS</small></span>
-            </div>
-            <span class="pipeline-arrow fragment">→</span>
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">🔄</span>
-              <span class="pipeline-label">ETL / Pipeline<br><small>Copy &amp; Load</small></span>
-            </div>
-            <span class="pipeline-arrow fragment">→</span>
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">📊</span>
-              <span class="pipeline-label">Analytics Platform<br><small>Warehouse · BI Tool</small></span>
-            </div>
-            <span class="pipeline-arrow fragment">→</span>
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">📋</span>
-              <span class="pipeline-label">Reports &amp;<br>Alerts</span>
-            </div>
-          </div>
-          <p class="fragment" style="font-size: 0.65em; opacity: 0.65; margin-top: 0.9em;">
-            Snowflake · BigQuery · Databricks · Power BI · Tableau · Redshift
-          </p>
+          <img src="images/analytics-diagram.svg"
+               alt="Analytics platform flow: multiple source systems → ETL Pipeline (copy, mins–hours lag) → Analytics Platform (snapshot, not live) → Reports &amp; Alerts"
+               style="width: 96%; max-width: 900px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
             Analytics platforms solve the multi-source problem beautifully.
             You can write rich queries across all your data in one place.
@@ -231,16 +189,16 @@
           <div class="split-slide">
             <div class="split-col">
               <ul>
-                <li class="fragment"><strong>Copied, Not Live</strong> — a snapshot; the real systems have moved on</li>
-                <li class="fragment"><strong>ETL Latency</strong> — minutes to hours before changes are visible</li>
-                <li class="fragment"><strong>Retrospective</strong> — answers "what happened?" not "act now"</li>
-                <li class="fragment"><strong>Pipeline Overhead</strong> — ETL, schema mappings, sync schedules</li>
+                <li class="fragment"><strong>Data is Copied, Not Live</strong> — Your analytics platform holds a snapshot; the real systems have already moved on</li>
+                <li class="fragment"><strong>ETL Latency</strong> — Data pipelines introduce minutes to hours of lag before changes are visible</li>
+                <li class="fragment"><strong>Retrospective, Not Reactive</strong> — Designed for answering "what happened?" — not "act when this changes"</li>
+                <li class="fragment"><strong>Operational Overhead</strong> — Maintaining ETL pipelines, schema mappings, and sync schedules is a job in itself</li>
               </ul>
             </div>
             <div class="split-col" style="display: flex; align-items: center; justify-content: center;">
               <div class="verdict-box fragment">
                 <span class="verdict-emoji">🐌</span>
-                <span class="verdict-text">Great for insights.<br>Not for reacting.</span>
+                <span class="verdict-text">Limits responsiveness.<br>The data is never truly live.</span>
               </div>
             </div>
           </div>
@@ -254,17 +212,22 @@
         <!-- ── CDC + STREAM PROCESSING: Prevalence + Technologies ── -->
         <section>
           <h3>📋 Approach 3: CDC + Stream Processing</h3>
-          <p style="font-size: 0.78em; max-width: 86%; margin: 0 auto 0.8em;">
-            Capture every row-level change from the database log and stream it in real time.
-            The dominant approach in serious production systems today.
+          <p class="fragment" style="font-size: 0.82em; max-width: 86%; margin: 0 auto 0.8em;">
+            Change Data Capture reads every row-level change from the database transaction log
+            and streams it in real time — paired with stream processing engines for
+            filtering, joining, and transformation. The dominant approach in serious production systems today.
           </p>
+          <p class="fragment" style="font-size: 0.72em; opacity: 0.7; margin-bottom: 0.5em;">A rich, mature, battle-tested ecosystem:</p>
           <div class="source-grid fragment">
             <span class="source-badge">Debezium</span>
-            <span class="source-badge">Kafka</span>
-            <span class="source-badge">Flink</span>
-            <span class="source-badge">Spark Streaming</span>
-            <span class="source-badge">Kinesis</span>
-            <span class="source-badge">Event Hubs</span>
+            <span class="source-badge">Apache Kafka</span>
+            <span class="source-badge">Kafka Connect</span>
+            <span class="source-badge">Apache Flink</span>
+            <span class="source-badge">Apache Spark Streaming</span>
+            <span class="source-badge">AWS Kinesis</span>
+            <span class="source-badge">Azure Event Hubs</span>
+            <span class="source-badge">Google Pub/Sub</span>
+            <span class="source-badge">Confluent Platform</span>
             <span class="source-badge">Materialize</span>
             <span class="source-badge">ksqlDB</span>
             <span class="source-badge">RisingWave</span>
@@ -279,37 +242,9 @@
         <!-- ── CDC + STREAM PROCESSING: Example Diagram ── -->
         <section>
           <h3>CDC + Stream Processing: In Practice</h3>
-          <div class="pipeline pipeline-compact" style="margin: 0.8em auto 0.5em; gap: 0.2em;">
-            <div class="pipeline-step">
-              <span class="pipeline-icon">🗄️</span>
-              <span class="pipeline-label">Database<br><small>Postgres / MySQL</small></span>
-            </div>
-            <span class="pipeline-arrow" style="font-size: 1.6em;">→</span>
-            <div class="pipeline-step">
-              <span class="pipeline-icon">📡</span>
-              <span class="pipeline-label">Debezium<br><small>CDC Connector</small></span>
-            </div>
-            <span class="pipeline-arrow" style="font-size: 1.6em;">→</span>
-            <div class="pipeline-step">
-              <span class="pipeline-icon">📨</span>
-              <span class="pipeline-label">Kafka Topic<br><small>Raw Row Events</small></span>
-            </div>
-            <span class="pipeline-arrow" style="font-size: 1.6em;">→</span>
-            <div class="pipeline-step">
-              <span class="pipeline-icon">⚙️</span>
-              <span class="pipeline-label">Flink / Streams<br><small>Stream Processor</small></span>
-            </div>
-            <span class="pipeline-arrow" style="font-size: 1.6em;">→</span>
-            <div class="pipeline-step">
-              <span class="pipeline-icon">🎯</span>
-              <span class="pipeline-label">Consumer App<br><small>Filter · Join · Act</small></span>
-            </div>
-          </div>
-          <div class="fragment" style="margin-top: 0.8em; font-size: 0.68em; opacity: 0.7; line-height: 1.6;">
-            <strong>Also needed:</strong>
-            Schema Registry · Consumer Groups · State Stores · Dead-Letter Queues ·
-            Kafka Connect config · Connector lifecycle management · Lag monitoring · …
-          </div>
+          <img src="images/cdc-diagram.svg"
+               alt="CDC pipeline: Database → Debezium → Kafka Topic → Stream Processor → Consumer App, plus required supporting infrastructure"
+               style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
             Each box is a separate system to deploy, configure, and operate.
             Each arrow is a contract to maintain — schemas, serialization formats, offsets.
@@ -321,11 +256,11 @@
         <section>
           <h3>The Complexity Cost</h3>
           <ul>
-            <li class="fragment"><strong>Ops burden</strong> — Kafka clusters, connectors, schema registries, lag monitoring</li>
-            <li class="fragment"><strong>Schema evolution</strong> — source changes ripple through every downstream consumer</li>
-            <li class="fragment"><strong>Consumer logic</strong> — filtering, joining, stateful detection — still your code</li>
-            <li class="fragment"><strong>Cross-source joins</strong> — stream–stream windowing and careful state management</li>
-            <li class="fragment"><strong>Time to production</strong> — weeks from "I need this condition" to running system</li>
+            <li class="fragment"><strong>Operational burden</strong> — Kafka clusters, connectors, schema registries, consumer group lag monitoring — all yours to run</li>
+            <li class="fragment"><strong>Schema evolution</strong> — Every source schema change ripples through connectors, topics, and every downstream consumer</li>
+            <li class="fragment"><strong>Consumer-side logic</strong> — Filtering, joining across streams, stateful detection, deduplication — still your code to write</li>
+            <li class="fragment"><strong>Cross-source joins are hard</strong> — Joining events from two databases requires stream–stream windowing and careful state management</li>
+            <li class="fragment"><strong>Time to production</strong> — Getting from "I need to react to this condition" to a running system can take weeks</li>
           </ul>
           <aside class="notes">
             Notice that most of this complexity isn't business logic — it's plumbing.
@@ -341,22 +276,27 @@
             <div class="split-col">
               <h4>✅ CDC + Streaming Excels At</h4>
               <ul>
-                <li>Audit logs &amp; event sourcing</li>
-                <li>Data replication &amp; sync</li>
-                <li>Pub/sub pipelines</li>
-                <li>High-throughput event fan-out</li>
+                <li class="fragment">Audit logs &amp; event sourcing</li>
+                <li class="fragment">Data replication &amp; sync</li>
+                <li class="fragment">General-purpose pub/sub pipelines</li>
+                <li class="fragment">High-throughput event fan-out</li>
               </ul>
             </div>
             <div class="split-col">
-              <h4>⚠️ Change-Driven Still Requires</h4>
+              <h4>⚠️ Change-Driven Systems Still Require</h4>
               <ul>
-                <li>Engineering to express <em>what matters</em></li>
-                <li>Custom code per condition</li>
-                <li>State stores for result-set transitions</li>
-                <li>Re-engineering when conditions change</li>
+                <li class="fragment">Significant engineering to express <em>what matters</em></li>
+                <li class="fragment">Custom consumer code per condition</li>
+                <li class="fragment">State stores to detect result-set transitions</li>
+                <li class="fragment">Re-engineering when conditions change</li>
               </ul>
             </div>
           </div>
+          <p class="fragment" style="font-size: 0.72em; margin-top: 1em; line-height: 1.5;">
+            These platforms are <strong>event-driven</strong> infrastructure — excellent at moving events at scale.<br>
+            Building a sophisticated <strong>change-driven</strong> solution on top requires substantial
+            engineering, configuration, and ongoing maintenance that never ends.
+          </p>
           <aside class="notes">
             This is the key insight. CDC and streaming are event-driven tools.
             They're designed for moving and processing events.
@@ -368,18 +308,22 @@
         <!-- ── EVENT-DRIVEN vs CHANGE-DRIVEN ── -->
         <section>
           <h3>Event-Driven vs Change-Driven</h3>
-          <div class="fragment" style="margin-top: 0.6em;">
-            <p style="font-size: 0.75em; opacity: 0.6; margin-bottom: 0.2em;"><strong>Event-Driven</strong></p>
-            <blockquote style="border-left-color: rgba(66,175,250,0.35); font-size: 0.85em;">
+          <div class="fragment" style="margin-top: 0.8em;">
+            <p style="font-size: 0.8em; opacity: 0.6; margin-bottom: 0.3em;"><strong>Event-Driven</strong></p>
+            <blockquote style="border-left-color: rgba(66,175,250,0.35);">
               "Here's everything that happened.<br>Figure out what you care about."
             </blockquote>
           </div>
-          <div class="fragment" style="margin-top: 0.8em;">
-            <p style="font-size: 0.75em; margin-bottom: 0.2em;"><strong>Change-Driven</strong></p>
-            <blockquote style="border-left-color: #42affa; font-size: 0.85em;">
+          <div class="fragment" style="margin-top: 1.2em;">
+            <p style="font-size: 0.8em; margin-bottom: 0.3em;"><strong>Change-Driven</strong></p>
+            <blockquote style="border-left-color: #42affa;">
               "Tell me exactly what you care about.<br>I'll tell you when it changes."
             </blockquote>
           </div>
+          <p class="fragment" style="font-size: 0.7em; margin-top: 1.2em; opacity: 0.75; line-height: 1.5;">
+            Event-driven puts the burden of <em>meaning</em> on every consumer.<br>
+            Change-driven lets you <em>declare</em> what matters — once — and get exactly that signal, nothing more.
+          </p>
           <aside class="notes">
             This is the key mental shift. Let both blockquotes land before moving on.
             The event-driven model is producer-centric: here's what happened, you figure out relevance.
@@ -388,6 +332,42 @@
           </aside>
         </section>
 
+        <!-- ── DRASI: Designed for Change-Driven ── -->
+        <section>
+          <h3>What This Looks Like in Code</h3>
+          <div class="split-slide">
+            <div class="split-col">
+              <h4>❌ The Traditional Way</h4>
+              <pre><code class="language-python" data-trim>
+# Subscribe to order change events
+consumer = KafkaConsumer('order-events')
+for msg in consumer:
+    event = deserialize(msg)
+    if event.type != 'ORDER_UPDATED':
+        continue
+    if event.payload.status != 'delayed':
+        continue
+    customer = crm_db.lookup(event.payload.customer_id)
+    if not customer:
+        continue
+    notify(customer.email, event.payload)
+    consumer.commit()
+              </code></pre>
+            </div>
+            <div class="split-col highlight">
+              <h4>✅ The Change-Driven Way</h4>
+              <pre><code class="language-cypher" data-trim>
+MATCH (o:Order)-[:PLACED_BY]->(c:Customer)
+WHERE o.status = 'delayed'
+RETURN o, c.name, c.email
+              </code></pre>
+              <p style="font-size: 0.6em; margin-top: 1em; opacity: 0.7;">Query defines the change. Platform does the rest.</p>
+            </div>
+          </div>
+          <p class="fragment callout" style="margin-top: 0.8em;">
+            Drasi is designed to make it easier to build change-driven systems.
+          </p>
+        </section>
       </section>
 
       <!-- ============================================================ -->
@@ -405,10 +385,7 @@
         <section>
           <h3>What is Drasi?</h3>
           <p class="fragment" style="font-size: 1.15em; max-width: 85%; margin: 0.8em auto;">
-            An open-source <strong>Data Change Processing</strong> platform that makes it easier to build <strong>change-driven solutions</strong>.
-          </p>
-          <p class="fragment" style="font-size: 0.85em; max-width: 85%; margin: 0.6em auto; opacity: 0.8;">
-            Continuously evaluates your queries against live data and pushes typed change events to your reactions — no polling, no consumer-side state, no filter logic.
+            An open-source platform that <strong>continuously evaluates your queries</strong> against live data and pushes <strong>typed change events</strong> to your reactions — no polling, no consumer-side state, no filter logic.
           </p>
           <p class="fragment" style="font-size: 0.7em; opacity: 0.6; margin-top: 1.5em;">
             CNCF Sandbox · Apache 2.0 · Works with your existing databases and systems
