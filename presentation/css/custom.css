@@ -1,5 +1,27 @@
 /* Custom styles for Drasi SCaLE 23x presentation */
 
+/* ══════════════════════════════════════════════════
+   TYPOGRAPHY SYSTEM
+   ══════════════════════════════════════════════════
+   Heading hierarchy:
+   - h2: Section titles (Reveal default)
+   - h3: Slide titles (Reveal default)
+   - h4: Subsection titles (0.85em)
+   
+   Body text hierarchy:
+   - Standard paragraph: Reveal default
+   - Slide intro/description: 0.9em
+   - Subtext/footnotes: 0.7em, opacity 0.65
+   - Badge/label text: 0.75em
+   
+   Emphasis:
+   - <strong>: Key terms, important concepts (bold)
+   - <em>: Emphasis within sentences (italic)
+   - .callout: Call-to-action phrases (bold + italic + brand color)
+   
+   Brand color: #42affa
+   ══════════════════════════════════════════════════ */
+
 .reveal h1,
 .reveal h2,
 .reveal h3,
@@ -16,12 +38,27 @@
   font-size: 0.85em;
 }
 
+/* ── Callout: emphasized call-to-action ── */
 .reveal .callout {
   font-size: 1.2em;
   font-weight: bold;
   font-style: italic;
   color: #42affa;
   margin-top: 0.8em;
+}
+
+/* ── Slide intro paragraph ── */
+.reveal .slide-intro {
+  font-size: 0.9em;
+  max-width: 86%;
+  margin: 0 auto 1em;
+}
+
+/* ── Subtext/footnote ── */
+.reveal .subtext {
+  font-size: 0.7em;
+  opacity: 0.65;
+  margin-top: 1em;
 }
 
 .reveal blockquote {
@@ -255,6 +292,34 @@
   font-style: italic;
   color: #42affa;
   line-height: 1.3;
+}
+
+/* ── Icon card grid ── */
+.reveal .icon-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8em;
+  margin-top: 1em;
+}
+
+.reveal .icon-card {
+  text-align: center;
+  padding: 0.6em;
+}
+
+.reveal .icon-card .icon-card-icon {
+  font-size: 1.8em;
+}
+
+.reveal .icon-card .icon-card-title {
+  font-size: 0.75em;
+  font-weight: bold;
+  margin: 0.3em 0;
+}
+
+.reveal .icon-card .icon-card-desc {
+  font-size: 0.65em;
+  opacity: 0.65;
 }
 
 /* Crossfade transition for overlapping images */

@@ -125,7 +125,7 @@
         <!-- ── POLLING: Description + Diagram ── -->
         <section>
           <h3>🔄 Approach 1: Polling</h3>
-          <p style="font-size: 0.8em; max-width: 86%; margin: 0 auto 1em;">
+          <p class="slide-intro">
             The simplest approach — your application queries the data store on a fixed interval,
             compares results to what it saw last time, and reacts to anything that changed.
           </p>
@@ -168,7 +168,7 @@
         <!-- ── ANALYTICS PLATFORMS: Description + Diagram ── -->
         <section>
           <h3>📊 Approach 2: Analytics Platforms</h3>
-          <p style="font-size: 0.8em; max-width: 86%; margin: 0 auto 1em;">
+          <p class="slide-intro">
             Bring data together in a central analytics platform — a data warehouse or BI tool —
             where rich queries and dashboards can surface meaningful conditions across all your data.
           </p>
@@ -212,12 +212,12 @@
         <!-- ── CDC + STREAM PROCESSING: Prevalence + Technologies ── -->
         <section>
           <h3>📋 Approach 3: CDC + Stream Processing</h3>
-          <p class="fragment" style="font-size: 0.82em; max-width: 86%; margin: 0 auto 0.8em;">
+          <p class="fragment slide-intro">
             Change Data Capture reads every row-level change from the database transaction log
             and streams it in real time — paired with stream processing engines for
             filtering, joining, and transformation. The dominant approach in serious production systems today.
           </p>
-          <p class="fragment" style="font-size: 0.72em; opacity: 0.7; margin-bottom: 0.5em;">A rich, mature, battle-tested ecosystem:</p>
+          <p class="fragment subtext" style="margin-bottom: 0.5em; margin-top: 0;">A rich, mature, battle-tested ecosystem:</p>
           <div class="source-grid fragment" style="font-size: 0.8em; gap: 0.4em;">
             <span class="source-badge">Debezium</span>
             <span class="source-badge">Apache Kafka</span>
@@ -255,36 +255,36 @@
         <!-- ── CDC + STREAM PROCESSING: Complexity Challenges ── -->
         <section>
           <h3>The Complexity Cost</h3>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8em; margin-top: 1em;">
-            <div class="fragment" style="text-align: center; padding: 0.6em;">
-              <div style="font-size: 1.8em;">🔧</div>
-              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Ops Burden</div>
-              <div style="font-size: 0.6em; opacity: 0.8;">Clusters, connectors, registries — all yours to run</div>
+          <div class="icon-card-grid">
+            <div class="icon-card fragment">
+              <div class="icon-card-icon">🔧</div>
+              <div class="icon-card-title">Ops Burden</div>
+              <div class="icon-card-desc">Clusters, connectors, registries — all yours to run</div>
             </div>
-            <div class="fragment" style="text-align: center; padding: 0.6em;">
-              <div style="font-size: 1.8em;">🔀</div>
-              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Schema Evolution</div>
-              <div style="font-size: 0.6em; opacity: 0.8;">Changes ripple through the entire pipeline</div>
+            <div class="icon-card fragment">
+              <div class="icon-card-icon">🔀</div>
+              <div class="icon-card-title">Schema Evolution</div>
+              <div class="icon-card-desc">Changes ripple through the entire pipeline</div>
             </div>
-            <div class="fragment" style="text-align: center; padding: 0.6em;">
-              <div style="font-size: 1.8em;">💻</div>
-              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Consumer Logic</div>
-              <div style="font-size: 0.6em; opacity: 0.8;">Filtering, joins, dedup — still your code</div>
+            <div class="icon-card fragment">
+              <div class="icon-card-icon">💻</div>
+              <div class="icon-card-title">Consumer Logic</div>
+              <div class="icon-card-desc">Filtering, joins, dedup — still your code</div>
             </div>
-            <div class="fragment" style="text-align: center; padding: 0.6em;">
-              <div style="font-size: 1.8em;">🔗</div>
-              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Cross-Source Joins</div>
-              <div style="font-size: 0.6em; opacity: 0.8;">Windowing and state management required</div>
+            <div class="icon-card fragment">
+              <div class="icon-card-icon">🔗</div>
+              <div class="icon-card-title">Cross-Source Joins</div>
+              <div class="icon-card-desc">Windowing and state management required</div>
             </div>
-            <div class="fragment" style="text-align: center; padding: 0.6em;">
-              <div style="font-size: 1.8em;">📅</div>
-              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Time to Production</div>
-              <div style="font-size: 0.6em; opacity: 0.8;">Weeks from idea to running system</div>
+            <div class="icon-card fragment">
+              <div class="icon-card-icon">📅</div>
+              <div class="icon-card-title">Time to Production</div>
+              <div class="icon-card-desc">Weeks from idea to running system</div>
             </div>
-            <div class="fragment" style="text-align: center; padding: 0.6em;">
-              <div style="font-size: 1.8em;">😓</div>
-              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">The Bottom Line</div>
-              <div style="font-size: 0.6em; opacity: 0.8;">Most effort is plumbing, not business logic</div>
+            <div class="icon-card fragment">
+              <div class="icon-card-icon">😓</div>
+              <div class="icon-card-title">The Bottom Line</div>
+              <div class="icon-card-desc">Most effort is plumbing, not business logic</div>
             </div>
           </div>
           <aside class="notes">
@@ -317,7 +317,7 @@
               </ul>
             </div>
           </div>
-          <p class="fragment" style="font-size: 0.72em; margin-top: 1em; line-height: 1.5;">
+          <p class="fragment subtext" style="margin-top: 1em; line-height: 1.5;">
             These platforms are <strong>event-driven</strong> infrastructure — excellent at moving events at scale.<br>
             Building a sophisticated <strong>change-driven</strong> solution on top requires substantial
             engineering, configuration, and ongoing maintenance that never ends.
@@ -334,18 +334,18 @@
         <section>
           <h3>Event-Driven vs Change-Driven</h3>
           <div class="fragment" style="margin-top: 0.8em;">
-            <p style="font-size: 0.8em; opacity: 0.6; margin-bottom: 0.3em;"><strong>Event-Driven</strong></p>
+            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0; opacity: 0.6;"><strong>Event-Driven</strong></p>
             <blockquote style="border-left-color: rgba(66,175,250,0.35);">
               "Here's everything that happened.<br>Figure out what you care about."
             </blockquote>
           </div>
           <div class="fragment" style="margin-top: 1.2em;">
-            <p style="font-size: 0.8em; margin-bottom: 0.3em;"><strong>Change-Driven</strong></p>
+            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0;"><strong>Change-Driven</strong></p>
             <blockquote style="border-left-color: #42affa;">
               "Tell me exactly what you care about.<br>I'll tell you when it changes."
             </blockquote>
           </div>
-          <p class="fragment" style="font-size: 0.7em; margin-top: 1.2em; opacity: 0.75; line-height: 1.5;">
+          <p class="fragment subtext" style="margin-top: 1.2em; line-height: 1.5;">
             Event-driven puts the burden of <em>meaning</em> on every consumer.<br>
             Change-driven lets you <em>declare</em> what matters — once — and get exactly that signal, nothing more.
           </p>
@@ -374,10 +374,10 @@
 
         <section>
           <h3>What is Drasi?</h3>
-          <p class="fragment" style="font-size: 1.15em; max-width: 85%; margin: 0.8em auto;">
+          <p class="fragment slide-intro" style="font-size: 1em; margin: 0.8em auto;">
             An open-source platform that <strong>continuously evaluates your queries</strong> against live data and pushes <strong>typed change events</strong> to your reactions — no polling, no consumer-side state, no filter logic.
           </p>
-          <p class="fragment" style="font-size: 0.7em; opacity: 0.6; margin-top: 1.5em;">
+          <p class="fragment subtext" style="margin-top: 1.5em;">
             CNCF Sandbox · Apache 2.0 · Works with your existing databases and systems
           </p>
         </section>
@@ -392,7 +392,7 @@
                  alt="Drasi core model: Sources (PostgreSQL, Cosmos DB, Kubernetes) → Continuous Queries → Reactions (Webhook, SignalR, Event Grid)"
                  class="fragment fade-in" data-fragment-index="1">
           </div>
-          <p style="margin-top: 1em; font-size: 0.75em; opacity: 0.7;">Three concepts. That's the entire platform.</p>
+          <p class="subtext" style="margin-top: 1em;">Three concepts. That's the entire platform.</p>
           <aside class="notes">
             Pause here. Let the simplicity land.
             Source. Query. Reaction. That's it.
@@ -412,7 +412,7 @@
             <span class="source-badge">Event Hubs</span>
             <span class="source-badge">Dataverse</span>
           </div>
-          <p class="fragment" style="font-size: 0.65em; margin-top: 1.2em; opacity: 0.6;">No new databases or queues required — connects to what you already run</p>
+          <p class="fragment subtext" style="margin-top: 1.2em;">No new databases or queues required — connects to what you already run</p>
           <aside class="notes">
             Sources connect to your existing infrastructure. No new databases or queues required.
           </aside>
@@ -463,7 +463,7 @@ RETURN o, c.name, c.email
             <span class="source-badge">Gremlin</span>
             <span class="source-badge">Dataverse</span>
           </div>
-          <p class="fragment" style="font-size: 0.65em; margin-top: 1.2em; opacity: 0.6;">One query → many reactions · One reaction → many queries</p>
+          <p class="fragment subtext" style="margin-top: 1.2em;">One query → many reactions · One reaction → many queries</p>
           <aside class="notes">
             Three change types: added, updated, deleted. Clean, typed, unambiguous.
             Any combination of queries and reactions can be wired together.
@@ -498,7 +498,7 @@ RETURN o, c.name, c.email
       <section>
         <section>
           <h2>Demo 1</h2>
-          <p style="font-size: 1.05em; font-style: italic;">Let's watch Drasi detect delayed orders<br>across a live database — in real time.</p>
+          <p class="slide-intro" style="font-style: italic;">Let's watch Drasi detect delayed orders<br>across a live database — in real time.</p>
           <aside class="notes">
             Foundational demo: show the core flow end-to-end with a concrete scenario.
             Next slide is the live demo — click into it to interact.
@@ -551,7 +551,7 @@ RETURN o.id, p.name, p.inventory
 
         <section>
           <h3>Detecting the Absence of Change</h3>
-          <p class="fragment" style="font-size: 1.1em; font-style: italic; max-width: 85%; margin: 0 auto;">
+          <p class="fragment slide-intro" style="font-style: italic;">
             "A patient's vitals haven't updated in 10 minutes.<br>
             Is the sensor offline — or is it an emergency?"
           </p>
@@ -589,7 +589,7 @@ RETURN p.name, p.room, m.lastReading
 // Reshape nested JSON with jq before it hits the query engine
 { "transform": ".payload | { id: .orderId, total: .items | map(.price) | add }" }
           </code></pre>
-          <p class="fragment" style="font-size: 0.65em; opacity: 0.6;">Also supports: Unwind · Decode · Relabel · Promote</p>
+          <p class="fragment subtext">Also supports: Unwind · Decode · Relabel · Promote</p>
         </section>
 
         <section>
@@ -625,7 +625,7 @@ RETURN p.name, p.room, m.lastReading
 
         <section>
           <h2>Demo 2</h2>
-          <p style="font-size: 1.05em; font-style: italic;">Can we catch a cross-database inconsistency<br>the moment it happens?</p>
+          <p class="slide-intro" style="font-style: italic;">Can we catch a cross-database inconsistency<br>the moment it happens?</p>
           <aside class="notes">
             Advanced demo: multi-source joins, temporal queries, or AI/RAG scenario.
             This is the "wow" moment. Next slide is the live demo.
@@ -655,7 +655,7 @@ RETURN p.name, p.room, m.lastReading
             <li class="fragment">You want to <strong>standardize</strong> change detection across your org</li>
             <li class="fragment">You're building <strong>AI systems</strong> that need continuously fresh data</li>
           </ul>
-          <p class="fragment" style="font-size: 0.7em; opacity: 0.6; margin-top: 1.2em;">
+          <p class="fragment subtext" style="margin-top: 1.2em;">
             Not a replacement for your event bus or streaming platform — it's a complement.<br>
             CNCF Sandbox — early-stage project with a growing ecosystem.
           </p>
@@ -696,7 +696,7 @@ RETURN p.name, p.room, m.lastReading
             <li class="fragment"><strong>Contribute</strong> — Sources, Reactions, middleware, docs<br>
               <small>Rust · Go · TypeScript · You pick</small></li>
           </ul>
-          <p class="fragment" style="font-size: 0.75em; margin-top: 1em;">
+          <p class="fragment subtext" style="margin-top: 1em;">
             <a href="https://github.com/drasi-project">github.com/drasi-project</a> — issues tagged <code>good first issue</code> are waiting for you
           </p>
         </section>
