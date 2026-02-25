@@ -256,3 +256,13 @@
   color: #42affa;
   line-height: 1.3;
 }
+
+/* Crossfade transition for overlapping images */
+.reveal .fragment.semi-fade-out {
+  opacity: 1;
+  visibility: inherit;
+  transition: opacity 0.8s ease;
+}
+.reveal .fragment.semi-fade-out.visible {
+  opacity: 0;
+}

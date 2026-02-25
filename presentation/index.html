@@ -384,25 +384,19 @@
 
         <section>
           <h3>Core Mental Model</h3>
-          <div class="pipeline">
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">🗄️</span>
-              <span class="pipeline-label">Sources</span>
-            </div>
-            <span class="pipeline-arrow fragment">→</span>
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">🔍</span>
-              <span class="pipeline-label">Continuous Queries</span>
-            </div>
-            <span class="pipeline-arrow fragment">→</span>
-            <div class="pipeline-step fragment">
-              <span class="pipeline-icon">⚡</span>
-              <span class="pipeline-label">Reactions</span>
-            </div>
+          <div class="r-stack" style="margin-top: 1em;">
+            <img src="images/core-concept.svg"
+                 alt="Source → Continuous Query → Reaction"
+                 class="fragment semi-fade-out" data-fragment-index="1">
+            <img src="images/core-mental-model.svg"
+                 alt="Drasi core model: Sources (PostgreSQL, Cosmos DB, Kubernetes) → Continuous Queries → Reactions (Webhook, SignalR, Event Grid)"
+                 class="fragment fade-in" data-fragment-index="1">
           </div>
-          <p class="fragment" style="margin-top: 1em; font-size: 0.75em; opacity: 0.7;">Three concepts. That's the entire platform.</p>
+          <p style="margin-top: 1em; font-size: 0.75em; opacity: 0.7;">Three concepts. That's the entire platform.</p>
           <aside class="notes">
-            This is the entire data flow. Three concepts — that's it.
+            Pause here. Let the simplicity land.
+            Source. Query. Reaction. That's it.
+            Then advance to show the expanded version with specific technologies.
           </aside>
         </section>
 
