@@ -144,7 +144,7 @@
           <h3>Polling: The Challenges</h3>
           <div class="split-slide">
             <div class="split-col">
-              <ul>
+              <ul style="font-size: 0.85em;">
                 <li class="fragment"><strong>Latency</strong> — Detection lag equals the poll interval; faster reaction means more polling</li>
                 <li class="fragment"><strong>Wasted Resources</strong> — Most queries return nothing; you're taxing the DB even when nothing changed</li>
                 <li class="fragment"><strong>State Management</strong> — Every consumer must store and compare its own "last seen" snapshot</li>
@@ -188,7 +188,7 @@
           <h3>Analytics Platforms: The Challenges</h3>
           <div class="split-slide">
             <div class="split-col">
-              <ul>
+              <ul style="font-size: 0.85em;">
                 <li class="fragment"><strong>Data is Copied, Not Live</strong> — Your analytics platform holds a snapshot; the real systems have already moved on</li>
                 <li class="fragment"><strong>ETL Latency</strong> — Data pipelines introduce minutes to hours of lag before changes are visible</li>
                 <li class="fragment"><strong>Retrospective, Not Reactive</strong> — Designed for answering "what happened?" — not "act when this changes"</li>
@@ -218,7 +218,7 @@
             filtering, joining, and transformation. The dominant approach in serious production systems today.
           </p>
           <p class="fragment" style="font-size: 0.72em; opacity: 0.7; margin-bottom: 0.5em;">A rich, mature, battle-tested ecosystem:</p>
-          <div class="source-grid fragment">
+          <div class="source-grid fragment" style="font-size: 0.8em; gap: 0.4em;">
             <span class="source-badge">Debezium</span>
             <span class="source-badge">Apache Kafka</span>
             <span class="source-badge">Kafka Connect</span>
@@ -255,13 +255,38 @@
         <!-- ── CDC + STREAM PROCESSING: Complexity Challenges ── -->
         <section>
           <h3>The Complexity Cost</h3>
-          <ul>
-            <li class="fragment"><strong>Operational burden</strong> — Kafka clusters, connectors, schema registries, consumer group lag monitoring — all yours to run</li>
-            <li class="fragment"><strong>Schema evolution</strong> — Every source schema change ripples through connectors, topics, and every downstream consumer</li>
-            <li class="fragment"><strong>Consumer-side logic</strong> — Filtering, joining across streams, stateful detection, deduplication — still your code to write</li>
-            <li class="fragment"><strong>Cross-source joins are hard</strong> — Joining events from two databases requires stream–stream windowing and careful state management</li>
-            <li class="fragment"><strong>Time to production</strong> — Getting from "I need to react to this condition" to a running system can take weeks</li>
-          </ul>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8em; margin-top: 1em;">
+            <div class="fragment" style="text-align: center; padding: 0.6em;">
+              <div style="font-size: 1.8em;">🔧</div>
+              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Ops Burden</div>
+              <div style="font-size: 0.6em; opacity: 0.8;">Clusters, connectors, registries — all yours to run</div>
+            </div>
+            <div class="fragment" style="text-align: center; padding: 0.6em;">
+              <div style="font-size: 1.8em;">🔀</div>
+              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Schema Evolution</div>
+              <div style="font-size: 0.6em; opacity: 0.8;">Changes ripple through the entire pipeline</div>
+            </div>
+            <div class="fragment" style="text-align: center; padding: 0.6em;">
+              <div style="font-size: 1.8em;">💻</div>
+              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Consumer Logic</div>
+              <div style="font-size: 0.6em; opacity: 0.8;">Filtering, joins, dedup — still your code</div>
+            </div>
+            <div class="fragment" style="text-align: center; padding: 0.6em;">
+              <div style="font-size: 1.8em;">🔗</div>
+              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Cross-Source Joins</div>
+              <div style="font-size: 0.6em; opacity: 0.8;">Windowing and state management required</div>
+            </div>
+            <div class="fragment" style="text-align: center; padding: 0.6em;">
+              <div style="font-size: 1.8em;">📅</div>
+              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">Time to Production</div>
+              <div style="font-size: 0.6em; opacity: 0.8;">Weeks from idea to running system</div>
+            </div>
+            <div class="fragment" style="text-align: center; padding: 0.6em;">
+              <div style="font-size: 1.8em;">😓</div>
+              <div style="font-size: 0.75em; font-weight: bold; margin: 0.3em 0;">The Bottom Line</div>
+              <div style="font-size: 0.6em; opacity: 0.8;">Most effort is plumbing, not business logic</div>
+            </div>
+          </div>
           <aside class="notes">
             Notice that most of this complexity isn't business logic — it's plumbing.
             You're spending engineering time managing infrastructure instead of
@@ -332,42 +357,7 @@
           </aside>
         </section>
 
-        <!-- ── DRASI: Designed for Change-Driven ── -->
-        <section>
-          <h3>What This Looks Like in Code</h3>
-          <div class="split-slide">
-            <div class="split-col">
-              <h4>❌ The Traditional Way</h4>
-              <pre><code class="language-python" data-trim>
-# Subscribe to order change events
-consumer = KafkaConsumer('order-events')
-for msg in consumer:
-    event = deserialize(msg)
-    if event.type != 'ORDER_UPDATED':
-        continue
-    if event.payload.status != 'delayed':
-        continue
-    customer = crm_db.lookup(event.payload.customer_id)
-    if not customer:
-        continue
-    notify(customer.email, event.payload)
-    consumer.commit()
-              </code></pre>
-            </div>
-            <div class="split-col highlight">
-              <h4>✅ The Change-Driven Way</h4>
-              <pre><code class="language-cypher" data-trim>
-MATCH (o:Order)-[:PLACED_BY]->(c:Customer)
-WHERE o.status = 'delayed'
-RETURN o, c.name, c.email
-              </code></pre>
-              <p style="font-size: 0.6em; margin-top: 1em; opacity: 0.7;">Query defines the change. Platform does the rest.</p>
-            </div>
-          </div>
-          <p class="fragment callout" style="margin-top: 0.8em;">
-            Drasi is designed to make it easier to build change-driven systems.
-          </p>
-        </section>
+
       </section>
 
       <!-- ============================================================ -->
