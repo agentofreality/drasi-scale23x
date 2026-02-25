@@ -81,3 +81,137 @@
   height: 80px;
   width: auto;
 }
+
+/* ── Stat slide: giant centered text ── */
+.reveal .stat-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.reveal .stat-slide .stat-number {
+  font-size: 1.6em;
+  font-weight: 900;
+  color: #42affa;
+  line-height: 1.2;
+  margin-bottom: 0.3em;
+}
+
+.reveal .stat-slide .stat-caption {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+/* ── Split slide: two-column comparison ── */
+.reveal .split-slide {
+  display: flex;
+  gap: 1.5em;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.reveal .split-slide .split-col {
+  flex: 1;
+  max-width: 48%;
+}
+
+.reveal .split-slide .split-col h4 {
+  margin-bottom: 0.4em;
+}
+
+.reveal .split-slide .split-col pre {
+  width: 100%;
+  font-size: 0.48em;
+}
+
+.reveal .split-slide .split-col.highlight {
+  border-left: 3px solid #42affa;
+  padding-left: 0.5em;
+}
+
+/* ── Pipeline: flexbox boxes with arrows ── */
+.reveal .pipeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 1.5em auto;
+}
+
+.reveal .pipeline .pipeline-step {
+  background: rgba(66, 175, 250, 0.12);
+  border: 2px solid #42affa;
+  border-radius: 12px;
+  padding: 0.8em 1.2em;
+  text-align: center;
+  min-width: 180px;
+}
+
+.reveal .pipeline .pipeline-step .pipeline-icon {
+  font-size: 1.8em;
+  display: block;
+  margin-bottom: 0.2em;
+}
+
+.reveal .pipeline .pipeline-step .pipeline-label {
+  font-size: 0.7em;
+  font-weight: bold;
+}
+
+.reveal .pipeline .pipeline-arrow {
+  font-size: 2em;
+  color: #42affa;
+  padding: 0 0.3em;
+}
+
+/* ── Source grid: badge/chip layout ── */
+.reveal .source-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.reveal .source-grid .source-badge {
+  background: rgba(66, 175, 250, 0.15);
+  border: 1px solid rgba(66, 175, 250, 0.4);
+  border-radius: 20px;
+  padding: 0.3em 1em;
+  font-size: 0.75em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── Quiz slide: centered dramatic question ── */
+.reveal .quiz-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.reveal .quiz-slide .quiz-emoji {
+  font-size: 3em;
+  margin-bottom: 0.3em;
+}
+
+.reveal .quiz-slide .quiz-question {
+  font-size: 1.1em;
+  font-style: italic;
+  max-width: 80%;
+  line-height: 1.4;
+}
+
+/* ── Placeholder image styling ── */
+.reveal .placeholder-img {
+  border: 2px dashed rgba(66, 175, 250, 0.5);
+  padding: 2em;
+  text-align: center;
+  font-size: 0.7em;
+  opacity: 0.6;
+  border-radius: 8px;
+  margin: 1em auto;
+  max-width: 80%;
+}
