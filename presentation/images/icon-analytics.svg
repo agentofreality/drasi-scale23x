@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Bar chart: 3 bars of increasing height -->
+  <!-- Bar 1 (short) -->
+  <rect x="8" y="40" width="12" height="16" rx="2"
+        fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Bar 2 (medium) -->
+  <rect x="26" y="28" width="12" height="28" rx="2"
+        fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Bar 3 (tall) -->
+  <rect x="44" y="14" width="12" height="42" rx="2"
+        fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Baseline -->
+  <line x1="6" y1="57" x2="58" y2="57" stroke="#42affa" stroke-width="1.5" stroke-opacity="0.5"/>
+  <!-- Copy/snapshot badge: small dashed box overlapping top-right bar with arrow -->
+  <rect x="38" y="7" width="20" height="13" rx="3"
+        fill="none" stroke="rgba(240,160,48,0.7)" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="44" y1="6" x2="44" y2="2" stroke="rgba(240,160,48,0.7)" stroke-width="1.5" stroke-linecap="round"/>
+  <polyline points="42,3 44,1 46,3" fill="none" stroke="rgba(240,160,48,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

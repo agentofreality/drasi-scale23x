@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Schema Evolution: one source node at left, rippling out to 3 downstream nodes -->
+  <!-- Source node -->
+  <rect x="4" y="19" width="12" height="10" rx="3" fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Arrow stems from source -->
+  <line x1="16" y1="24" x2="22" y2="12" stroke="#42affa" stroke-width="1.5" stroke-opacity="0.7"/>
+  <line x1="16" y1="24" x2="22" y2="24" stroke="#42affa" stroke-width="1.5" stroke-opacity="0.7"/>
+  <line x1="16" y1="24" x2="22" y2="36" stroke="#42affa" stroke-width="1.5" stroke-opacity="0.7"/>
+  <!-- Mid nodes -->
+  <rect x="22" y="7"  width="10" height="10" rx="2" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.5"/>
+  <rect x="22" y="19" width="10" height="10" rx="2" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.5"/>
+  <rect x="22" y="31" width="10" height="10" rx="2" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.5"/>
+  <!-- Ripple arrows out from mid nodes to far nodes -->
+  <line x1="32" y1="12" x2="38" y2="9"  stroke="#f0a030" stroke-width="1.4" stroke-opacity="0.8"/>
+  <line x1="32" y1="12" x2="38" y2="15" stroke="#f0a030" stroke-width="1.4" stroke-opacity="0.8"/>
+  <line x1="32" y1="24" x2="38" y2="21" stroke="#f0a030" stroke-width="1.4" stroke-opacity="0.8"/>
+  <line x1="32" y1="24" x2="38" y2="27" stroke="#f0a030" stroke-width="1.4" stroke-opacity="0.8"/>
+  <line x1="32" y1="36" x2="38" y2="33" stroke="#f0a030" stroke-width="1.4" stroke-opacity="0.8"/>
+  <line x1="32" y1="36" x2="38" y2="39" stroke="#f0a030" stroke-width="1.4" stroke-opacity="0.8"/>
+</svg>

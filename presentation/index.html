@@ -124,7 +124,7 @@
 
         <!-- ── POLLING: Description + Diagram ── -->
         <section>
-          <h3>🔄 Approach 1: Polling</h3>
+          <h3>Approach 1: Polling</h3>
           <p class="slide-intro">
             The simplest approach — your application queries the data store on a fixed interval,
             compares results to what it saw last time, and reacts to anything that changed.
@@ -167,10 +167,9 @@
 
         <!-- ── ANALYTICS PLATFORMS: Description + Diagram ── -->
         <section>
-          <h3>📊 Approach 2: Analytics Platforms</h3>
+          <h3>Approach 2: Analytics Platforms</h3>
           <p class="slide-intro">
-            Bring data together in a central analytics platform — a data warehouse or BI tool —
-            where rich queries and dashboards can surface meaningful conditions across all your data.
+            Bring data together in a central analytics platform where rich queries and dashboards can surface meaningful conditions across all your data.
           </p>
           <img src="images/analytics-diagram.svg"
                alt="Analytics platform flow: multiple source systems → ETL Pipeline (copy, mins–hours lag) → Analytics Platform (snapshot, not live) → Reports &amp; Alerts"
@@ -211,7 +210,7 @@
 
         <!-- ── CDC + STREAM PROCESSING: Prevalence + Technologies ── -->
         <section>
-          <h3>📋 Approach 3: CDC + Stream Processing</h3>
+          <h3>Approach 3: CDC + Stream Processing</h3>
           <p class="fragment slide-intro">
             Change Data Capture reads every row-level change from the database transaction log
             and streams it in real time — paired with stream processing engines for
@@ -257,32 +256,32 @@
           <h3>The Complexity Cost</h3>
           <div class="icon-card-grid">
             <div class="icon-card fragment">
-              <div class="icon-card-icon">🔧</div>
+              <div class="icon-card-icon"><img src="images/icon-ops-burden.svg"></div>
               <div class="icon-card-title">Ops Burden</div>
               <div class="icon-card-desc">Clusters, connectors, registries — all yours to run</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon">🔀</div>
+              <div class="icon-card-icon"><img src="images/icon-schema-evolution.svg"></div>
               <div class="icon-card-title">Schema Evolution</div>
               <div class="icon-card-desc">Changes ripple through the entire pipeline</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon">💻</div>
+              <div class="icon-card-icon"><img src="images/icon-consumer-logic.svg"></div>
               <div class="icon-card-title">Consumer Logic</div>
               <div class="icon-card-desc">Filtering, joins, dedup — still your code</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon">🔗</div>
+              <div class="icon-card-icon"><img src="images/icon-cross-source.svg"></div>
               <div class="icon-card-title">Cross-Source Joins</div>
               <div class="icon-card-desc">Windowing and state management required</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon">📅</div>
+              <div class="icon-card-icon"><img src="images/icon-time-to-prod.svg"></div>
               <div class="icon-card-title">Time to Production</div>
               <div class="icon-card-desc">Weeks from idea to running system</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon">😓</div>
+              <div class="icon-card-icon"><img src="images/icon-plumbing.svg"></div>
               <div class="icon-card-title">The Bottom Line</div>
               <div class="icon-card-desc">Most effort is plumbing, not business logic</div>
             </div>

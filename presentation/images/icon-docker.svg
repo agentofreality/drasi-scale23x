@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <!-- Docker: stacked containers (three rows), classic Docker icon style -->
+  <!-- Bottom container -->
+  <rect x="14" y="54" width="52" height="14" rx="3"
+        fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="2"/>
+  <!-- Middle container -->
+  <rect x="14" y="37" width="52" height="14" rx="3"
+        fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="2"/>
+  <!-- Top container -->
+  <rect x="14" y="20" width="52" height="14" rx="3"
+        fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="2"/>
+  <!-- Vertical dividers inside each container (3 cells) -->
+  <!-- Bottom row dividers -->
+  <line x1="31.3" y1="54" x2="31.3" y2="68" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.5"/>
+  <line x1="48.7" y1="54" x2="48.7" y2="68" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.5"/>
+  <!-- Middle row dividers -->
+  <line x1="31.3" y1="37" x2="31.3" y2="51" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.5"/>
+  <line x1="48.7" y1="37" x2="48.7" y2="51" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.5"/>
+  <!-- Top row dividers -->
+  <line x1="31.3" y1="20" x2="31.3" y2="34" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.5"/>
+  <line x1="48.7" y1="20" x2="48.7" y2="34" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.5"/>
+</svg>

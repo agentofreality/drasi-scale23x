@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Two database cylinders with a bridge join in the middle -->
+  <!-- Left cylinder -->
+  <ellipse cx="11" cy="16" rx="7" ry="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.6"/>
+  <rect x="4" y="16" width="14" height="12" fill="rgba(66,175,250,0.08)" stroke="none"/>
+  <line x1="4"  y1="16" x2="4"  y2="28" stroke="#42affa" stroke-width="1.6"/>
+  <line x1="18" y1="16" x2="18" y2="28" stroke="#42affa" stroke-width="1.6"/>
+  <ellipse cx="11" cy="28" rx="7" ry="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.6"/>
+
+  <!-- Right cylinder -->
+  <ellipse cx="37" cy="16" rx="7" ry="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.6"/>
+  <rect x="30" y="16" width="14" height="12" fill="rgba(66,175,250,0.08)" stroke="none"/>
+  <line x1="30" y1="16" x2="30" y2="28" stroke="#42affa" stroke-width="1.6"/>
+  <line x1="44" y1="16" x2="44" y2="28" stroke="#42affa" stroke-width="1.6"/>
+  <ellipse cx="37" cy="28" rx="7" ry="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.6"/>
+
+  <!-- Join bridge arrows meeting in middle -->
+  <line x1="18" y1="22" x2="22" y2="22" stroke="#42affa" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="30" y1="22" x2="26" y2="22" stroke="#42affa" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Join node in centre -->
+  <rect x="20" y="18" width="8" height="8" rx="2" fill="rgba(66,175,250,0.20)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- warning colour on join node -->
+  <text x="24" y="25" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="6" font-weight="700" fill="#f0a030">⊕</text>
+
+  <!-- "hard" label below -->
+  <text x="24" y="40" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="8" fill="rgba(240,160,48,0.75)">complex</text>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Stream / waveform: a smooth flowing sine-like path representing a data stream -->
+  <path d="M 4,32 C 10,32 10,18 16,18 C 22,18 22,32 28,32 C 34,32 34,18 40,18 C 46,18 46,32 52,32 C 56,32 58,25 60,25"
+        fill="none" stroke="#42affa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Second stream line below, offset, slightly dimmer -->
+  <path d="M 4,42 C 10,42 10,50 16,50 C 22,50 22,42 28,42 C 34,42 34,50 40,50 C 46,50 46,42 52,42 C 56,42 58,46 60,46"
+        fill="none" stroke="#42affa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.45"/>
+  <!-- Arrow at right end of top stream indicating flow direction -->
+  <polyline points="56,21 61,25 56,29" fill="none" stroke="#42affa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Small database cylinder on the left to indicate CDC source -->
+  <ellipse cx="10" cy="11" rx="7" ry="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.8"/>
+  <rect x="3" y="11" width="14" height="10" fill="rgba(66,175,250,0.08)" stroke="none"/>
+  <line x1="3" y1="11" x2="3" y2="21" stroke="#42affa" stroke-width="1.8"/>
+  <line x1="17" y1="11" x2="17" y2="21" stroke="#42affa" stroke-width="1.8"/>
+  <ellipse cx="10" cy="21" rx="7" ry="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.8"/>
+</svg>

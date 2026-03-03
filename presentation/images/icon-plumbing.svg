@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Plumbing pipes: horizontal and vertical pipes with elbow joints -->
+  <!-- Horizontal pipe top -->
+  <rect x="6" y="10" width="18" height="7" rx="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Elbow top-right -->
+  <path d="M 24,13.5 Q 32,13.5 32,21" fill="none" stroke="#42affa" stroke-width="5" stroke-linecap="round"/>
+  <!-- Vertical pipe right -->
+  <rect x="29" y="21" width="7" height="12" rx="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Elbow bottom-right -->
+  <path d="M 32,33 Q 32,39 24,39" fill="none" stroke="#42affa" stroke-width="5" stroke-linecap="round"/>
+  <!-- Horizontal pipe bottom -->
+  <rect x="6" y="35.5" width="18" height="7" rx="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Vertical connector on left (the "drain") -->
+  <rect x="6" y="17" width="7" height="18" rx="3" fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Amber X overlay — "this is not business logic" -->
+  <line x1="34" y1="6" x2="44" y2="16" stroke="#f0a030" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="44" y1="6" x2="34" y2="16" stroke="#f0a030" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Code brackets -->
+  <path d="M 14,10 L 6,24 L 14,38" fill="none" stroke="#42affa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 34,10 L 42,24 L 34,38" fill="none" stroke="#42affa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Filter lines (funnel metaphor inside the brackets) -->
+  <line x1="16" y1="18" x2="32" y2="18" stroke="#42affa" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="19" y1="24" x2="29" y2="24" stroke="#42affa" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="22" y1="30" x2="26" y2="30" stroke="#42affa" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

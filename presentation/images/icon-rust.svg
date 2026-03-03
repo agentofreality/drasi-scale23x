@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <!-- Rust gear: 8-tooth outline with bore and 6 spokes -->
+  <path d="M 33.05,14.95 L 35.98,7.25 L 44.02,7.25 L 46.95,14.95 L 52.8,17.37 L 60.32,14.0 L 66.0,19.68 L 62.63,27.2 L 65.05,33.05 L 72.75,35.98 L 72.75,44.02 L 65.05,46.95 L 62.63,52.8 L 66.0,60.32 L 60.32,66.0 L 52.8,62.63 L 46.95,65.05 L 44.02,72.75 L 35.98,72.75 L 33.05,65.05 L 27.2,62.63 L 19.68,66.0 L 14.0,60.32 L 17.37,52.8 L 14.95,46.95 L 7.25,44.02 L 7.25,35.98 L 14.95,33.05 L 17.37,27.2 L 14.0,19.68 L 19.68,14.0 L 27.2,17.37 Z"
+        fill="rgba(66,175,250,0.12)" stroke="#42affa" stroke-width="2" stroke-linejoin="round"/>
+  <!-- 6 spokes -->
+  <line x1="40" y1="28" x2="40" y2="17" stroke="#42affa" stroke-width="2"/>
+  <line x1="49.6" y1="34" x2="56.6" y2="27.9" stroke="#42affa" stroke-width="2"/>
+  <line x1="49.6" y1="46" x2="56.6" y2="52.1" stroke="#42affa" stroke-width="2"/>
+  <line x1="40" y1="52" x2="40" y2="63" stroke="#42affa" stroke-width="2"/>
+  <line x1="30.4" y1="46" x2="23.4" y2="52.1" stroke="#42affa" stroke-width="2"/>
+  <line x1="30.4" y1="34" x2="23.4" y2="27.9" stroke="#42affa" stroke-width="2"/>
+  <!-- bore hole -->
+  <circle cx="40" cy="40" r="10" fill="rgba(0,0,0,0.45)" stroke="#42affa" stroke-width="2"/>
+</svg>

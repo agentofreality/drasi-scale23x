@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Calendar body -->
+  <rect x="6" y="12" width="36" height="30" rx="3" fill="rgba(66,175,250,0.10)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Calendar header bar -->
+  <rect x="6" y="12" width="36" height="8" rx="3" fill="rgba(66,175,250,0.22)" stroke="#42affa" stroke-width="1.8"/>
+  <!-- Ring pegs -->
+  <line x1="16" y1="8" x2="16" y2="16" stroke="#42affa" stroke-width="2" stroke-linecap="round"/>
+  <line x1="32" y1="8" x2="32" y2="16" stroke="#42affa" stroke-width="2" stroke-linecap="round"/>
+  <!-- Clock face inside calendar -->
+  <circle cx="24" cy="31" r="9" fill="rgba(66,175,250,0.08)" stroke="#42affa" stroke-width="1.5"/>
+  <!-- Clock hands — long hand pointing almost full-circle (slow) -->
+  <line x1="24" y1="31" x2="24" y2="23" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Hour hand pointing to ~5 (delayed) -->
+  <line x1="24" y1="31" x2="29" y2="36" stroke="#f0a030" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Centre dot -->
+  <circle cx="24" cy="31" r="1.5" fill="#42affa"/>
+</svg>

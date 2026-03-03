@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Complexity icon: several nodes connected by tangled crossing lines -->
+  <!-- Nodes -->
+  <circle cx="32" cy="8"  r="4" fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="1.8"/>
+  <circle cx="56" cy="22" r="4" fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="1.8"/>
+  <circle cx="52" cy="50" r="4" fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="1.8"/>
+  <circle cx="12" cy="50" r="4" fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="1.8"/>
+  <circle cx="8"  cy="22" r="4" fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="1.8"/>
+  <circle cx="32" cy="32" r="5" fill="rgba(66,175,250,0.20)" stroke="#42affa" stroke-width="2"/>
+  <!-- All outer nodes connect to centre and to each other, creating crossing lines -->
+  <!-- To centre -->
+  <line x1="32" y1="12" x2="32" y2="27" stroke="#42affa" stroke-width="1.4" stroke-opacity="0.7"/>
+  <line x1="52" y1="25" x2="36" y2="30" stroke="#42affa" stroke-width="1.4" stroke-opacity="0.7"/>
+  <line x1="49" y1="48" x2="36" y2="34" stroke="#42affa" stroke-width="1.4" stroke-opacity="0.7"/>
+  <line x1="15" y1="48" x2="28" y2="34" stroke="#42affa" stroke-width="1.4" stroke-opacity="0.7"/>
+  <line x1="12" y1="25" x2="28" y2="30" stroke="#42affa" stroke-width="1.4" stroke-opacity="0.7"/>
+  <!-- Cross connections (the tangled part) -->
+  <line x1="32" y1="12" x2="56" y2="22" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.35"/>
+  <line x1="32" y1="12" x2="8"  y2="22" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.35"/>
+  <line x1="56" y1="22" x2="52" y2="50" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.35"/>
+  <line x1="8"  y1="22" x2="12" y2="50" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.35"/>
+  <line x1="12" y1="50" x2="52" y2="50" stroke="#42affa" stroke-width="1.2" stroke-opacity="0.35"/>
+  <!-- Crossing diagonals to imply tangle -->
+  <line x1="8"  y1="22" x2="52" y2="50" stroke="#42affa" stroke-width="1.0" stroke-opacity="0.22"/>
+  <line x1="56" y1="22" x2="12" y2="50" stroke="#42affa" stroke-width="1.0" stroke-opacity="0.22"/>
+  <line x1="32" y1="12" x2="12" y2="50" stroke="#42affa" stroke-width="1.0" stroke-opacity="0.22"/>
+  <line x1="32" y1="12" x2="52" y2="50" stroke="#42affa" stroke-width="1.0" stroke-opacity="0.22"/>
+  <!-- Warning dot on centre node -->
+  <text x="32" y="36" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="7" font-weight="700" fill="#f0a030">!</text>
+</svg>
