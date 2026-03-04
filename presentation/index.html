@@ -403,6 +403,60 @@
         </section>
 
         <section>
+          <h3>Source Change Events</h3>
+          <p class="slide-intro">Sources emit <strong>Source Change Events</strong> to notify Continuous Queries of data changes</p>
+          <img src="images/source-change-events.svg"
+               alt="Data flow: Source emits Insert, Update, and Delete Source Change Events to Continuous Query"
+               style="width: 96%; max-width: 920px; display: block; margin: 0.2em auto 0;">
+          <aside class="notes">
+            Source Change Events are the internal data format that Sources use to communicate
+            changes to Continuous Queries. Three variants: Insert (new element with full data),
+            Update (changed element with full data), Delete (only metadata — identity and labels,
+            no properties needed since the element is gone).
+
+            Key point: the Source handles all the CDC complexity — reading WAL logs, tracking
+            offsets, mapping rows to graph elements. By the time data reaches the Continuous
+            Query, it's a clean, typed change event.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Source Change Event Example</h3>
+          <p class="slide-intro">A PostgreSQL row insert mapped to a graph Node:</p>
+          <pre style="width: 80%; margin: 0 auto;"><code class="language-json" data-trim data-noescape>
+{
+  "op": "Insert",
+  "element": {
+    "type": "Node",
+    "labels": ["Order"],
+    "reference": {
+      "source_id": "pg-orders",
+      "element_id": "Order:42"
+    },
+    "effective_from": 1709571234000,
+    "properties": {
+      "id": 42,
+      "status": "delayed",
+      "total": 149.99
+    }
+  }
+}
+          </code></pre>
+          <p class="fragment subtext" style="margin-top: 0.8em;">
+            Table name → Node label · Columns → properties · Primary key → element ID
+          </p>
+          <aside class="notes">
+            Elements can be Nodes (mapped from table rows — table name becomes the label,
+            columns become properties, primary key becomes the element ID) or Relations
+            (mapped from foreign keys or explicit relationships).
+
+            Insert and Update carry the full element (type, labels, reference, properties).
+            Delete carries only metadata (reference and labels) — no properties needed since
+            the element is gone. The query engine never touches raw database protocols.
+          </aside>
+        </section>
+
+        <section>
           <h3>Continuous Queries</h3>
           <p>Declarative queries that run <strong>perpetually</strong> in <strong>openCypher</strong> or <strong>GQL</strong></p>
           <p><small>Simple — find all delayed orders</small></p>

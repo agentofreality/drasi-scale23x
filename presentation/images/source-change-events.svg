@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 280" width="920" height="280">
+  <defs>
+    <marker id="arr-sce" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#42affa"/>
+    </marker>
+  </defs>
+
+  <!-- ── Source Box ── -->
+  <rect x="15" y="75" width="170" height="130" rx="12"
+        fill="rgba(66,175,250,0.10)" stroke="#42affa" stroke-width="2"/>
+  <text x="100" y="130" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="20" font-weight="700" fill="white">Source</text>
+  <text x="100" y="152" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="11" fill="rgba(255,255,255,0.40)">e.g. PostgreSQL</text>
+  <text x="100" y="168" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="11" fill="rgba(255,255,255,0.40)">Cosmos DB, K8s …</text>
+
+  <!-- ── Arrow: Source → Events ── -->
+  <line x1="187" y1="140" x2="253" y2="140"
+        stroke="#42affa" stroke-width="2.5" marker-end="url(#arr-sce)"/>
+
+  <!-- ── Source Change Events Group ── -->
+  <text x="440" y="18" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="14" font-weight="600" fill="#42affa">Source Change Events</text>
+  <rect x="260" y="28" width="360" height="224" rx="10"
+        fill="rgba(66,175,250,0.03)" stroke="rgba(66,175,250,0.20)"
+        stroke-width="1" stroke-dasharray="6,3"/>
+
+  <!-- Insert Card -->
+  <rect x="275" y="40" width="330" height="56" rx="8"
+        fill="rgba(66,175,250,0.12)" stroke="rgba(66,175,250,0.50)" stroke-width="1.5"/>
+  <circle cx="292" cy="61" r="6" fill="#4ade80"/>
+  <text x="308" y="58" font-family="system-ui,-apple-system,sans-serif"
+        font-size="14" font-weight="700" fill="white">Insert</text>
+  <text x="308" y="77" font-family="system-ui,-apple-system,sans-serif"
+        font-size="11" fill="rgba(255,255,255,0.55)">element: Node { labels, reference, properties }</text>
+
+  <!-- Update Card -->
+  <rect x="275" y="112" width="330" height="56" rx="8"
+        fill="rgba(66,175,250,0.12)" stroke="rgba(66,175,250,0.50)" stroke-width="1.5"/>
+  <circle cx="292" cy="133" r="6" fill="#42affa"/>
+  <text x="308" y="130" font-family="system-ui,-apple-system,sans-serif"
+        font-size="14" font-weight="700" fill="white">Update</text>
+  <text x="308" y="149" font-family="system-ui,-apple-system,sans-serif"
+        font-size="11" fill="rgba(255,255,255,0.55)">element: Node { labels, reference, properties }</text>
+
+  <!-- Delete Card -->
+  <rect x="275" y="184" width="330" height="56" rx="8"
+        fill="rgba(66,175,250,0.12)" stroke="rgba(66,175,250,0.50)" stroke-width="1.5"/>
+  <circle cx="292" cy="205" r="6" fill="#f87171"/>
+  <text x="308" y="202" font-family="system-ui,-apple-system,sans-serif"
+        font-size="14" font-weight="700" fill="white">Delete</text>
+  <text x="308" y="221" font-family="system-ui,-apple-system,sans-serif"
+        font-size="11" fill="rgba(255,255,255,0.55)">metadata only: { reference, labels, effective_from }</text>
+
+  <!-- ── Arrow: Events → Continuous Query ── -->
+  <line x1="622" y1="140" x2="688" y2="140"
+        stroke="#42affa" stroke-width="2.5" marker-end="url(#arr-sce)"/>
+
+  <!-- ── Continuous Query Box ── -->
+  <rect x="695" y="65" width="210" height="150" rx="12"
+        fill="rgba(66,175,250,0.18)" stroke="#42affa" stroke-width="3"/>
+  <text x="800" y="128" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="20" font-weight="700" fill="white">Continuous</text>
+  <text x="800" y="152" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="20" font-weight="700" fill="white">Query</text>
+  <text x="800" y="174" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="11" fill="rgba(255,255,255,0.40)">processes changes</text>
+</svg>
