@@ -17,8 +17,8 @@
       <!-- ============================================================ -->
       <!-- TITLE -->
       <!-- ============================================================ -->
-      <section data-background-image="images/water-ripple.jpg" data-background-opacity="0.25">
-        <img src="images/drasi-logo.svg" alt="Drasi" style="width: 320px; margin-bottom: 0.3em; filter: drop-shadow(0 0 20px rgba(66,175,250,0.4));">
+      <section>
+        <img src="images/drasi/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 320px; margin-bottom: 0.3em; filter: drop-shadow(0 0 20px rgba(66,175,250,0.4));">
         <h3>A New Take on Change-Driven Architectures</h3>
         <p>
           <small>Allen Jones — SCaLE 23x</small>
@@ -52,8 +52,8 @@
           <h3>A Familiar Scenario</h3>
           <ul>
             <li class="fragment">You have data spread across multiple systems</li>
-            <li class="fragment">Data changes (i.e. add, update, delete)</li>
-            <li class="fragment">Your system needs to detect the change and react</li>
+            <li class="fragment">Data changes (or doesn't change when it should)</li>
+            <li class="fragment">Your system needs to detect this and react</li>
           </ul>
           <p class="fragment callout">Quickly. Precisely. Reliably.</p>
           <aside class="notes">
@@ -102,14 +102,38 @@
         <section>
           <h3>These are Change-Driven Systems</h3>
           <blockquote style="border-left-color: #42affa; font-size: 0.9em;">
-            Systems that do something in response to a <strong>meaningful change</strong> —
-            or the <strong>absence of change</strong> — in relevant data.
+            Systems that <strong>take action</strong> in response to a <strong>meaningful change</strong> —
+            or the <strong>absence of change</strong> — in <strong>relevant data</strong>.
           </blockquote>
           <aside class="notes">
             This is the definition we'll use for the rest of the talk.
             The key words are "meaningful" and "absence" — both are important.
           </aside>
         </section>
+
+
+        <section>
+          <h3>Event-Driven vs Change-Driven</h3>
+          <div class="fragment" style="margin-top: 0.8em;">
+            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0; opacity: 0.6;"><strong>Event-Driven</strong></p>
+            <blockquote style="border-left-color: rgba(66,175,250,0.35);">
+              "Here's everything that happened.<br>Figure out what you care about."
+            </blockquote>
+          </div>
+          <div class="fragment" style="margin-top: 1.2em;">
+            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0;"><strong>Change-Driven</strong></p>
+            <blockquote style="border-left-color: #42affa;">
+              "Tell me exactly what you care about.<br>I'll tell you when it changes."
+            </blockquote>
+          </div>
+          <aside class="notes">
+            This is the key mental shift. Let both blockquotes land before moving on.
+            The event-driven model is producer-centric: here's what happened, you figure out relevance.
+            The change-driven model inverts this entirely: you declare what matters,
+            and the platform tells you precisely when it changes.
+          </aside>
+        </section>
+
 
       </section>
 
@@ -329,34 +353,6 @@
           </aside>
         </section>
 
-        <!-- ── EVENT-DRIVEN vs CHANGE-DRIVEN ── -->
-        <section>
-          <h3>Event-Driven vs Change-Driven</h3>
-          <div class="fragment" style="margin-top: 0.8em;">
-            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0; opacity: 0.6;"><strong>Event-Driven</strong></p>
-            <blockquote style="border-left-color: rgba(66,175,250,0.35);">
-              "Here's everything that happened.<br>Figure out what you care about."
-            </blockquote>
-          </div>
-          <div class="fragment" style="margin-top: 1.2em;">
-            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0;"><strong>Change-Driven</strong></p>
-            <blockquote style="border-left-color: #42affa;">
-              "Tell me exactly what you care about.<br>I'll tell you when it changes."
-            </blockquote>
-          </div>
-          <p class="fragment subtext" style="margin-top: 1.2em; line-height: 1.5;">
-            Event-driven puts the burden of <em>meaning</em> on every consumer.<br>
-            Change-driven lets you <em>declare</em> what matters — once — and get exactly that signal, nothing more.
-          </p>
-          <aside class="notes">
-            This is the key mental shift. Let both blockquotes land before moving on.
-            The event-driven model is producer-centric: here's what happened, you figure out relevance.
-            The change-driven model inverts this entirely: you declare what matters,
-            and the platform tells you precisely when it changes.
-          </aside>
-        </section>
-
-
       </section>
 
       <!-- ============================================================ -->
@@ -364,8 +360,8 @@
       <!-- ============================================================ -->
       <section>
         <section>
-          <img src="images/drasi-logo.svg" alt="Drasi" style="width: 260px; margin-bottom: 0.2em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
-          <h2>Introducing Drasi</h2>
+          <h2>Introducing</h2>
+          <img src="images/drasi/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 260px; margin-bottom: 0.2em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <aside class="notes">
             Now that we've set up the paradigm, let's meet the project.
           </aside>
@@ -373,16 +369,16 @@
 
         <section>
           <h3>What is Drasi?</h3>
-          <p class="fragment slide-intro" style="font-size: 1em; margin: 0.8em auto;">
-            An open-source platform that <strong>continuously evaluates your queries</strong> against live data and pushes <strong>typed change events</strong> to your reactions — no polling, no consumer-side state, no filter logic.
-          </p>
-          <p class="fragment subtext" style="margin-top: 1.5em;">
-            CNCF Sandbox · Apache 2.0 · Works with your existing databases and systems
-          </p>
+             <p class="slide-intro">
+              Open source platform for building change-driven solutions.
+            </p>
+            <p class="fragment subtext" style="margin-top: 1.5em;">
+              CNCF Sandbox · Apache 2.0
+            </p>
         </section>
 
         <section>
-          <h3>Core Mental Model</h3>
+          <h3>Core Concepts</h3>
           <div class="r-stack" style="margin-top: 1em;">
             <img src="images/core-concept.svg"
                  alt="Source → Continuous Query → Reaction"
@@ -391,7 +387,6 @@
                  alt="Drasi core model: Sources (PostgreSQL, Cosmos DB, Kubernetes) → Continuous Queries → Reactions (Webhook, SignalR, Event Grid)"
                  class="fragment fade-in" data-fragment-index="1">
           </div>
-          <p class="subtext" style="margin-top: 1em;">Three concepts. That's the entire platform.</p>
           <aside class="notes">
             Pause here. Let the simplicity land.
             Source. Query. Reaction. That's it.
