@@ -30,8 +30,9 @@
           </small>
         </p>
         <aside class="notes">
-          Welcome. Today we're going to talk about a different way to think about
-          reacting to data changes — and an open-source project that makes it practical.
+          Welcome to SCaLE 23x. Today we'll explore change-driven architecture — a pattern
+          you've likely implemented many times — and Drasi, a CNCF Sandbox project that
+          makes building change-driven solutions dramatically simpler.
         </aside>
       </section>
 
@@ -43,8 +44,8 @@
           <h2>The Problem</h2>
           <h4>Detecting and Reacting to Change is Harder Than It Should Be</h4>
           <aside class="notes">
-            This is the premise of the entire talk. Everyone in this room has
-            dealt with this — let the statement sit for a moment.
+            This is the premise of the entire talk. Pause here — everyone in this room
+            has dealt with this problem. Let the statement resonate before continuing.
           </aside>
         </section>
 
@@ -57,9 +58,9 @@
           </ul>
           <p class="fragment callout">Quickly. Precisely. Reliably.</p>
           <aside class="notes">
-            Databases, APIs, Kubernetes resources — data is everywhere.
-            When something changes, other parts of the system need to detect it and react.
-            This should be a solved problem by now. It isn't.
+            Data lives in databases, APIs, Kubernetes, SaaS platforms — everywhere.
+            Note: "or doesn't change when it should" — absence of change is just as important.
+            The requirements sound simple, but the implementation rarely is.
           </aside>
         </section>
 
@@ -70,8 +71,8 @@
             check their loyalty tier, and offer compensation
             <em>before</em> they complain</p>
           <aside class="notes">
-            The carrier system doesn't know your customers or their loyalty tier.
-            The reaction must cross system boundaries.
+            Key point: the carrier system knows nothing about your customers or their loyalty tier.
+            The reaction requires joining data across system boundaries — this is where it gets hard.
           </aside>
         </section>
 
@@ -82,8 +83,9 @@
             an arrival — production planning needs to adjust the
             schedule before the line stops</p>
           <aside class="notes">
-            Absence of change — detecting something that didn't happen.
-            No single system monitors this gap.
+            This is "absence of change" — detecting something that DIDN'T happen by a deadline.
+            No single system owns this logic. Traditional event-driven systems struggle here
+            because there's no event to consume when nothing happens.
           </aside>
         </section>
 
@@ -94,8 +96,9 @@
             already dispatched — across GPS, ticketing, HR, and
             dispatch systems</p>
           <aside class="notes">
-            Dynamic collection whose membership changes constantly
-            across four separate systems. Tracking who's in/out is the hard part.
+            This is a dynamic result set whose membership changes constantly across four systems.
+            The challenge isn't finding qualified technicians once — it's maintaining a live
+            view as GPS positions update, tickets change status, and dispatches happen.
           </aside>
         </section>
 
@@ -111,6 +114,11 @@
           <p class="fragment callout">A problem you've probably already solved...</p>
           <p class="fragment callout">... more than once!!</p>
           <p class="fragment callout">... using different techniques!!</p>
+          <aside class="notes">
+            This definition captures two critical concepts: "meaningful change" (not every row update)
+            and "absence of change" (detecting what didn't happen). Both are first-class concerns.
+            Build the fragments slowly — let the audience recognize themselves in this pattern.
+          </aside>
         </section> 
 
       </section>
@@ -123,14 +131,15 @@
           <h2>Example</h2>
           <p class="slide-intro" style="font-style: italic;">Let's take a quick look at a change-driven system</p>
           <aside class="notes">
-            Foundational demo: show the core flow end-to-end with a concrete scenario.
-            Next slide is the live demo — click into it to interact.
+            Before diving into how teams typically solve this, let's see a concrete example
+            of a change-driven system in action. This grounds the abstract problem in reality.
           </aside>
         </section>
 
         <section data-background-iframe="http://localhost:5273" data-background-interactive>
           <aside class="notes">
-            Live demo. Press Esc to exit interactive mode and advance slides.
+            Live demo embedded via iframe. Press Esc to exit interactive mode.
+            Keep this brief — just enough to show what we're trying to achieve.
           </aside>
         </section>
       </section>
@@ -143,6 +152,11 @@
         <section data-background-image="images/focus-lens.jpg" data-background-opacity="0.15">
           <h2>Building Change-Driven Systems</h2>
           <h4>How Teams Do It Today</h4>
+          <aside class="notes">
+            Now let's look at the common approaches teams use to build change-driven systems.
+            We'll examine three: polling, analytics platforms, and CDC + stream processing.
+            Each has trade-offs — and all require significant custom engineering.
+          </aside>
         </section>
 
         <!-- ── POLLING: Description + Diagram ── -->
@@ -155,9 +169,9 @@
                alt="Polling flow: Timer/Scheduler → Query Database → Compare Results → Act on Difference → repeat"
                style="width: 92%; max-width: 860px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
-            Polling is everyone's first solution. Intuitive, easy to implement,
-            requires no new infrastructure. Just query and compare.
-            But this simplicity comes at a cost that becomes very apparent as the system grows.
+            Polling is everyone's first solution — intuitive, requires no new infrastructure.
+            Query, compare to last time, act on differences. Simple mental model.
+            But as you'll see, this simplicity hides real problems that emerge at scale.
           </aside>
         </section>
 
@@ -175,9 +189,9 @@
             <li class="fragment"><strong>Doesn't Scale</strong> - Multiple solutions, integrating multiple data sources, and large datasets all increase complexity significantly</li>
           </ul>
           <aside class="notes">
-            The polling interval is a false economy. Too slow → you miss changes or react late.
-            Too fast → you overwhelm the database. There's no good answer.
-            And every new consumer that needs the same data adds another polling loop.
+            The polling interval is a false economy — too slow means missed changes, too fast
+            means wasted resources. State management is often overlooked until restarts cause
+            duplicate processing. And N consumers × M sources = N×M polling loops.
           </aside>
         </section>
 
@@ -191,10 +205,9 @@
                alt="Analytics platform flow: multiple source systems → ETL Pipeline (copy, mins–hours lag) → Analytics Platform (snapshot, not live) → Reports &amp; Alerts"
                style="width: 96%; max-width: 900px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
-            Analytics platforms solve the multi-source problem beautifully.
-            You can write rich queries across all your data in one place.
-            But the fundamental model is retrospective — you're analyzing a copy of data,
-            not reacting to live changes.
+            Analytics platforms solve the multi-source query problem elegantly — rich queries
+            across all your data in one place. But the model is fundamentally retrospective:
+            you're analyzing a copy of data that's already minutes or hours stale.
           </aside>
         </section>
 
@@ -208,9 +221,9 @@
             <li class="fragment"><strong>Operational Overhead</strong> — Maintaining ETL pipelines, schema mappings, and sync schedules is a job in itself</li>
           </ul>
           <aside class="notes">
-            Analytics platforms are excellent at deep querying over large, historical datasets.
-            But they're fundamentally the wrong tool for real-time reaction.
-            You can't act on a change you haven't loaded yet.
+            Analytics platforms excel at "what happened?" — historical analysis over large datasets.
+            But change-driven systems need "act when this changes" — fundamentally different.
+            You can't react to a change that hasn't been loaded through ETL yet.
           </aside>
         </section>
 
@@ -237,9 +250,9 @@
             <span class="source-badge">RisingWave</span>
           </div>
           <aside class="notes">
-            This is genuinely powerful technology, used by some of the world's largest systems.
-            We're not dismissing it. But let's look at what building a change-driven solution
-            on top of these actually looks like in practice.
+            This is genuinely powerful, battle-tested technology. We're not dismissing it.
+            But these are event-driven tools — excellent at moving events at scale.
+            Building change-driven logic on top still requires substantial engineering.
           </aside>
         </section>
 
@@ -250,9 +263,9 @@
                alt="CDC pipeline: Database → Debezium → Kafka Topic → Stream Processor → Consumer App, plus required supporting infrastructure"
                style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
-            Each box is a separate system to deploy, configure, and operate.
-            Each arrow is a contract to maintain — schemas, serialization formats, offsets.
-            And we haven't even discussed what the consumer application itself has to do.
+            Count the boxes — each is a system to deploy, configure, monitor, and maintain.
+            Each arrow is a contract: schemas, serialization formats, consumer offsets.
+            And we haven't even discussed the consumer logic: filtering, joins, deduplication.
           </aside>
         </section>
 
@@ -295,9 +308,9 @@
             </div>
           </div>
           <aside class="notes">
-            Notice that most of this complexity isn't business logic — it's plumbing.
-            You're spending engineering time managing infrastructure instead of
-            expressing what you actually care about.
+            The key insight: most of this complexity isn't your business logic — it's plumbing.
+            Engineering time goes to infrastructure instead of expressing what changes matter.
+            Cross-source joins are especially painful — windowing, state stores, exactly-once.
           </aside>
         </section>
 
@@ -315,9 +328,9 @@
           
           <p class="fragment callout">No vendor lock-in, community-driven.</p>
           <aside class="notes">
-            Databases, APIs, Kubernetes resources — data is everywhere.
-            When something changes, other parts of the system need to detect it and react.
-            This should be a solved problem by now. It isn't.
+            These are the characteristics we need. Expressive queries over live data.
+            Reliable handling of state, restarts, schema changes. Minimal ops burden.
+            Open source with no vendor lock-in. This sets up what Drasi provides.
           </aside>
         </section>
 
@@ -331,7 +344,9 @@
           <h2>Introducing</h2>
           <img src="images/drasi/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 260px; margin-bottom: 0.2em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <aside class="notes">
-            Now that we've set up the paradigm, let's meet the project.
+            Now let's meet Drasi. We've established the problem and the limitations
+            of current approaches. Drasi is an open-source platform designed specifically
+            for building change-driven solutions.
           </aside>
         </section>
 
@@ -343,6 +358,11 @@
             <p class="fragment subtext" style="margin-top: 1.5em;">
               CNCF Sandbox · Apache 2.0
             </p>
+          <aside class="notes">
+            Drasi is a Data Change Processing platform — not event streaming, not stream processing.
+            It uses declarative continuous queries to isolate meaningful data changes and trigger
+            reactions. CNCF Sandbox since January 2025, Apache 2.0 licensed.
+          </aside>
         </section>
 
         <section>
@@ -356,9 +376,9 @@
                  class="fragment fade-in" data-fragment-index="1">
           </div>
           <aside class="notes">
-            Pause here. Let the simplicity land.
-            Source. Query. Reaction. That's it.
-            Then advance to show the expanded version with specific technologies.
+            Pause here — let the simplicity land. Source. Continuous Query. Reaction.
+            Sources connect to your existing data. Queries define what changes matter.
+            Reactions act when results change. Three concepts, that's the entire platform.
           </aside>
         </section>
 
@@ -376,7 +396,9 @@
           </div>
           <p class="fragment subtext" style="margin-top: 1.2em;">No new databases or queues required — connects to what you already run</p>
           <aside class="notes">
-            Sources connect to your existing infrastructure. No new databases or queues required.
+            Sources connect to your existing infrastructure — no rip-and-replace required.
+            PostgreSQL, MySQL, SQL Server for relational. Cosmos DB Gremlin for graph.
+            Kubernetes for cluster state. Event Hubs for streaming. Dataverse for Microsoft ecosystem.
           </aside>
         </section>
 
@@ -398,16 +420,14 @@ RETURN o, c.name, c.email
             </code></pre>
           </div>
           <aside class="notes">
-            This is where the magic happens. Your query defines what "change" means.
-            Queries maintain a live result set and can span multiple sources.
-
-            DIFFERENTIATION vs streaming SQL (Materialize, ksqlDB, RisingWave):
-            1. Graph-native query language (Cypher/GQL) — not SQL. Natural for relationship-rich data.
-            2. Multi-source joins across heterogeneous systems (Postgres + Cosmos DB + K8s) — not just Kafka topics.
-            3. Built-in reaction system — detection AND action in one platform.
-            4. Embeddable via drasi-lib Rust crate — runs in-process at the edge.
-            If someone asks: "Drasi is for change detection across your existing systems.
-            Streaming SQL is for stream processing on event streams. Different problem shapes."
+            This is the core innovation. Queries run perpetually, maintaining a live result set.
+            When source data changes, Drasi determines which results are added, updated, or deleted.
+            Queries use openCypher or GQL — graph-native languages natural for relationship-rich data.
+            Critical: queries can span multiple sources in a single statement. Order from Postgres,
+            Customer from Cosmos DB, joined in one query. No shared schema or event bus required.
+            
+            If asked about streaming SQL (Materialize, ksqlDB): Drasi is for change detection across
+            existing systems. Streaming SQL processes event streams. Different problem shapes.
           </aside>
         </section>
 
@@ -427,8 +447,10 @@ RETURN o, c.name, c.email
           </div>
           <p class="fragment subtext" style="margin-top: 1.2em;">One query → many reactions · One reaction → many queries</p>
           <aside class="notes">
-            Three change types: added, updated, deleted. Clean, typed, unambiguous.
-            Any combination of queries and reactions can be wired together.
+            Reactions receive typed change events: added (new result matches), updated (result
+            changed but still matches, with before/after), deleted (no longer matches).
+            Clean, unambiguous — no parsing event payloads to figure out what happened.
+            Flexible wiring: one query can feed many reactions, one reaction can watch many queries.
           </aside>
         </section>
 
@@ -451,6 +473,12 @@ RETURN o, c.name, c.email
               <p>Full platform with scaling &amp; observability<br><small>AKS · EKS · GKE</small></p>
             </div>
           </div>
+          <aside class="notes">
+            Three deployment options for different needs. drasi-lib: Rust crate for embedding
+            the query engine in-process — edge, IoT, custom pipelines. Drasi Server: single
+            binary or Docker container with built-in web UI — no Kubernetes required.
+            Drasi for Kubernetes: full platform with horizontal scaling and enterprise sources.
+          </aside>
         </section>
       </section>
 
@@ -462,14 +490,15 @@ RETURN o, c.name, c.email
           <h2>Demo 1</h2>
           <p class="slide-intro" style="font-style: italic;">Let's watch Drasi detect delayed orders<br>across a live database — in real time.</p>
           <aside class="notes">
-            Foundational demo: show the core flow end-to-end with a concrete scenario.
-            Next slide is the live demo — click into it to interact.
+            Time to see Drasi in action. This demo shows the core Source → Query → Reaction
+            flow with a concrete scenario: detecting delayed orders in real time.
           </aside>
         </section>
 
         <section data-background-iframe="http://localhost:8080/ui/?instance=demo-1" data-background-interactive>
           <aside class="notes">
-            Live demo. Press Esc to exit interactive mode and advance slides.
+            Live demo via Drasi Server's built-in web UI. Press Esc to exit interactive mode.
+            Show: create a delayed order, watch it appear in query results, see reaction fire.
           </aside>
         </section>
       </section>
@@ -480,6 +509,10 @@ RETURN o, c.name, c.email
       <section>
         <section data-background-image="images/network-abstract.jpg" data-background-opacity="0.2">
           <h2>Patterns &amp; Advanced Capabilities</h2>
+          <aside class="notes">
+            Now let's look at some advanced patterns that differentiate Drasi from
+            simpler change detection approaches.
+          </aside>
         </section>
 
         <section>
@@ -494,6 +527,11 @@ MATCH (o:Order)-[:CONTAINS]->(p:Product)
 WHERE p.inventory < 10
 RETURN o.id, p.name, p.inventory
           </code></pre>
+          <aside class="notes">
+            This is a key differentiator. Single query joins Order from PostgreSQL with Product
+            from Cosmos DB. No shared schema, no event bus, no manual correlation.
+            Drasi handles the cross-source join and emits changes when either side updates.
+          </aside>
         </section>
 
         <section>
@@ -507,7 +545,10 @@ RETURN o.id, p.name, p.inventory
             <p><small>"Check back in 30 minutes — did this order ship?"</small></p>
           </div>
           <aside class="notes">
-            These temporal functions let you build time-aware reactive logic declaratively.
+            Temporal functions enable time-aware reactive logic declaratively.
+            trueFor: condition must remain true for a duration before triggering.
+            trueLater: schedule a future check — "did this resolve within 30 minutes?"
+            Both enable detecting the absence of change, which is critical for SLAs and deadlines.
           </aside>
         </section>
 
@@ -525,9 +566,10 @@ RETURN p.name, p.room, m.lastReading
           </code></pre>
           <p class="fragment callout">Most event-driven systems simply can't do this.</p>
           <aside class="notes">
-            This is Drasi's most differentiating capability.
-            Detecting that something DIDN'T happen is as important as detecting that it did.
-            Let this moment land — it's usually the "aha" for the audience.
+            This is often the "aha" moment. Traditional event-driven systems can't do this —
+            there's no event when nothing happens. Drasi's trueFor detects when a value
+            hasn't changed for a specified duration. Critical for healthcare, IoT, SLA monitoring.
+            Let this moment land before the callout fragment.
           </aside>
         </section>
 
@@ -539,8 +581,9 @@ RETURN p.name, p.room, m.lastReading
             <li class="fragment"><strong>No stale context</strong> — continuous freshness without polling</li>
           </ul>
           <aside class="notes">
-            RAG pipelines, embedding updates, model retraining triggers —
-            Drasi ensures AI systems stay aligned with reality.
+            AI systems increasingly depend on fresh data. RAG pipelines need updated embeddings.
+            Model inputs must reflect current state. Drasi detects exactly which data changed
+            and triggers targeted updates — no polling entire datasets, no stale context.
           </aside>
         </section>
 
@@ -552,6 +595,12 @@ RETURN p.name, p.room, m.lastReading
 { "transform": ".payload | { id: .orderId, total: .items | map(.price) | add }" }
           </code></pre>
           <p class="fragment subtext">Also supports: Unwind · Decode · Relabel · Promote</p>
+          <aside class="notes">
+            Middleware transforms incoming changes before they reach queries.
+            jq for complex transformations. Unwind to expand nested arrays into separate nodes.
+            Decode for base64/hex strings. Relabel to normalize labels across heterogeneous sources.
+            Pipeline is sequential — output of one feeds the next.
+          </aside>
         </section>
 
         <section>
@@ -580,7 +629,8 @@ RETURN p.name, p.room, m.lastReading
             </div>
           </div>
           <aside class="notes">
-            Pause here. Let the audience think for 5 seconds.
+            Pause here for 5 seconds. Let the audience think about this.
+            This scenario requires a multi-source join to detect cross-database inconsistency.
             Then say: "Let me show you." and advance to the demo.
           </aside>
         </section>
@@ -589,14 +639,16 @@ RETURN p.name, p.room, m.lastReading
           <h2>Demo 2</h2>
           <p class="slide-intro" style="font-style: italic;">Can we catch a cross-database inconsistency<br>the moment it happens?</p>
           <aside class="notes">
-            Advanced demo: multi-source joins, temporal queries, or AI/RAG scenario.
-            This is the "wow" moment. Next slide is the live demo.
+            This demo showcases multi-source queries — joining data across PostgreSQL and
+            Cosmos DB to detect inconsistencies the moment they occur. This is the "wow" moment
+            that shows Drasi's differentiation from single-source CDC tools.
           </aside>
         </section>
 
         <section data-background-iframe="http://localhost:8080/ui/?instance=demo-2" data-background-interactive>
           <aside class="notes">
-            Live demo. Press Esc to exit interactive mode and advance slides.
+            Live demo. Delete an order from Postgres, watch Drasi detect the dangling reference
+            in Cosmos DB immediately. Press Esc to exit interactive mode.
           </aside>
         </section>
       </section>
@@ -607,6 +659,9 @@ RETURN p.name, p.room, m.lastReading
       <section>
         <section>
           <h2>Practical Takeaways</h2>
+          <aside class="notes">
+            Let's wrap up with practical guidance on when and how to use Drasi.
+          </aside>
         </section>
 
         <section>
@@ -621,6 +676,11 @@ RETURN p.name, p.room, m.lastReading
             Not a replacement for your event bus or streaming platform — it's a complement.<br>
             CNCF Sandbox — early-stage project with a growing ecosystem.
           </p>
+          <aside class="notes">
+            Drasi complements existing infrastructure — it's not replacing Kafka or your CDC pipeline.
+            Use Drasi when you need change-driven logic: detect specific conditions, react precisely.
+            CNCF Sandbox means active development, open governance, but still maturing.
+          </aside>
         </section>
 
         <section>
@@ -648,6 +708,11 @@ RETURN p.name, p.room, m.lastReading
             </table>
             <img src="images/qr-drasi.svg" alt="QR code for drasi.io" style="width: 180px; height: 180px; background: white; padding: 8px; border-radius: 8px;">
           </div>
+          <aside class="notes">
+            Getting started is quick. drasi.io has docs and tutorials. Drasi Server runs locally
+            with Docker in minutes — no Kubernetes needed for development. The QR code goes
+            directly to drasi.io.
+          </aside>
         </section>
 
         <section>
@@ -661,6 +726,11 @@ RETURN p.name, p.room, m.lastReading
           <p class="fragment subtext" style="margin-top: 1em;">
             <a href="https://github.com/drasi-project">github.com/drasi-project</a> — issues tagged <code>good first issue</code> are waiting for you
           </p>
+          <aside class="notes">
+            CNCF Sandbox provides vendor-neutral governance. Contributions welcome across
+            Rust (core engine, drasi-lib), Go (sources, reactions), TypeScript (web UI).
+            Good first issues are tagged and waiting. No CLA required — standard Apache 2.0.
+          </aside>
         </section>
 
         <section>
@@ -687,6 +757,11 @@ RETURN p.name, p.room, m.lastReading
               <p>Automated workflows from data changes</p>
             </div>
           </div>
+          <aside class="notes">
+            Four tutorials cover different scenarios. Curbside Pickup: reactive dashboards
+            across multiple sources. Building Comfort: IoT sensors and HVAC. Risky Containers:
+            Kubernetes security monitoring with no code. GitHub Bot: automated workflows.
+          </aside>
         </section>
 
         <section data-background-image="images/water-ripple.jpg" data-background-opacity="0.2">
@@ -702,6 +777,11 @@ RETURN p.name, p.room, m.lastReading
             </p>
             <p><small>Allen Jones · SCaLE 23x</small></p>
           </div>
+          <aside class="notes">
+            Closing summary: Drasi lets you declare what changes matter instead of writing
+            infrastructure code. Visit drasi.io to get started, or find us on GitHub.
+            Thank you — happy to take questions.
+          </aside>
         </section>
 
         <section>
@@ -719,10 +799,9 @@ RETURN p.name, p.room, m.lastReading
             </blockquote>
           </div>
           <aside class="notes">
-            This is the key mental shift. Let both blockquotes land before moving on.
-            The event-driven model is producer-centric: here's what happened, you figure out relevance.
-            The change-driven model inverts this entirely: you declare what matters,
-            and the platform tells you precisely when it changes.
+            Backup slide summarizing the key distinction. Event-driven: producer defines events,
+            consumers parse and filter. Change-driven: consumer declares what matters via query,
+            platform delivers precisely those changes. Drasi implements the change-driven model.
           </aside>
         </section>
 
