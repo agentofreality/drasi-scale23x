@@ -100,45 +100,44 @@
         </section>
 
         <section>
-          <h3>These are Change-Driven Systems</h3>
+          <h3>Sound Familiar?</h3>
+          <p class="slide-intro">
+            These are all examples of Change-Driven Systems:
+          </p>
           <blockquote style="border-left-color: #42affa; font-size: 0.9em;">
             Systems that <strong>take action</strong> in response to a <strong>meaningful change</strong> —
             or the <strong>absence of change</strong> — in <strong>relevant data</strong>.
           </blockquote>
-          <aside class="notes">
-            This is the definition we'll use for the rest of the talk.
-            The key words are "meaningful" and "absence" — both are important.
-          </aside>
-        </section>
-
-
-        <section>
-          <h3>Event-Driven vs Change-Driven</h3>
-          <div class="fragment" style="margin-top: 0.8em;">
-            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0; opacity: 0.6;"><strong>Event-Driven</strong></p>
-            <blockquote style="border-left-color: rgba(66,175,250,0.35);">
-              "Here's everything that happened.<br>Figure out what you care about."
-            </blockquote>
-          </div>
-          <div class="fragment" style="margin-top: 1.2em;">
-            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0;"><strong>Change-Driven</strong></p>
-            <blockquote style="border-left-color: #42affa;">
-              "Tell me exactly what you care about.<br>I'll tell you when it changes."
-            </blockquote>
-          </div>
-          <aside class="notes">
-            This is the key mental shift. Let both blockquotes land before moving on.
-            The event-driven model is producer-centric: here's what happened, you figure out relevance.
-            The change-driven model inverts this entirely: you declare what matters,
-            and the platform tells you precisely when it changes.
-          </aside>
-        </section>
-
+          <p class="fragment callout">A problem you've probably already solved...</p>
+          <p class="fragment callout">... more than once!!</p>
+          <p class="fragment callout">... using different techniques!!</p>
+        </section> 
 
       </section>
 
       <!-- ============================================================ -->
-      <!-- II. BUILDING CHANGE-DRIVEN SYSTEMS TODAY -->
+      <!-- II. Example -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>Example</h2>
+          <p class="slide-intro" style="font-style: italic;">Let's take a quick look at a change-driven system</p>
+          <aside class="notes">
+            Foundational demo: show the core flow end-to-end with a concrete scenario.
+            Next slide is the live demo — click into it to interact.
+          </aside>
+        </section>
+
+        <section data-background-iframe="http://localhost:5273" data-background-interactive>
+          <aside class="notes">
+            Live demo. Press Esc to exit interactive mode and advance slides.
+          </aside>
+        </section>
+      </section>
+
+
+      <!-- ============================================================ -->
+      <!-- III. BUILDING CHANGE-DRIVEN SYSTEMS TODAY -->
       <!-- ============================================================ -->
       <section>
         <section data-background-image="images/focus-lens.jpg" data-background-opacity="0.15">
@@ -150,8 +149,7 @@
         <section>
           <h3>Approach 1: Polling</h3>
           <p class="slide-intro">
-            The simplest approach — your application queries the data store on a fixed interval,
-            compares results to what it saw last time, and reacts to anything that changed.
+            Your system queries the data store periodically, compares the results to what it saw previously, and acts on the differences.
           </p>
           <img src="images/polling-diagram.svg"
                alt="Polling flow: Timer/Scheduler → Query Database → Compare Results → Act on Difference → repeat"
@@ -163,25 +161,19 @@
           </aside>
         </section>
 
-        <!-- ── POLLING: Challenges ── -->
+        <!-- ── POLLING: Problems ── -->
         <section>
-          <h3>Polling: The Challenges</h3>
-          <div class="split-slide">
-            <div class="split-col">
-              <ul style="font-size: 0.85em;">
-                <li class="fragment"><strong>Latency</strong> — Detection lag equals the poll interval; faster reaction means more polling</li>
-                <li class="fragment"><strong>Wasted Resources</strong> — Most queries return nothing; you're taxing the DB even when nothing changed</li>
-                <li class="fragment"><strong>State Management</strong> — Every consumer must store and compare its own "last seen" snapshot</li>
-                <li class="fragment"><strong>Fan-out</strong> — N consumers × M sources = N×M polling loops hammering your databases</li>
-              </ul>
-            </div>
-            <div class="split-col" style="display: flex; align-items: center; justify-content: center;">
-              <div class="verdict-box fragment">
-                <span class="verdict-emoji">😓</span>
-                <span class="verdict-text">Easy to start.<br>Doesn't scale.</span>
-              </div>
-            </div>
-          </div>
+          <h3>Polling: The Problems</h3>
+          <p class="slide-intro">
+            Deceptively easy, but problems often emerge:
+          </p>
+          <ul style="font-size: 0.85em;">
+            <li class="fragment"><strong>Latency</strong> — Detection lag equals the poll interval; faster reaction requires more frequent polling</li>
+            <li class="fragment"><strong>Wasted Resources</strong> — Low velocity data, high frequency polling, and large datasets make polling inefficient</li>
+            <li class="fragment"><strong>State Management</strong> — Where to store previous results? How to manage schema changes? What about restarts and resilience?</li>
+            <li class="fragment"><strong>Multiple Solutions</strong> — Each use case requires new and usually unique implementation</li>
+            <li class="fragment"><strong>Doesn't Scale</strong> - Multiple solutions, integrating multiple data sources, and large datasets all increase complexity significantly</li>
+          </ul>
           <aside class="notes">
             The polling interval is a false economy. Too slow → you miss changes or react late.
             Too fast → you overwhelm the database. There's no good answer.
@@ -208,23 +200,13 @@
 
         <!-- ── ANALYTICS PLATFORMS: Challenges ── -->
         <section>
-          <h3>Analytics Platforms: The Challenges</h3>
-          <div class="split-slide">
-            <div class="split-col">
-              <ul style="font-size: 0.85em;">
-                <li class="fragment"><strong>Data is Copied, Not Live</strong> — Your analytics platform holds a snapshot; the real systems have already moved on</li>
-                <li class="fragment"><strong>ETL Latency</strong> — Data pipelines introduce minutes to hours of lag before changes are visible</li>
-                <li class="fragment"><strong>Retrospective, Not Reactive</strong> — Designed for answering "what happened?" — not "act when this changes"</li>
-                <li class="fragment"><strong>Operational Overhead</strong> — Maintaining ETL pipelines, schema mappings, and sync schedules is a job in itself</li>
-              </ul>
-            </div>
-            <div class="split-col" style="display: flex; align-items: center; justify-content: center;">
-              <div class="verdict-box fragment">
-                <span class="verdict-emoji">🐌</span>
-                <span class="verdict-text">Limits responsiveness.<br>The data is never truly live.</span>
-              </div>
-            </div>
-          </div>
+          <h3>Analytics Platforms: The Problems</h3>
+          <ul style="font-size: 0.85em;">
+            <li class="fragment"><strong>Data is Copied, Not Live</strong> — Your analytics platform holds a snapshot; the real systems have already moved on</li>
+            <li class="fragment"><strong>ETL Latency</strong> — Data pipelines introduce minutes to hours of lag before changes are visible</li>
+            <li class="fragment"><strong>Retrospective, Not Reactive</strong> — Designed for answering "what happened?" — not "act when this changes"</li>
+            <li class="fragment"><strong>Operational Overhead</strong> — Maintaining ETL pipelines, schema mappings, and sync schedules is a job in itself</li>
+          </ul>
           <aside class="notes">
             Analytics platforms are excellent at deep querying over large, historical datasets.
             But they're fundamentally the wrong tool for real-time reaction.
@@ -236,8 +218,7 @@
         <section>
           <h3>Approach 3: CDC + Stream Processing</h3>
           <p class="fragment slide-intro">
-            Change Data Capture reads every row-level change from the database transaction log
-            and streams it in real time — paired with stream processing engines for
+            Change Data Capture reads row-level changes from the data store and streams it in real time to an event / stream processing engine for
             filtering, joining, and transformation. The dominant approach in serious production systems today.
           </p>
           <p class="fragment subtext" style="margin-bottom: 0.5em; margin-top: 0;">A rich, mature, battle-tested ecosystem:</p>
@@ -278,6 +259,9 @@
         <!-- ── CDC + STREAM PROCESSING: Complexity Challenges ── -->
         <section>
           <h3>The Complexity Cost</h3>
+          <p class="fragment subtext">
+            Common approaches to building change-driven systems today require substantial engineering, configuration, and ongoing maintenance — all to express what should be simple logic about data changes and how to react.
+          </p>
           <div class="icon-card-grid">
             <div class="icon-card fragment">
               <div class="icon-card-icon"><img src="images/icon-ops-burden.svg"></div>
@@ -317,39 +301,23 @@
           </aside>
         </section>
 
-        <!-- ── CDC + STREAM PROCESSING: Broader Context ── -->
         <section>
-          <h3>A Powerful Tool — For a Different Job</h3>
-          <div class="split-slide">
-            <div class="split-col">
-              <h4>✅ CDC + Streaming Excels At</h4>
-              <ul>
-                <li class="fragment">Audit logs &amp; event sourcing</li>
-                <li class="fragment">Data replication &amp; sync</li>
-                <li class="fragment">General-purpose pub/sub pipelines</li>
-                <li class="fragment">High-throughput event fan-out</li>
-              </ul>
-            </div>
-            <div class="split-col">
-              <h4>⚠️ Change-Driven Systems Still Require</h4>
-              <ul>
-                <li class="fragment">Significant engineering to express <em>what matters</em></li>
-                <li class="fragment">Custom consumer code per condition</li>
-                <li class="fragment">State stores to detect result-set transitions</li>
-                <li class="fragment">Re-engineering when conditions change</li>
-              </ul>
-            </div>
-          </div>
-          <p class="fragment subtext" style="margin-top: 1em; line-height: 1.5;">
-            These platforms are <strong>event-driven</strong> infrastructure — excellent at moving events at scale.<br>
-            Building a sophisticated <strong>change-driven</strong> solution on top requires substantial
-            engineering, configuration, and ongoing maintenance that never ends.
+          <h3>There has to be an easier way !</h3>
+          <p class="fragment slide-intro">
+            What we really need is something that is:
           </p>
+
+          <ul>
+            <li class="fragment"><strong>Expressive & Live</strong> — Define what matters, react as it happens</li>
+            <li class="fragment"><strong>Reliable & Scalable</strong> — Handles state, restarts, and growth</li>
+            <li class="fragment"><strong>Low Ops</strong> — Minimal infrastructure, works with existing systems</li>
+          </ul>        
+          
+          <p class="fragment callout">No vendor lock-in, community-driven.</p>
           <aside class="notes">
-            This is the key insight. CDC and streaming are event-driven tools.
-            They're designed for moving and processing events.
-            Turning that raw stream into "detect when this specific business condition
-            changes" requires building a substantial layer on top — and that's exactly what teams end up doing.
+            Databases, APIs, Kubernetes resources — data is everywhere.
+            When something changes, other parts of the system need to detect it and react.
+            This should be a solved problem by now. It isn't.
           </aside>
         </section>
 
@@ -735,6 +703,29 @@ RETURN p.name, p.room, m.lastReading
             <p><small>Allen Jones · SCaLE 23x</small></p>
           </div>
         </section>
+
+        <section>
+          <h3>Event-Driven vs Change-Driven</h3>
+          <div class="fragment" style="margin-top: 0.8em;">
+            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0; opacity: 0.6;"><strong>Event-Driven</strong></p>
+            <blockquote style="border-left-color: rgba(66,175,250,0.35);">
+              "Here's everything that happened.<br>Figure out what you care about."
+            </blockquote>
+          </div>
+          <div class="fragment" style="margin-top: 1.2em;">
+            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0;"><strong>Change-Driven</strong></p>
+            <blockquote style="border-left-color: #42affa;">
+              "Tell me exactly what you care about.<br>I'll tell you when it changes."
+            </blockquote>
+          </div>
+          <aside class="notes">
+            This is the key mental shift. Let both blockquotes land before moving on.
+            The event-driven model is producer-centric: here's what happened, you figure out relevance.
+            The change-driven model inverts this entirely: you declare what matters,
+            and the platform tells you precisely when it changes.
+          </aside>
+        </section>
+
       </section>
 
     </div>
