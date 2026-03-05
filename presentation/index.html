@@ -385,14 +385,52 @@
         <section>
           <h3>Sources</h3>
           <p>Connect to your existing data</p>
-          <div class="source-grid">
-            <span class="source-badge">PostgreSQL</span>
-            <span class="source-badge">MySQL</span>
-            <span class="source-badge">SQL Server</span>
-            <span class="source-badge">Cosmos DB</span>
-            <span class="source-badge">Kubernetes</span>
-            <span class="source-badge">Event Hubs</span>
-            <span class="source-badge">Dataverse</span>
+          <div class="deployment-options" style="gap: 1.5em; margin-top: 0.8em;">
+            <div class="fragment" style="
+              flex: 1; max-width: 260px; text-align: center;
+              background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
+              border: 1px solid transparent;
+              border-image: linear-gradient(135deg, #42affa, #48e263) 1;
+              padding: 1.2em 1em;
+              box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
+            ">
+              <h4 style="color: #42affa; margin: 0 0 0.6em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">Relational</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.5em; align-items: center;">
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">PostgreSQL</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">MySQL</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">SQL Server</span>
+              </div>
+            </div>
+            <div class="fragment" style="
+              flex: 1; max-width: 260px; text-align: center;
+              background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
+              border: 1px solid transparent;
+              border-image: linear-gradient(135deg, #42affa, #48e263) 1;
+              padding: 1.2em 1em;
+              box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
+            ">
+              <h4 style="color: #42affa; margin: 0 0 0.6em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">Graph</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.5em; align-items: center;">
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Cosmos DB</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Dataverse</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">Kubernetes</span>
+              </div>
+            </div>
+            <div class="fragment" style="
+              flex: 1; max-width: 260px; text-align: center;
+              background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
+              border: 1px solid transparent;
+              border-image: linear-gradient(135deg, #42affa, #48e263) 1;
+              padding: 1.2em 1em;
+              box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
+            ">
+              <h4 style="color: #42affa; margin: 0 0 0.6em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">Stream</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.5em; align-items: center;">
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Event Hubs</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">HTTP</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">gRPC</span>
+              </div>
+            </div>
           </div>
           <p class="fragment subtext" style="margin-top: 1.2em;">No new databases or queues required — connects to what you already run</p>
           <aside class="notes">
@@ -486,6 +524,28 @@ RETURN o, c.name, c.email
         </section>
 
         <section>
+          <h3>Inside a Continuous Query</h3>
+          <img src="images/continuous-query-flow.svg"
+               alt="Source Change Events flow into the Continuous Query engine which maintains Element, Aggregation, and Result indexes, then emits Result Change Notifications (Added, Updated, Deleted)"
+               style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
+          <aside class="notes">
+            This diagram shows what happens inside a Continuous Query. Source Change Events
+            (Insert, Update, Delete) arrive from Sources. The query engine evaluates each change
+            against the query, updating three internal indexes:
+
+            Element Index — stores all Nodes and Relations the query subscribes to.
+            Aggregation Index — maintains running aggregations (count, sum, avg, etc.)
+            so they don't need to be recomputed from scratch.
+            Result Index — the current result set that satisfies the query.
+
+            After processing a change, the engine diffs the result set and emits Result Change
+            Notifications: Added (new row matches), Updated (row still matches but values changed,
+            with before/after), Deleted (row no longer matches). These typed notifications flow
+            to Reactions — clean, unambiguous, no parsing required.
+          </aside>
+        </section>
+
+        <section>
           <h3>Reactions</h3>
           <p>Act when query results change</p>
           <div class="source-grid">
@@ -510,21 +570,51 @@ RETURN o, c.name, c.email
 
         <section>
           <h3>Deployment Options</h3>
-          <div class="deployment-options">
-            <div class="deployment-option fragment">
+          <div class="deployment-options" style="gap: 1.5em; margin-top: 0.8em;">
+            <div class="fragment" style="
+              flex: 1; max-width: 260px; text-align: center;
+              background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
+              border: 1px solid transparent;
+              border-image: linear-gradient(135deg, #42affa, #48e263) 1;
+              padding: 1.2em 1em;
+              box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
+            ">
               <img src="images/rust-logo.png" alt="Rust" class="deployment-icon">
-              <h4>drasi-lib</h4>
-              <p>Rust crate · Embedded in-process<br><small>Edge · IoT · Custom pipelines</small></p>
+              <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">drasi-lib</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Rust crate · Embedded in-process</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">Edge · IoT · Custom pipelines</span>
+              </div>
             </div>
-            <div class="deployment-option fragment">
+            <div class="fragment" style="
+              flex: 1; max-width: 260px; text-align: center;
+              background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
+              border: 1px solid transparent;
+              border-image: linear-gradient(135deg, #42affa, #48e263) 1;
+              padding: 1.2em 1em;
+              box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
+            ">
               <img src="images/docker-logo.png" alt="Docker" class="deployment-icon">
-              <h4>Drasi Server</h4>
-              <p>Single binary or Docker container<br><small>No Kubernetes required</small></p>
+              <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">Drasi Server</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Single binary or Docker container</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">No Kubernetes required</span>
+              </div>
             </div>
-            <div class="deployment-option fragment">
+            <div class="fragment" style="
+              flex: 1; max-width: 260px; text-align: center;
+              background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
+              border: 1px solid transparent;
+              border-image: linear-gradient(135deg, #42affa, #48e263) 1;
+              padding: 1.2em 1em;
+              box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
+            ">
               <img src="images/kubernetes-logo.svg" alt="Kubernetes" class="deployment-icon">
-              <h4>D4K8s</h4>
-              <p>Full platform with scaling &amp; observability<br><small>AKS · EKS · GKE</small></p>
+              <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">D4K8s</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Full platform with scaling &amp; observability</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">AKS · EKS · GKE</span>
+              </div>
             </div>
           </div>
           <aside class="notes">
@@ -549,12 +639,27 @@ RETURN o, c.name, c.email
           </aside>
         </section>
 
-        <section data-background-iframe="http://localhost:8080/ui/?instance=demo-1" data-background-interactive>
+        <section data-background-iframe="http://localhost:5273" data-background-interactive>
           <aside class="notes">
             Live demo via Drasi Server's built-in web UI. Press Esc to exit interactive mode.
             Show: create a delayed order, watch it appear in query results, see reaction fire.
           </aside>
         </section>
+
+        <section data-background-iframe="http://localhost:8280/ui?instance=trading-server" data-background-interactive>
+          <aside class="notes">
+            Live demo via Drasi Server's built-in web UI. Press Esc to exit interactive mode.
+            Show: create a delayed order, watch it appear in query results, see reaction fire.
+          </aside>
+        </section>
+
+        <section data-background-iframe="http://localhost:8281/events" data-background-interactive>
+          <aside class="notes">
+            Live demo via Drasi Server's built-in web UI. Press Esc to exit interactive mode.
+            Show: create a delayed order, watch it appear in query results, see reaction fire.
+          </aside>
+        </section>
+
       </section>
 
       <!-- ============================================================ -->
@@ -657,38 +762,12 @@ RETURN p.name, p.room, m.lastReading
           </aside>
         </section>
 
-        <section>
-          <h3>The Full Picture</h3>
-          <div class="placeholder-img">
-            <p>📊 Architecture Diagram Placeholder</p>
-            <p><small>IMAGE NEEDED: Clean Drasi architecture diagram — multiple source icons (database, Kubernetes, API) on the left → central "Continuous Query Engine" box → multiple reaction icons (webhook, UI, event bus) on the right. Flat design, dark background, blue (#42affa) accents. ~1920x1080.</small></p>
-          </div>
-          <aside class="notes">
-            This diagram shows how everything connects. Sources feed the query engine,
-            which maintains live result sets and pushes changes to reactions.
-          </aside>
-        </section>
       </section>
 
       <!-- ============================================================ -->
       <!-- VII. DEMO 2 -->
       <!-- ============================================================ -->
       <section>
-        <section>
-          <div class="quiz-slide">
-            <div class="quiz-emoji">🤔</div>
-            <div class="quiz-question">
-              What happens when an order is deleted from Postgres…<br>
-              but the customer record in Cosmos DB still references it?
-            </div>
-          </div>
-          <aside class="notes">
-            Pause here for 5 seconds. Let the audience think about this.
-            This scenario requires a multi-source join to detect cross-database inconsistency.
-            Then say: "Let me show you." and advance to the demo.
-          </aside>
-        </section>
-
         <section>
           <h2>Demo 2</h2>
           <p class="slide-intro" style="font-style: italic;">Can we catch a cross-database inconsistency<br>the moment it happens?</p>
