@@ -115,7 +115,7 @@
 }
 
 .deployment-icon {
-  height: 80px;
+  height: 96px;
   width: auto;
 }
 
@@ -340,4 +340,33 @@
 }
 .reveal .fragment.semi-fade-out.visible {
   opacity: 0;
+}
+
+/* ── Split iframe: side-by-side live views ── */
+.split-iframe-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.split-iframe-overlay iframe {
+  border: none;
+  position: absolute;
+  top: 0;
+}
+
+.split-iframe-overlay iframe.split-left {
+  left: 0;
+  width: 30vw;
+  height: 100%;
+}
+
+.split-iframe-overlay iframe.split-right {
+  left: 30vw;
+  width: 70vw;
+  height: 100%;
 }

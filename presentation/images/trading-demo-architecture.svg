@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 440" width="920" height="440">
+  <defs>
+    <marker id="arr-td" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#42affa"/>
+    </marker>
+    <marker id="arr-td-dim" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="rgba(66,175,250,0.50)"/>
+    </marker>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DRASI SERVER GROUP                                      -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="188" y="12" width="530" height="340" rx="14"
+        fill="rgba(66,175,250,0.04)" stroke="rgba(66,175,250,0.30)"
+        stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="453" y="34" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="12" font-weight="700" fill="#42affa">DRASI SERVER · Port 8280</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- EXTERNAL: Price Generator (top-left)                    -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="12" y="40" width="145" height="62" rx="9"
+        fill="rgba(66,175,250,0.08)" stroke="rgba(66,175,250,0.35)" stroke-width="1.5"/>
+  <text x="84" y="63" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="13" font-weight="700" fill="white">Price Generator</text>
+  <text x="84" y="78" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9.5" fill="rgba(255,255,255,0.45)">Python · 50 stocks · ~1-2s</text>
+  <text x="84" y="92" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9.5" fill="rgba(255,255,255,0.45)">simulated price feed</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- EXTERNAL: PostgreSQL (left middle)                      -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="12" y="158" width="145" height="86" rx="9"
+        fill="rgba(66,175,250,0.10)" stroke="#42affa" stroke-width="2"/>
+  <text x="84" y="183" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="14" font-weight="700" fill="white">PostgreSQL 14</text>
+  <text x="84" y="199" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="10" fill="rgba(255,255,255,0.50)">trading_demo · Port 5632</text>
+  <text x="84" y="215" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9" fill="rgba(255,255,255,0.35)">stocks · portfolio · watchlist</text>
+  <text x="84" y="228" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9" fill="rgba(255,255,255,0.35)">limit_orders</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DRASI: HTTP Source                                      -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="208" y="46" width="135" height="56" rx="8"
+        fill="rgba(66,175,250,0.12)" stroke="rgba(66,175,250,0.50)" stroke-width="1.5"/>
+  <text x="275" y="70" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="12" font-weight="700" fill="white">HTTP Source</text>
+  <text x="275" y="86" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9.5" fill="rgba(255,255,255,0.45)">price-feed · Port 9100</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DRASI: PostgreSQL Source                                -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="208" y="172" width="135" height="56" rx="8"
+        fill="rgba(66,175,250,0.12)" stroke="rgba(66,175,250,0.50)" stroke-width="1.5"/>
+  <text x="275" y="196" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="12" font-weight="700" fill="white">PG Source</text>
+  <text x="275" y="214" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9.5" fill="rgba(255,255,255,0.45)">postgres-stocks · CDC</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DRASI: Continuous Query Engine (central, emphasized)    -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="385" y="80" width="170" height="172" rx="10"
+        fill="rgba(66,175,250,0.15)" stroke="#42affa" stroke-width="3"/>
+  <text x="470" y="110" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="14" font-weight="700" fill="white">Continuous Query</text>
+  <text x="470" y="126" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="14" font-weight="700" fill="white">Engine</text>
+  <line x1="400" y1="136" x2="540" y2="136"
+        stroke="rgba(66,175,250,0.25)" stroke-width="1"/>
+  <text x="470" y="156" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="10" fill="rgba(255,255,255,0.55)">8 Cypher Queries</text>
+  <text x="470" y="172" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="10" fill="rgba(255,255,255,0.55)">Cross-source joins</text>
+  <!-- Mini query list -->
+  <text x="470" y="194" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="8.5" fill="rgba(255,255,255,0.30)">watchlist · portfolio · top-gainers</text>
+  <text x="470" y="206" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="8.5" fill="rgba(255,255,255,0.30)">top-losers · high-volume · ticker</text>
+  <text x="470" y="218" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="8.5" fill="rgba(255,255,255,0.30)">sector-perf · portfolio-summary</text>
+  <!-- Glow accent on QE box -->
+  <rect x="385" y="80" width="170" height="172" rx="10"
+        fill="none" stroke="rgba(66,175,250,0.10)" stroke-width="8"
+        filter="url(#none)"/>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DRASI: SSE Reaction                                     -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="600" y="130" width="105" height="72" rx="8"
+        fill="rgba(66,175,250,0.12)" stroke="rgba(66,175,250,0.50)" stroke-width="1.5"/>
+  <text x="652" y="155" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="12" font-weight="700" fill="white">SSE Reaction</text>
+  <text x="652" y="171" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9.5" fill="rgba(255,255,255,0.45)">sse-stream · 8281</text>
+  <text x="652" y="193" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="8.5" fill="rgba(255,255,255,0.35)">ADD · UPDATE · DELETE</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DRASI: REST API                                         -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="565" y="268" width="140" height="60" rx="8"
+        fill="rgba(66,175,250,0.08)" stroke="rgba(66,175,250,0.35)" stroke-width="1.5"/>
+  <text x="635" y="292" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="12" font-weight="700" fill="white">REST API</text>
+  <text x="635" y="308" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9" fill="rgba(255,255,255,0.40)">/api/v1/queries · sources · reactions</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- EXTERNAL: React App (right)                             -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="755" y="85" width="155" height="210" rx="10"
+        fill="rgba(66,175,250,0.08)" stroke="rgba(66,175,250,0.45)" stroke-width="2"/>
+  <text x="832" y="115" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="14" font-weight="700" fill="white">React Web App</text>
+  <text x="832" y="132" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9.5" fill="rgba(255,255,255,0.45)">TypeScript + Vite · 5273</text>
+  <line x1="770" y1="142" x2="895" y2="142"
+        stroke="rgba(66,175,250,0.20)" stroke-width="1"/>
+  <text x="832" y="160" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9" fill="rgba(255,255,255,0.35)">Watchlist · Portfolio</text>
+  <text x="832" y="174" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9" fill="rgba(255,255,255,0.35)">Orders · Sector Perf</text>
+  <text x="832" y="188" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9" fill="rgba(255,255,255,0.35)">Stock Ticker</text>
+  <text x="832" y="202" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9" fill="rgba(255,255,255,0.35)">Top Gainers · Losers</text>
+  <text x="832" y="216" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9" fill="rgba(255,255,255,0.35)">High Volume</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- EXTERNAL: Trading API (bottom)                          -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <rect x="200" y="367" width="145" height="60" rx="9"
+        fill="rgba(66,175,250,0.08)" stroke="rgba(66,175,250,0.35)" stroke-width="1.5"/>
+  <text x="272" y="393" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="13" font-weight="700" fill="white">Trading API</text>
+  <text x="272" y="410" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="9.5" fill="rgba(255,255,255,0.45)">Flask · Port 9200 · CRUD</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ARROWS: Main data flow                                  -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- 1. Price Generator → HTTP Source -->
+  <line x1="159" y1="71" x2="206" y2="71"
+        stroke="#42affa" stroke-width="2" marker-end="url(#arr-td)"/>
+  <text x="182" y="64" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="8" fill="rgba(255,255,255,0.35)">POST</text>
+
+  <!-- 2. PostgreSQL → PG Source (WAL/CDC) -->
+  <line x1="159" y1="200" x2="206" y2="200"
+        stroke="#42affa" stroke-width="2" marker-end="url(#arr-td)"/>
+  <text x="182" y="192" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="8" fill="rgba(255,255,255,0.35)">WAL</text>
+
+  <!-- 3. HTTP Source → Query Engine (diagonal down) -->
+  <polyline points="345,74 365,74 365,130 383,130"
+        fill="none" stroke="#42affa" stroke-width="2" stroke-linejoin="round"
+        marker-end="url(#arr-td)"/>
+
+  <!-- 4. PG Source → Query Engine (diagonal up) -->
+  <polyline points="345,200 365,200 365,200 383,200"
+        fill="none" stroke="#42affa" stroke-width="2" stroke-linejoin="round"
+        marker-end="url(#arr-td)"/>
+
+  <!-- 5. Query Engine → SSE Reaction -->
+  <line x1="557" y1="166" x2="598" y2="166"
+        stroke="#42affa" stroke-width="2.5" marker-end="url(#arr-td)"/>
+  <text x="577" y="158" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="8" fill="rgba(255,255,255,0.35)">result changes</text>
+
+  <!-- 6. SSE Reaction → React App -->
+  <line x1="707" y1="166" x2="753" y2="166"
+        stroke="#42affa" stroke-width="2.5" marker-end="url(#arr-td)"/>
+  <text x="730" y="158" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="8" fill="rgba(255,255,255,0.35)">SSE</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ARROWS: Secondary flows (dimmed)                        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <!-- 7. React App → REST API (management, going left-down) -->
+  <polyline points="755,280 730,280 730,298 707,298"
+        fill="none" stroke="rgba(66,175,250,0.45)" stroke-width="1.5"
+        stroke-linejoin="round" marker-end="url(#arr-td-dim)"/>
+  <text x="740" y="273" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="7.5" fill="rgba(255,255,255,0.28)">setup &amp; fetch</text>
+
+  <!-- 8. React App → Trading API (CRUD, going down-left) -->
+  <polyline points="755,260 745,260 745,397 347,397"
+        fill="none" stroke="rgba(66,175,250,0.45)" stroke-width="1.5"
+        stroke-linejoin="round" marker-end="url(#arr-td-dim)"/>
+  <text x="550" y="410" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="7.5" fill="rgba(255,255,255,0.28)">CRUD ops</text>
+
+  <!-- 9. Trading API → PostgreSQL (SQL writes, going left-up) -->
+  <polyline points="200,397 84,397 84,246"
+        fill="none" stroke="rgba(66,175,250,0.45)" stroke-width="1.5"
+        stroke-linejoin="round" marker-end="url(#arr-td-dim)"/>
+  <text x="64" y="328" text-anchor="middle"
+        font-family="system-ui,-apple-system,sans-serif"
+        font-size="7.5" fill="rgba(255,255,255,0.28)" transform="rotate(-90,64,328)">SQL writes</text>
+</svg>

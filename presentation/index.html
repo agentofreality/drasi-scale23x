@@ -40,7 +40,7 @@
       <!-- I. THE PROBLEM -->
       <!-- ============================================================ -->
       <section>
-        <section data-background-image="images/data-center.jpg" data-background-opacity="0.2">
+        <section>
           <h2>The Problem</h2>
           <h4>Detecting and Reacting to Change is Harder Than It Should Be</h4>
           <aside class="notes">
@@ -53,7 +53,7 @@
           <h3>A Familiar Scenario</h3>
           <ul>
             <li class="fragment">You have data spread across multiple systems</li>
-            <li class="fragment">Data changes (or doesn't change when it should)</li>
+            <li class="fragment">Data changes (or doesn't change when expected)</li>
             <li class="fragment">Your system needs to detect this and react</li>
           </ul>
           <p class="fragment callout">Quickly. Precisely. Reliably.</p>
@@ -136,14 +136,58 @@
           </aside>
         </section>
 
+        <section>
+          <h3>Example: Trading Application</h3>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 2em; margin-top: 0.5em;">
+            <img src="images/trading-demo-overview.svg"
+                 alt="Demo architecture: Trading App → Drasi Server (PostgreSQL Sources, HTTP Source, Query Engine, SSE Reaction)"
+                 style="width: 55%; max-width: 520px;">
+            <ul style="text-align: left; font-size: 0.75em; flex: 1;">
+              <li>Market Data</li>
+              <li>Stock Portfolio</li>
+              <li>Order Management</li>
+              <li>Stock Watchlist</li>
+              <li>Sector Overviews</li>
+              <li>Top Gainers / Losers</li>
+              <li class="callout">All Dynamic !!!</li>
+            </ul>
+          </div>
+          <aside class="notes">
+            Walk through the architecture diagram and highlight each component before
+            switching to the live demo on the next slide.
+          </aside>
+        </section>
+
         <section data-background-iframe="http://localhost:5273" data-background-interactive>
           <aside class="notes">
             Live demo embedded via iframe. Press Esc to exit interactive mode.
             Keep this brief — just enough to show what we're trying to achieve.
           </aside>
         </section>
-      </section>
 
+        <section>
+          <h3>Trading Application: How to ...</h3>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 2em; margin-top: 0.5em;">
+            <img src="images/trading-demo-overview-expanded.svg"
+                 alt="Demo architecture: Trading App → Drasi Server (PostgreSQL Sources, HTTP Source, Query Engine, SSE Reaction)"
+                 style="width: 55%; max-width: 520px;">
+            <ul class="fragment" style="text-align: left; font-size: 0.75em; flex: 1;">
+              <li>... get data from the source systems?</li>              
+              <li>... integrate data from multiple sources?</li>
+              <li>... update all dependencies when there is a change?</li>
+              <li>... update the Trading App in real time?</li>
+              <li>... support multiple concurrent users?</li>
+              <li>... recover if the sources or my system goes down?</li>
+              <li class="fragment callout">Oh no...???</li>
+              <li class="fragment callout">... not again !!!</li>
+            </ul>
+          </div>
+          <aside class="notes">
+            Walk through the architecture diagram and highlight each component before
+            switching to the live demo on the next slide.
+          </aside>
+        </section>
+      </section>
 
       <!-- ============================================================ -->
       <!-- III. BUILDING CHANGE-DRIVEN SYSTEMS TODAY -->
@@ -156,6 +200,19 @@
             Now let's look at the common approaches teams use to build change-driven systems.
             We'll examine three: polling, analytics platforms, and CDC + stream processing.
             Each has trade-offs — and all require significant custom engineering.
+          </aside>
+        </section>
+
+
+        <!-- ── Common Approaches ── -->
+        <section>
+          <h3>Three Common Approaches</h3>
+          <ol style="font-size: 0.85em;">
+            <li>Polling</li>
+            <li>Analytics Platforms</li>
+            <li>Event Stream Processing</li>
+          </ol>
+          <aside class="notes">
           </aside>
         </section>
 
@@ -179,19 +236,20 @@
         <section>
           <h3>Polling: The Problems</h3>
           <p class="slide-intro">
-            Deceptively easy, but problems often emerge:
+            Deceptively easy, but problems quickly emerge:
           </p>
-          <ul style="font-size: 0.85em;">
-            <li class="fragment"><strong>Latency</strong> — Detection lag equals the poll interval; faster reaction requires more frequent polling</li>
-            <li class="fragment"><strong>Wasted Resources</strong> — Low velocity data, high frequency polling, and large datasets make polling inefficient</li>
-            <li class="fragment"><strong>State Management</strong> — Where to store previous results? How to manage schema changes? What about restarts and resilience?</li>
-            <li class="fragment"><strong>Multiple Solutions</strong> — Each use case requires new and usually unique implementation</li>
-            <li class="fragment"><strong>Doesn't Scale</strong> - Multiple solutions, integrating multiple data sources, and large datasets all increase complexity significantly</li>
+          <ul class="fragment" style="font-size: 0.85em;">
+            <li><strong>Latency</strong> — Detection lag = poll interval</li>
+            <li><strong>Wasted resources</strong> — Polls often return nothing</li>
+            <li><strong>State management</strong> — You own snapshots, restarts, schema changes</li>
+            <li><strong>Duplication</strong> — Each use case needs its own polling loop</li>
+            <li><strong>Doesn't scale</strong> — many polling loops, large data sets</li>
           </ul>
           <aside class="notes">
             The polling interval is a false economy — too slow means missed changes, too fast
             means wasted resources. State management is often overlooked until restarts cause
-            duplicate processing. And N consumers × M sources = N×M polling loops.
+            duplicate processing. And every new consumer that needs the same data adds another
+            polling loop, all hammering the same databases.
           </aside>
         </section>
 
@@ -211,14 +269,18 @@
           </aside>
         </section>
 
-        <!-- ── ANALYTICS PLATFORMS: Challenges ── -->
+        <!-- ── ANALYTICS PLATFORMS: Problems ── -->
         <section>
           <h3>Analytics Platforms: The Problems</h3>
-          <ul style="font-size: 0.85em;">
-            <li class="fragment"><strong>Data is Copied, Not Live</strong> — Your analytics platform holds a snapshot; the real systems have already moved on</li>
-            <li class="fragment"><strong>ETL Latency</strong> — Data pipelines introduce minutes to hours of lag before changes are visible</li>
-            <li class="fragment"><strong>Retrospective, Not Reactive</strong> — Designed for answering "what happened?" — not "act when this changes"</li>
-            <li class="fragment"><strong>Operational Overhead</strong> — Maintaining ETL pipelines, schema mappings, and sync schedules is a job in itself</li>
+          <p class="slide-intro">
+            Designed for insight, not immediate reaction:
+          </p>
+
+          <ul class="fragment" style="font-size: 0.85em;">
+            <li><strong>Cost</strong> — Only viable if you already have one</li>
+            <li><strong>Copied, not live</strong> — You're querying a snapshot; the real systems have moved on</li>
+            <li><strong>ETL latency</strong> — Minutes to hours before changes are visible</li>
+            <li><strong>Ops overhead</strong> — ETL pipelines, schema mappings, sync schedules</li>
           </ul>
           <aside class="notes">
             Analytics platforms excel at "what happened?" — historical analysis over large datasets.
@@ -227,28 +289,15 @@
           </aside>
         </section>
 
-        <!-- ── CDC + STREAM PROCESSING: Prevalence + Technologies ── -->
+        <!-- ── EVENT STREAM PROCESSING: Description + Diagram ── -->
         <section>
-          <h3>Approach 3: CDC + Stream Processing</h3>
-          <p class="fragment slide-intro">
-            Change Data Capture reads row-level changes from the data store and streams it in real time to an event / stream processing engine for
-            filtering, joining, and transformation. The dominant approach in serious production systems today.
+          <h3>Approach 3: Event Stream Processing</h3>
+          <p class="slide-intro">
+            CDC reads row-level changes from the data store and streams them to an event processing engine for filtering, joining, and transformation.
           </p>
-          <p class="fragment subtext" style="margin-bottom: 0.5em; margin-top: 0;">A rich, mature, battle-tested ecosystem:</p>
-          <div class="source-grid fragment" style="font-size: 0.8em; gap: 0.4em;">
-            <span class="source-badge">Debezium</span>
-            <span class="source-badge">Apache Kafka</span>
-            <span class="source-badge">Kafka Connect</span>
-            <span class="source-badge">Apache Flink</span>
-            <span class="source-badge">Apache Spark Streaming</span>
-            <span class="source-badge">AWS Kinesis</span>
-            <span class="source-badge">Azure Event Hubs</span>
-            <span class="source-badge">Google Pub/Sub</span>
-            <span class="source-badge">Confluent Platform</span>
-            <span class="source-badge">Materialize</span>
-            <span class="source-badge">ksqlDB</span>
-            <span class="source-badge">RisingWave</span>
-          </div>
+          <img src="images/cdc-diagram.svg"
+               alt="CDC pipeline: Database → Debezium → Kafka Topic → Stream Processor → Consumer App, plus required supporting infrastructure"
+               style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
             This is genuinely powerful, battle-tested technology. We're not dismissing it.
             But these are event-driven tools — excellent at moving events at scale.
@@ -256,12 +305,20 @@
           </aside>
         </section>
 
-        <!-- ── CDC + STREAM PROCESSING: Example Diagram ── -->
+        <!-- ── EVENT STREAM PROCESSING: Problems ── -->
         <section>
-          <h3>CDC + Stream Processing: In Practice</h3>
-          <img src="images/cdc-diagram.svg"
-               alt="CDC pipeline: Database → Debezium → Kafka Topic → Stream Processor → Consumer App, plus required supporting infrastructure"
-               style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
+          <h3>Event Stream Processing: The Problems</h3>
+          <p class="slide-intro">
+            Complex to build and operate, overkill for many use cases:
+          </p>
+
+          <ul class="fragment" style="font-size: 0.85em;">
+            <li><strong>Cost</strong> — Only viable if you already have one</li>
+            <li><strong>Copied, not live</strong> — You're querying a snapshot; the real systems have moved on</li>
+            <li><strong>ETL latency</strong> — Minutes to hours before changes are visible</li>
+            <li><strong>Ops overhead</strong> — ETL pipelines, schema mappings, sync schedules</li>
+          </ul>
+
           <aside class="notes">
             Count the boxes — each is a system to deploy, configure, monitor, and maintain.
             Each arrow is a contract: schemas, serialization formats, consumer offsets.
@@ -271,9 +328,9 @@
 
         <!-- ── CDC + STREAM PROCESSING: Complexity Challenges ── -->
         <section>
-          <h3>The Complexity Cost</h3>
+          <h3>The Complexity Tax</h3>
           <p class="fragment subtext">
-            Common approaches to building change-driven systems today require substantial engineering, configuration, and ongoing maintenance — all to express what should be simple logic about data changes and how to react.
+            Every approach carries a complexity tax — substantial engineering, configuration, and maintenance just to express simple logic about data changes and how to react to them.
           </p>
           <div class="icon-card-grid">
             <div class="icon-card fragment">
@@ -308,7 +365,8 @@
             </div>
           </div>
           <aside class="notes">
-            The key insight: most of this complexity isn't your business logic — it's plumbing.
+            "Complexity tax" — a term that resonates because you're paying it whether you see it or not.
+            Most of this complexity isn't your business logic — it's plumbing.
             Engineering time goes to infrastructure instead of expressing what changes matter.
             Cross-source joins are especially painful — windowing, state stores, exactly-once.
           </aside>
@@ -320,17 +378,22 @@
             What we really need is something that is:
           </p>
 
-          <ul>
-            <li class="fragment"><strong>Expressive & Live</strong> — Define what matters, react as it happens</li>
-            <li class="fragment"><strong>Reliable & Scalable</strong> — Handles state, restarts, and growth</li>
-            <li class="fragment"><strong>Low Ops</strong> — Minimal infrastructure, works with existing systems</li>
+          <ul class="fragment">
+            <li>Purpose built to create change-driven architectures</li>
+            <li>Easy to understand and use</li>
+            <li>Unifies the detection of change and the taking action</li>
+            <li>Integrates with data where it is, with low overhead</li>
+            <li>Minimal infrastructure, works with existing systems</li>
+            <li>No-code, low-code, and full-code options</li>
+            <li>Extensible, with a rich ecosystem of connectors</li>
+            <li class="callout">No vendor lock-in, community-driven.</li>
           </ul>        
           
-          <p class="fragment callout">No vendor lock-in, community-driven.</p>
           <aside class="notes">
             These are the characteristics we need. Expressive queries over live data.
             Reliable handling of state, restarts, schema changes. Minimal ops burden.
-            Open source with no vendor lock-in. This sets up what Drasi provides.
+            Open source with no vendor lock-in. The key message for skeptical engineers:
+            you can start with a single query — no migration, no big-bang deployment.
           </aside>
         </section>
 
@@ -346,17 +409,17 @@
           <aside class="notes">
             Now let's meet Drasi. We've established the problem and the limitations
             of current approaches. Drasi is an open-source platform designed specifically
-            for building change-driven solutions.
+            for building change-driven architectures.
           </aside>
         </section>
 
         <section>
           <h3>What is Drasi?</h3>
              <p class="slide-intro">
-              Open source platform for building change-driven solutions.
+              Data change processing platform for building change-driven solutions.
             </p>
-            <p class="fragment subtext" style="margin-top: 1.5em;">
-              CNCF Sandbox · Apache 2.0
+            <p class="subtext" style="margin-top: 1.5em;">
+              Open Source · Apache 2.0 · CNCF Sandbox
             </p>
           <aside class="notes">
             Drasi is a Data Change Processing platform — not event streaming, not stream processing.
@@ -432,11 +495,13 @@
               </div>
             </div>
           </div>
-          <p class="fragment subtext" style="margin-top: 1.2em;">No new databases or queues required — connects to what you already run</p>
+          <p class="fragment subtext" style="margin-top: 1.2em;">No code changes to your applications — connects to what you already run</p>
           <aside class="notes">
             Sources connect to your existing infrastructure — no rip-and-replace required.
-            PostgreSQL, MySQL, SQL Server for relational. Cosmos DB Gremlin for graph.
-            Kubernetes for cluster state. Event Hubs for streaming. Dataverse for Microsoft ecosystem.
+            Key point from the "observability without modification" principle: Drasi tails
+            system change logs (WAL, change feeds) without requiring any changes to your
+            application code. PostgreSQL, MySQL, SQL Server for relational. Cosmos DB Gremlin
+            for graph. Kubernetes for cluster state. Event Hubs for streaming.
           </aside>
         </section>
 
@@ -514,12 +579,18 @@ RETURN o, c.name, c.email
           <aside class="notes">
             This is the core innovation. Queries run perpetually, maintaining a live result set.
             When source data changes, Drasi determines which results are added, updated, or deleted.
-            Queries use openCypher or GQL — graph-native languages natural for relationship-rich data.
-            Critical: queries can span multiple sources in a single statement. Order from Postgres,
-            Customer from Cosmos DB, joined in one query. No shared schema or event bus required.
+
+            Why graph instead of SQL? Data is rarely isolated — its value comes from how it
+            relates to other data. Graph queries (openCypher/GQL) express relationships naturally:
+            MATCH (order)-[:PLACED_BY]->(customer) is intuitive. SQL requires explicit JOINs
+            and doesn't model relationships as first-class citizens.
+
+            Critical: queries can span multiple sources in a single statement — what the
+            transcript calls "synthetic relationships." Order from Postgres, Customer from
+            Cosmos DB, joined in one query. No shared schema or event bus required.
             
-            If asked about streaming SQL (Materialize, ksqlDB): Drasi is for change detection across
-            existing systems. Streaming SQL processes event streams. Different problem shapes.
+            If asked about streaming SQL (Materialize, ksqlDB): Drasi is for change detection
+            across existing systems. Streaming SQL processes event streams. Different problem shapes.
           </aside>
         </section>
 
@@ -550,14 +621,14 @@ RETURN o, c.name, c.email
           <p>Act when query results change</p>
           <div class="source-grid">
             <span class="source-badge">Webhooks</span>
-            <span class="source-badge">SignalR</span>
             <span class="source-badge">SSE</span>
-            <span class="source-badge">Event Grid</span>
-            <span class="source-badge">Debezium</span>
-            <span class="source-badge">Dapr</span>
+            <span class="source-badge">gRPC</span>
             <span class="source-badge">Stored Procs</span>
+            <span class="source-badge">Debezium</span>
+            <span class="source-badge">SignalR</span>
+            <span class="source-badge">Event Grid</span>
+            <span class="source-badge">Dapr</span>
             <span class="source-badge">Gremlin</span>
-            <span class="source-badge">Dataverse</span>
           </div>
           <p class="fragment subtext" style="margin-top: 1.2em;">One query → many reactions · One reaction → many queries</p>
           <aside class="notes">
@@ -565,6 +636,9 @@ RETURN o, c.name, c.email
             changed but still matches, with before/after), deleted (no longer matches).
             Clean, unambiguous — no parsing event payloads to figure out what happened.
             Flexible wiring: one query can feed many reactions, one reaction can watch many queries.
+            
+            Note: reactions listed vendor-neutral first (Webhooks, SSE, gRPC, Stored Procs)
+            since this is a SCaLE audience. Cloud-specific options (SignalR, Event Grid) also available.
           </aside>
         </section>
 
@@ -580,10 +654,10 @@ RETURN o, c.name, c.email
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
               <img src="images/rust-logo.png" alt="Rust" class="deployment-icon">
-              <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">drasi-lib</h4>
+              <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em;">drasi-lib</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Rust crate · Embedded in-process</span>
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">Edge · IoT · Custom pipelines</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Rust crate</span>
+                <span style="color: #e0e0e0; font-size: 0.57em; font-weight: 500; padding: 0.3em 0; width: 80%;">Edge · IoT · Custom pipelines</span>
               </div>
             </div>
             <div class="fragment" style="
@@ -595,10 +669,10 @@ RETURN o, c.name, c.email
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
               <img src="images/docker-logo.png" alt="Docker" class="deployment-icon">
-              <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">Drasi Server</h4>
+              <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em;">Drasi Server</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Single binary or Docker container</span>
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">No Kubernetes required</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Simplicity &amp; performance</span>
+                <span style="color: #e0e0e0; font-size: 0.57em; font-weight: 500; padding: 0.3em 0; width: 80%;">Binary · Docker</span>
               </div>
             </div>
             <div class="fragment" style="
@@ -610,10 +684,10 @@ RETURN o, c.name, c.email
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
               <img src="images/kubernetes-logo.svg" alt="Kubernetes" class="deployment-icon">
-              <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">D4K8s</h4>
+              <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em;">Drasi for K8s</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Full platform with scaling &amp; observability</span>
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">AKS · EKS · GKE</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Scaling &amp; observability</span>
+                <span style="color: #e0e0e0; font-size: 0.57em; font-weight: 500; padding: 0.3em 0; width: 80%;">AKS · EKS · GKE · K3s · Kind</span>
               </div>
             </div>
           </div>
@@ -631,7 +705,7 @@ RETURN o, c.name, c.email
       <!-- ============================================================ -->
       <section>
         <section>
-          <h2>Demo 1</h2>
+          <h2>Demo: Change Driven Solution</h2>
           <p class="slide-intro" style="font-style: italic;">Let's watch Drasi detect delayed orders<br>across a live database — in real time.</p>
           <aside class="notes">
             Time to see Drasi in action. This demo shows the core Source → Query → Reaction
@@ -660,6 +734,17 @@ RETURN o, c.name, c.email
           </aside>
         </section>
 
+        <section data-background-color="#000">
+          <div class="split-iframe-overlay">
+            <iframe class="split-left" src="http://localhost:9200/broker"></iframe>
+            <iframe class="split-right" src="http://localhost:5273"></iframe>
+          </div>
+          <aside class="notes">
+            Split view: broker on the left (20%), Drasi UI on the right (80%). Use this to show
+            cause and effect side by side during the demo.
+          </aside>
+        </section>
+
       </section>
 
       <!-- ============================================================ -->
@@ -678,7 +763,7 @@ RETURN o, c.name, c.email
           <h3>Multi-Source Queries</h3>
           <ul>
             <li class="fragment">Join data across <strong>heterogeneous systems</strong> in a single query</li>
-            <li class="fragment">No shared schema or common event bus required</li>
+            <li class="fragment">Create <strong>synthetic relationships</strong> — connections that don't exist in your schemas but are essential for your logic</li>
           </ul>
           <pre class="fragment"><code class="language-cypher" data-trim>
 MATCH (o:Order)-[:CONTAINS]->(p:Product)
@@ -690,6 +775,10 @@ RETURN o.id, p.name, p.inventory
             This is a key differentiator. Single query joins Order from PostgreSQL with Product
             from Cosmos DB. No shared schema, no event bus, no manual correlation.
             Drasi handles the cross-source join and emits changes when either side updates.
+            
+            "Synthetic relationships" — the graph model lets you define relationships between
+            data in separate systems that have no physical foreign key. These connections don't
+            exist in your source database schemas, but they're essential for your business logic.
           </aside>
         </section>
 
@@ -736,8 +825,8 @@ RETURN p.name, p.room, m.lastReading
           <h3>AI-Driven Workloads</h3>
           <ul>
             <li class="fragment">Keep embeddings &amp; model inputs aligned with <strong>live data</strong></li>
-            <li class="fragment">React to the <em>specific</em> data changes that matter to your AI pipeline</li>
-            <li class="fragment"><strong>No stale context</strong> — continuous freshness without polling</li>
+            <li class="fragment">React to <em>specific</em> changes — not entire datasets</li>
+            <li class="fragment"><strong>No stale context</strong> — continuous freshness, no polling</li>
           </ul>
           <aside class="notes">
             AI systems increasingly depend on fresh data. RAG pipelines need updated embeddings.
@@ -801,17 +890,18 @@ RETURN p.name, p.room, m.lastReading
           <h3>When to Reach for Drasi</h3>
           <ul>
             <li class="fragment">You need to react to <strong>specific, meaningful</strong> data changes</li>
-            <li class="fragment">You're tired of building custom polling / filtering / state logic</li>
+            <li class="fragment">You're tired of writing custom polling / filtering / state code</li>
             <li class="fragment">You want to <strong>standardize</strong> change detection across your org</li>
             <li class="fragment">You're building <strong>AI systems</strong> that need continuously fresh data</li>
           </ul>
           <p class="fragment subtext" style="margin-top: 1.2em;">
-            Not a replacement for your event bus or streaming platform — it's a complement.<br>
+            Start with one query. No migration required.<br>
             CNCF Sandbox — early-stage project with a growing ecosystem.
           </p>
           <aside class="notes">
             Drasi complements existing infrastructure — it's not replacing Kafka or your CDC pipeline.
             Use Drasi when you need change-driven logic: detect specific conditions, react precisely.
+            Key message: start with one query, no big-bang migration. Scale incrementally.
             CNCF Sandbox means active development, open governance, but still maturing.
           </aside>
         </section>
@@ -898,7 +988,7 @@ RETURN p.name, p.room, m.lastReading
         </section>
 
         <section data-background-image="images/water-ripple.jpg" data-background-opacity="0.2">
-          <img src="images/drasi-logo.svg" alt="Drasi" style="width: 200px; margin-bottom: 0.3em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
+          <img src="images/drasi/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 200px; margin-bottom: 0.3em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <p class="callout" style="font-size: 1.1em; margin-bottom: 1.2em;">
             Stop writing code to watch for changes.<br>
             Describe what matters. Let Drasi do the rest.
