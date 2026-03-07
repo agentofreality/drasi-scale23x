@@ -279,7 +279,7 @@
         <section>
           <h3>The Problems</h3>
           <p class="slide-intro">
-            Dev and Ops complexity, mostly plumbing not business logic, many unique solutions...
+            Dev and Ops complexity, mostly plumbing not business logic, unique often brittle solutions...
           </p>
           <div class="deployment-options" style="gap: 0.6em; margin-top: 0.8em; padding: 0 0.5em;">
             <div class="fragment" data-fragment-index="1" style="
@@ -509,55 +509,43 @@
         </section>
 
         <section>
-          <h3>Continuous Query - Example</h3>
-          <p>TODO</p>
-          <pre><code class="language-cypher" data-trim>
-MATCH (o:Order)
-WHERE o.status = 'delayed'
-RETURN o
+          <h3>Example: Continuous Query</h3>
+          <p>All stock prices</p>
+          <pre class="fragment"><code class="language-cypher" data-trim>
+MATCH (sp:stock_prices)
+RETURN sp.symbol AS symbol,
+       sp.price AS price,
+       sp.previous_close AS previousClose,
+       ((sp.price - sp.previous_close) / sp.previous_close * 100) AS changePercent
           </code></pre>
-          <aside class="notes">
-            This is the core innovation. Queries run perpetually, maintaining a live result set.
-            When source data changes, Drasi determines which results are added, updated, or deleted.
-
-            Why graph instead of SQL? Data is rarely isolated — its value comes from how it
-            relates to other data. Graph queries (openCypher/GQL) express relationships naturally:
-            MATCH (order)-[:PLACED_BY]->(customer) is intuitive. SQL requires explicit JOINs
-            and doesn't model relationships as first-class citizens.
-
-            Critical: queries can span multiple sources in a single statement — what the
-            transcript calls "synthetic relationships." Order from Postgres, Customer from
-            Cosmos DB, joined in one query. No shared schema or event bus required.
-            
-            If asked about streaming SQL (Materialize, ksqlDB): Drasi is for change detection
-            across existing systems. Streaming SQL processes event streams. Different problem shapes.
-          </aside>
         </section>
 
         <section>
-          <h3>Continuous Query - Example</h3>
-          <p>TODO</p>
-          <pre><code class="language-cypher" data-trim>
-MATCH (o:Order)
-WHERE o.status = 'delayed'
-RETURN o
+          <h3>Example: Continuous Query</h3>
+          <p>All stocks with a price higher than yesterday's close</p>
+          <pre class="fragment"><code class="language-cypher" data-trim>
+MATCH (s:stocks)-[:HAS_PRICE]->(sp:stock_prices)
+WHERE sp.price > sp.previous_close
+RETURN s.symbol AS symbol,
+       s.name AS name,
+       sp.price AS price,
+       sp.previous_close AS previousClose,
+       ((sp.price - sp.previous_close) / sp.previous_close * 100) AS changePercent
           </code></pre>
-          <aside class="notes">
-            This is the core innovation. Queries run perpetually, maintaining a live result set.
-            When source data changes, Drasi determines which results are added, updated, or deleted.
+        </section>
 
-            Why graph instead of SQL? Data is rarely isolated — its value comes from how it
-            relates to other data. Graph queries (openCypher/GQL) express relationships naturally:
-            MATCH (order)-[:PLACED_BY]->(customer) is intuitive. SQL requires explicit JOINs
-            and doesn't model relationships as first-class citizens.
-
-            Critical: queries can span multiple sources in a single statement — what the
-            transcript calls "synthetic relationships." Order from Postgres, Customer from
-            Cosmos DB, joined in one query. No shared schema or event bus required.
-            
-            If asked about streaming SQL (Materialize, ksqlDB): Drasi is for change detection
-            across existing systems. Streaming SQL processes event streams. Different problem shapes.
-          </aside>
+        <section>
+          <h3>Example: Continuous Query</h3>
+          <p>All market sectors</p>
+          <pre class="fragment"><code class="language-cypher" data-trim>
+MATCH (s:stocks)-[:HAS_PRICE]->(sp:stock_prices)
+RETURN s.sector AS sector,
+       count(s) AS stockCount,
+       avg((sp.price - sp.previous_close) / sp.previous_close * 100) AS avgChangePercent,
+       sum(sp.volume) AS totalVolume,
+       min(sp.price) AS minPrice,
+       max(sp.price) AS maxPrice
+          </code></pre>
         </section>
 
         <section>
@@ -802,10 +790,17 @@ RETURN o
       <section>
         <section>
           <h3>Why Drasi</h3>
-          <p class="slide-intro">Not the only way to build change-driven applications but it is the easiest</p>
+          <p class="slide-intro">The simplest and quickest way to create change-driven architecture</p>
           <ul>
-            <li class="fragment">Designed specifically to build change-driven architectures</li>
-            <li class="fragment">Easy to get started with minimal effort...</li>
+            <li>Designed specifically for this purpose</li>
+            <li>Easy to understand and simple to use</li>
+            <li>Unifies the detection of change and the taking action</li>
+            <li>Integrates with data where it is, with low overhead</li>
+            <li>Minimal infrastructure, works with existing systems</li>
+            <li>No-code, low-code, and full-code options</li>
+            <li>Rich ecosystem of connectors and an extensibility model</li>
+            <li>Growing community and ecosystem</li>
+            <li>Free and open-source</li>
           </ul>
           <aside class="notes">
             Drasi complements existing infrastructure — it's not replacing Kafka or your CDC pipeline.
