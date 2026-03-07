@@ -451,9 +451,9 @@
             <li>Manage (re)connection to data source</li>
             <li>Receive / retrieve change events or mimic change feed</li>
             <li>Tx change events to property graph node/relation updates</li>
-            <li>Emit Source Change Events stream to Continuous Queries</li>
+            <li>Emit <strong>Source Change Events</strong> to Continuous Queries</li>
           </ul>
-          <img src="images/source-change-events.svg"
+          <img src="images/source-change-events-expanded.svg"
                alt="Data flow: Source emits Insert, Update, and Delete Source Change Events to Continuous Query"
                style="width: 96%; max-width: 920px; display: block; margin: 0.2em auto 0;">
           <aside class="notes">
@@ -533,11 +533,12 @@
         <section>
           <h3>Continuous Query</h3>
           <ul>
+            <li>Subscribe to one or more Sources</li>
             <li>Declarative openCypher or GQL queries</li>
             <li>Describe the kind of change your are interest in</li>
             <li>Take Source Change Events as input</li>
             <li>Keep result set perpetually up to date</li>
-            <li>Emit Result Change Notifications containing diff</li>
+            <li>Emit <strong>Result Change Notifications</strong> containing diff</li>
           </ul>
           <img src="images/continuous-query-flow.svg"
                alt="Source Change Events flow into the Continuous Query engine which maintains Element, Aggregation, and Result indexes, then emits Result Change Notifications (Added, Updated, Deleted)"
@@ -613,7 +614,11 @@ RETURN o
 
         <section>
           <h3>Reactions</h3>
-          <p>Act when query results change</p>
+          <ul>
+            <li>Subscribe to one or more Continuous Queries</li>
+            <li>Receive Result Change Notifications</li>
+            <li>Act based on changes</li>
+          </ul>
           <div class="source-grid">
             <span class="source-badge">Webhooks</span>
             <span class="source-badge">SSE</span>
