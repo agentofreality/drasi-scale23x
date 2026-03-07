@@ -38,9 +38,9 @@
           </small>
         </p>
         <aside class="notes">
-          Welcome to SCaLE 23x. Today we'll explore change-driven architecture — a pattern
-          you've likely implemented many times — and Drasi, a CNCF Sandbox project that
-          makes building change-driven solutions dramatically simpler.
+          PURPOSE: Set context — who you are, what we're covering.
+          KEY POINTS: Change-driven architecture is a universal problem. Drasi is a CNCF project that simplifies it.
+          SEQUENCE: Brief intro → transition to "The Problem."
         </aside>
       </section>
 
@@ -52,8 +52,9 @@
           <h2>The Problem</h2>
           <h4>Detecting and Reacting to Change is Harder Than It Should Be</h4>
           <aside class="notes">
-            This is the premise of the entire talk. Pause here — everyone in this room
-            has dealt with this problem. Let the statement resonate before continuing.
+            PURPOSE: Section opener — establish the central premise.
+            KEY POINTS: Pause and let the statement resonate. Everyone has lived this.
+            SEQUENCE: Hold for 2-3 seconds, then advance.
           </aside>
         </section>
 
@@ -66,9 +67,9 @@
           </ul>
           <p class="fragment callout">Quickly. Precisely. Reliably.</p>
           <aside class="notes">
-            Data lives in databases, APIs, Kubernetes, SaaS platforms — everywhere.
-            Note: "or doesn't change when it should" — absence of change is just as important.
-            The requirements sound simple, but the implementation rarely is.
+            PURPOSE: Build the problem pattern with progressive reveals.
+            KEY POINTS: Data everywhere → changes (or doesn't) → must react. Plant "absence of change" seed early.
+            SEQUENCE: Click through each bullet. Land the "Quickly. Precisely. Reliably." callout with weight.
           </aside>
         </section>
 
@@ -79,9 +80,8 @@
             check their loyalty tier, and offer compensation
             <em>before</em> they complain</p>
           <aside class="notes">
-            Key point: the carrier system knows nothing about your customers or their loyalty tier.
-            The reaction requires joining data across system boundaries — this is where it gets hard.
-            This example highlights cross-source data correlation and the need for speed.
+            PURPOSE: Concrete example — cross-source correlation under time pressure.
+            KEY POINTS: Carrier knows nothing about customers/loyalty. Reaction requires joining across system boundaries.
           </aside>
         </section>
 
@@ -105,9 +105,8 @@
             already dispatched — across GPS, ticketing, HR, and
             dispatch systems</p>
           <aside class="notes">
-            This is a dynamic result set whose membership changes constantly across four systems.
-            The challenge isn't finding qualified technicians once — it's maintaining a live
-            view as GPS positions update, tickets change status, and dispatches happen.
+            PURPOSE: Example of a continuously changing result set across 4 systems.
+            KEY POINTS: Not a one-time query — a live view. GPS, tickets, HR, dispatch all change independently.
           </aside>
         </section>
 
@@ -122,12 +121,9 @@
             Ooops. What if the vector DB updated the moment the order status changed — not on the next batch run?
           </p>
           <aside class="notes">
-            This example highlights a real problem with RAG-based AI agents: vector databases
-            are typically updated in periodic batches — hourly, nightly. Between refreshes,
-            the agent's knowledge is stale. Drasi enables incremental, immediate updates to
-            the vector DB the moment source data changes. The agent always has fresh context.
-            This reframes change-driven architecture as an AI infrastructure concern, not just
-            a backend automation pattern.
+            PURPOSE: AI/RAG angle — stale vector DB = wrong answers.
+            KEY POINTS: Batch-refreshed embeddings miss recent changes. Drasi enables incremental, immediate updates.
+            SEQUENCE: Let the scenario land → click the callout as the "fix."
           </aside>
         </section>
 
@@ -143,9 +139,9 @@
           <p class="fragment callout" style="font-size: 0.9em; margin-top: 1em;">A problem you've probably already "solved"...</p>
           <p class="fragment callout" style="font-size: 0.9em; margin-top: 1em;">... more than once!!</p>
           <aside class="notes">
-            This definition captures two critical concepts: "meaningful change" (not every row update)
-            and "absence of change" (detecting what didn't happen). Both are first-class concerns.
-            Build the fragments slowly — let the audience recognize themselves in this pattern.
+            PURPOSE: Name the pattern and define it. Anchor slide for the talk.
+            KEY POINTS: "Meaningful change" (not every update) + "absence of change" (what didn't happen).
+            SEQUENCE: Read the blockquote → click "already solved" → click "more than once" — let audience nod.
           </aside>
         </section> 
 
@@ -172,17 +168,16 @@
             </ul>
           </div>
           <aside class="notes">
-            Walk through the trading app features — market data, portfolio, orders, watchlist,
-            sector overviews, gainers/losers. Emphasize that every piece of data on screen is
-            dynamic and updates in real time. This is the kind of system we're going to build.
+            PURPOSE: Ground the abstract problem in a real system before explaining approaches.
+            KEY POINTS: Walk through the feature list. Emphasize "All Dynamic" — everything updates live.
           </aside>
         </section>
 
         <section data-background-iframe="http://localhost:5273" data-background-interactive>
           <aside class="notes">
-            Live demo of the trading app. Press Esc to exit interactive mode.
-            Keep this brief — just enough to show the dynamism. Prices updating,
-            portfolio values changing, gainers/losers shuffling. 1-2 minutes max.
+            PURPOSE: Live demo — show the trading app's dynamism.
+            KEY POINTS: Prices updating, portfolio recalculating, gainers shuffling. Keep to 1-2 minutes.
+            SEQUENCE: Press Esc to exit interactive mode when done.
           </aside>
         </section>
 
@@ -203,11 +198,9 @@
             </ul>
           </div>
           <aside class="notes">
-            Now that they've seen the app, walk through the hard questions. Each bullet
-            represents real engineering work: source integration, multi-source correlation,
-            cascading updates, real-time push, concurrency, fault recovery. Build the
-            fragments slowly — let the audience feel the weight of these requirements.
-            The "Oh no... not again" moment should get knowing laughs.
+            PURPOSE: Reveal the engineering complexity behind the demo. Create the "not again" moment.
+            KEY POINTS: Each bullet = real engineering work. Six hard questions, zero easy answers.
+            SEQUENCE: Click to reveal questions → pause → "Oh no" → "not again" — play for knowing laughs.
           </aside>
         </section>
       </section>
@@ -220,9 +213,8 @@
           <h2>Building Change-Driven Systems</h2>
           <h4>How Teams Do It Today</h4>
           <aside class="notes">
-            Now let's look at the common approaches teams use to build change-driven systems.
-            We'll examine three: polling, analytics platforms, and CDC + stream processing.
-            Each has trade-offs — and all require significant custom engineering.
+            PURPOSE: Section opener — transition from "what's the problem" to "how do people solve it."
+            KEY POINTS: Three approaches, each with trade-offs. Not dismissing any — showing shared limitations.
           </aside>
         </section>
 
@@ -236,8 +228,7 @@
             <li>Event Stream Processing</li>
           </ol>
           <aside class="notes">
-            Quick overview — three approaches teams commonly use. We'll look at each
-            briefly before examining the shared problems they all have.
+            PURPOSE: Quick roadmap of the three approaches. Move through quickly.
           </aside>
         </section>
 
@@ -252,9 +243,9 @@
                style="width: 96%; max-width: 1400px; display: block; margin: 0.4em auto 0;">
           <p class="callout" style="font-size: 0.9em; margin-top: 1em;">Polling a database is like opening the fridge every five seconds to see if new food appeared</p>
           <aside class="notes">
-            Polling is everyone's first solution — intuitive, no new infrastructure needed.
-            Query, compare to last time, act on differences. The fridge analogy gets a laugh
-            and makes the inefficiency tangible. Pause on it before moving to the next approach.
+            PURPOSE: Explain polling — the simplest approach.
+            KEY POINTS: Intuitive, no new infra. Diagram shows the loop. Fridge analogy = humor moment.
+            SEQUENCE: Describe the flow → pause on the fridge line → let it land.
           </aside>
         </section>
 
@@ -268,9 +259,8 @@
                alt="Analytics platform flow: multiple source systems → ETL Pipeline (copy, mins–hours lag) → Analytics Platform (snapshot, not live) → Reports &amp; Alerts"
                style="width: 96%; max-width: 1400px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
-            Analytics platforms solve the multi-source query problem elegantly — rich queries
-            across all your data in one place. But the model is fundamentally retrospective:
-            you're analyzing a copy of data that's already minutes or hours stale.
+            PURPOSE: Explain analytics approach — powerful but retrospective.
+            KEY POINTS: Rich queries across all data, but you're analyzing stale copies. ETL = delay.
           </aside>
         </section>
 
@@ -284,9 +274,8 @@
                alt="CDC pipeline: Database → Debezium → Kafka Topic → Stream Processor → Consumer App, plus required supporting infrastructure"
                style="width: 96%; max-width: 1400px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
-            This is genuinely powerful, battle-tested technology. We're not dismissing it.
-            But these are event-driven tools — excellent at moving events at scale.
-            Building change-driven logic on top still requires substantial engineering.
+            PURPOSE: Explain CDC/event streaming — powerful but heavy.
+            KEY POINTS: Battle-tested, not dismissing it. But event-driven ≠ change-driven. Heavy infra, consumer owns logic.
           </aside>
         </section>
 
@@ -351,11 +340,9 @@
           </div>
           <p class="fragment callout" style="font-size: 0.9em; margin-top: 1em;">I just want to know if something changed ?!</p>
           <aside class="notes">
-            All three cards appear together on one click. Walk through each briefly:
-            Polling — lag, waste, state management, duplication.
-            Analytics — expensive, stale copies, ETL delays, insight not reaction.
-            Event Streaming — heavy infra, consumer owns logic, cross-source is painful.
-            The callout at the bottom lands the punch: all this work just to know if something changed.
+            PURPOSE: Consolidate all three approaches' problems into one visual.
+            KEY POINTS: Cards appear together — walk through each briefly, don't linger.
+            SEQUENCE: Click → all three appear → scan Polling/Analytics/Event Stream → land the callout punchline.
           </aside>
         </section>
 
@@ -374,10 +361,9 @@
           </ul>        
           
           <aside class="notes">
-            Transition slide — pivot from problem to solution. The wishlist sets up
-            exactly what Drasi delivers. Read the bullets conversationally, not robotically.
-            The "no vendor lock-in, community-driven" callout matters for the SCaLE audience.
-            Key message: you should be able to start with one query, no migration required.
+            PURPOSE: Pivot from problem to solution. Set up exactly what Drasi delivers.
+            KEY POINTS: Purpose-built, simple, unified, extensible, open source. SCaLE audience cares about lock-in.
+            SEQUENCE: Click to reveal → read conversationally → emphasize the open source callout.
           </aside>
         </section>
 
@@ -391,9 +377,8 @@
           <h2>Introducing</h2>
           <img src="images/drasi-logo/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 560px; margin-bottom: 0.2em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <aside class="notes">
-            Now let's meet Drasi. We've established the problem and the limitations
-            of current approaches. Drasi is an open-source platform designed specifically
-            for building change-driven architectures.
+            PURPOSE: Big reveal moment — introduce Drasi by name.
+            KEY POINTS: Let the logo speak. Brief pause before advancing.
           </aside>
         </section>
 
@@ -406,9 +391,8 @@
               Open Source · Apache 2.0 · CNCF Sandbox
             </p>
           <aside class="notes">
-            Drasi is a Data Change Processing platform — not event streaming, not stream processing.
-            It uses declarative continuous queries to isolate meaningful data changes and trigger
-            reactions. CNCF Sandbox since January 2025, Apache 2.0 licensed.
+            PURPOSE: Define Drasi — what it is and isn't.
+            KEY POINTS: "Data change processing" — distinct from event streaming or stream processing. CNCF Sandbox, Apache 2.0.
           </aside>
         </section>
 
@@ -426,9 +410,9 @@
                  class="fragment fade-in" data-fragment-index="1">
           </div>
           <aside class="notes">
-            Pause here — let the simplicity land. Source. Continuous Query. Reaction.
-            Sources connect to your existing data. Queries define what changes matter.
-            Reactions act when results change. Three concepts, that's the entire platform.
+            PURPOSE: Introduce the three-concept mental model. This is the slide to pause on.
+            KEY POINTS: Source → Continuous Query → Reaction. Click to show concrete examples.
+            SEQUENCE: Show simple diagram → click → concrete examples appear. Let simplicity sink in.
           </aside>
         </section>
 
@@ -444,14 +428,9 @@
                alt="Data flow: Source emits Insert, Update, and Delete Source Change Events to Continuous Query"
                style="width: 96%; max-width: 1400px; display: block; margin: 0.2em auto 0;">
           <aside class="notes">
-            Source Change Events are the internal data format that Sources use to communicate
-            changes to Continuous Queries. Three variants: Insert (new element with full data),
-            Update (changed element with full data), Delete (only metadata — identity and labels,
-            no properties needed since the element is gone).
-
-            Key point: the Source handles all the CDC complexity — reading WAL logs, tracking
-            offsets, mapping rows to graph elements. By the time data reaches the Continuous
-            Query, it's a clean, typed change event.
+            PURPOSE: Explain what Sources do internally.
+            KEY POINTS: Connect → listen for changes → transform to graph nodes/relations → emit Source Change Events (Insert/Update/Delete).
+            Source handles all CDC complexity — WAL, offsets, mapping. Query engine sees clean typed events.
           </aside>
         </section>
 
@@ -491,11 +470,9 @@
             </div>
           </div>
           <aside class="notes">
-            Sources connect to your existing infrastructure — no rip-and-replace required.
-            Key point from the "observability without modification" principle: Drasi tails
-            system change logs (WAL, change feeds) without requiring any changes to your
-            application code. PostgreSQL, MySQL, SQL Server for relational. Cosmos DB Gremlin
-            for graph. Kubernetes for cluster state. Event Hubs for streaming.
+            PURPOSE: Show breadth of source connectors. Animated rows stream in by category.
+            KEY POINTS: Relational (WAL) → Graph/Doc (change feeds) → Stream (event-based) → Custom (extensible).
+            No code changes to existing apps. "Custom" row signals the extensibility model.
           </aside>
         </section>
 
@@ -511,19 +488,9 @@
                alt="Source Change Events flow into the Continuous Query engine which maintains Element, Aggregation, and Result indexes, then emits Result Change Notifications (Added, Updated, Deleted)"
                style="width: 96%; max-width: 1400px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
-            This diagram shows what happens inside a Continuous Query. Source Change Events
-            (Insert, Update, Delete) arrive from Sources. The query engine evaluates each change
-            against the query, updating three internal indexes:
-
-            Element Index — stores all Nodes and Relations the query subscribes to.
-            Aggregation Index — maintains running aggregations (count, sum, avg, etc.)
-            so they don't need to be recomputed from scratch.
-            Result Index — the current result set that satisfies the query.
-
-            After processing a change, the engine diffs the result set and emits Result Change
-            Notifications: Added (new row matches), Updated (row still matches but values changed,
-            with before/after), Deleted (row no longer matches). These typed notifications flow
-            to Reactions — clean, unambiguous, no parsing required.
+            PURPOSE: Explain what happens inside a Continuous Query.
+            KEY POINTS: Subscribe to Sources → openCypher/GQL queries → maintain live result set →
+            emit Result Change Notifications (Added/Updated/Deleted). Three internal indexes: Element, Aggregation, Result.
           </aside>
         </section>
 
@@ -551,10 +518,9 @@ RETURN sp.symbol AS symbol,
             </tbody>
           </table>
           <aside class="notes">
-            Simple example — match all stock prices and compute the change percentage.
-            This query runs perpetually. Every time a price updates, the result set
-            changes and Drasi emits the diff. Point out: this looks like a normal query,
-            but it's live — not a one-time SELECT.
+            PURPOSE: Simplest query example — show it looks like a normal query but runs live.
+            KEY POINTS: MATCH all stock prices, compute change %. Table shows sample output.
+            Emphasize: this isn't a one-time SELECT — it's perpetual. Drasi emits diffs on every price change.
           </aside>
         </section>
 
@@ -585,10 +551,9 @@ RETURN s.symbol AS symbol,
             </tbody>
           </table>
           <aside class="notes">
-            Now we add a relationship traversal and a WHERE filter. This query joins
-            stocks with their prices and only returns gainers. As prices change, stocks
-            enter and leave this result set automatically. Highlight the MATCH pattern —
-            this is graph query syntax, not SQL JOINs.
+            PURPOSE: Show relationship traversal + filtering — stocks entering/leaving the result set.
+            KEY POINTS: MATCH with relationship + WHERE filter. Only gainers shown. As prices move, membership changes automatically.
+            Note the graph syntax — MATCH pattern, not SQL JOINs.
           </aside>
         </section>
 
@@ -620,10 +585,9 @@ RETURN s.sector AS sector,
             </tbody>
           </table>
           <aside class="notes">
-            Aggregation example — sector-level rollups computed live. Every individual
-            price change triggers a recalculation of the sector averages, counts, and
-            totals. Drasi maintains aggregation indexes so these don't recompute from
-            scratch. This is the kind of derived view that's painful to maintain manually.
+            PURPOSE: Show live aggregation — sector rollups that recalculate on every price change.
+            KEY POINTS: count, avg, sum, min, max — all maintained incrementally via aggregation indexes.
+            This is the kind of derived view that's painful to build and maintain manually.
           </aside>
         </section>
 
@@ -638,6 +602,8 @@ RETURN s.sector AS sector,
                alt="Data flow: Continuous Query emits Result Change Notification to Reaction, which is used to interact with a downstream system."
                style="width: 96%; max-width: 1400px; display: block; margin: 0.2em auto 0;">
           <aside class="notes">
+            PURPOSE: Explain what Reactions do — subscribe, receive, act.
+            KEY POINTS: Typed Result Change Notifications (Added/Updated/Deleted). Diagram shows flow from CQ to downstream system.
           </aside>
         </section>
 
@@ -681,13 +647,9 @@ RETURN s.sector AS sector,
             </div>
           </div>
           <aside class="notes">
-            Reactions receive typed change events: added (new result matches), updated (result
-            changed but still matches, with before/after), deleted (no longer matches).
-            Clean, unambiguous — no parsing event payloads to figure out what happened.
-            Flexible wiring: one query can feed many reactions, one reaction can watch many queries.
-            
-            Note: reactions listed vendor-neutral first (Webhooks, SSE, gRPC, Stored Procs)
-            since this is a SCaLE audience. Cloud-specific options (SignalR, Event Grid) also available.
+            PURPOSE: Show breadth of reaction connectors.
+            KEY POINTS: Push (real-time delivery) → Write (back to databases) → Integrate (event systems) → Custom.
+            Vendor-neutral first (Webhooks, SSE, gRPC) since this is SCaLE. One query → many reactions.
           </aside>
         </section>
 
@@ -790,11 +752,10 @@ RETURN s.sector AS sector,
             </div>            
           </div>
           <aside class="notes">
-            Overview of advanced capabilities — six cards covering extensibility, middleware,
-            multi-source queries, absence of change detection, temporal functions, and
-            change-driven UI components. Don't read every bullet — hit the highlights:
-            extensibility model, cross-database joins, trueFor/trueLater for detecting
-            what didn't happen, and drop-in React/Vue components for live UIs.
+            PURPOSE: Quick overview of advanced capabilities — don't dwell, hit highlights.
+            KEY POINTS: Extensibility model, middleware transforms, cross-database joins,
+            absence-of-change detection (trueFor/trueLater/trueUntil), temporal history, React/Vue components.
+            SEQUENCE: Click through cards — 1-2 sentences each, move on.
           </aside>
         </section>
 
@@ -848,10 +809,9 @@ RETURN s.sector AS sector,
             </div>
           </div>
           <aside class="notes">
-            Three deployment options for different needs. drasi-lib: Rust crate for embedding
-            the query engine in-process — edge, IoT, custom pipelines. Drasi Server: single
-            binary or Docker container with built-in web UI — no Kubernetes required.
-            Drasi for Kubernetes: full platform with horizontal scaling and enterprise sources.
+            PURPOSE: Show deployment flexibility — meet users where they are.
+            KEY POINTS: K8s (scaling), drasi-lib (embedded Rust), Drasi Server (Docker, simplest start).
+            Same queries work across all three. Start on laptop → scale to production.
           </aside>
         </section>
       </section>
@@ -867,19 +827,17 @@ RETURN s.sector AS sector,
                alt="Drasi Trading Application Architecture"
                style="width: 98%; max-width: 1700px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
-            Walk through the architecture diagram: data sources on the left (PostgreSQL
-            for stocks/orders, HTTP for market data), Drasi in the middle (Sources,
-            Continuous Queries, SSE Reaction), trading app on the right consuming the
-            live result stream. Then switch to the live demo.
+            PURPOSE: Transition to demo — show architecture before going live.
+            KEY POINTS: Walk through the diagram: sources (left) → Drasi (middle) → trading app (right).
+            SEQUENCE: Explain the architecture → click to reveal diagram → then advance to live demo.
           </aside>
         </section>
 
         <section data-background-iframe="http://localhost:5273" data-background-interactive>
           <aside class="notes">
-            Live demo of the trading app powered by Drasi. Press Esc to exit interactive mode.
-            Show: the Drasi Server UI with Sources, Queries, and Reactions configured.
-            Make a data change and watch it propagate through the query results to the app.
-            Highlight the speed — changes appear in milliseconds.
+            PURPOSE: Live demo — the climax of the talk. Show Drasi powering the trading app.
+            KEY POINTS: Show Sources, Queries, Reactions in the UI. Make a data change → watch it propagate. Highlight speed.
+            SEQUENCE: 3-5 minutes. Press Esc to exit interactive mode.
           </aside>
         </section>
       </section>
@@ -900,11 +858,9 @@ RETURN s.sector AS sector,
             <li class="callout" style="font-size: 0.9em; margin-top: 1em;">CNCF Sandbox · Apache 2.0 · Community-driven · Extensible</li>
           </ul>
           <aside class="notes">
-            Closing argument slide. Frame this as the payoff — Drasi is purpose-built for
-            exactly the problems we discussed. It's simple to start with, works alongside
-            existing infrastructure, and is free and open source. Don't just read the bullets —
-            connect them back to the pain points: "Remember the polling loops? Gone. The ETL
-            pipelines? Not needed. The consumer logic? It's a query now."
+            PURPOSE: Closing argument — connect Drasi back to every pain point discussed.
+            KEY POINTS: Purpose-built, declarative, cross-source, absence of change, runs anywhere, open source.
+            Don't read bullets — reference the talk: "Remember polling? Gone. ETL? Not needed. Consumer logic? It's a query."
           </aside>
         </section>
 
@@ -934,9 +890,9 @@ RETURN s.sector AS sector,
             <img src="images/drasi-logo/qr-drasi.svg" alt="QR code for drasi.io" style="width: 360px; height: 360px; max-width: 360px; flex: 0 0 auto; background: white; padding: 12px; border-radius: 12px;">
           </div>
           <aside class="notes">
-            Getting started is quick. drasi.io has docs and tutorials. Drasi Server runs locally
-            with Docker in minutes — no Kubernetes needed for development. The QR code goes
-            directly to drasi.io.
+            PURPOSE: Give the audience next steps and the QR code.
+            KEY POINTS: drasi.io for docs/tutorials, GitHub for code, Docker for quick start, CNCF/Apache 2.0.
+            SEQUENCE: Point to QR code. Thank the audience. Open for questions.
           </aside>
         </section>
       </section>
