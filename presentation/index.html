@@ -81,6 +81,7 @@
           <aside class="notes">
             Key point: the carrier system knows nothing about your customers or their loyalty tier.
             The reaction requires joining data across system boundaries — this is where it gets hard.
+            This example highlights cross-source data correlation and the need for speed.
           </aside>
         </section>
 
@@ -118,6 +119,10 @@
             across CRM, order management, inventory, and support ticket systems. 
           </p>
           <aside class="notes">
+            AI agents are increasingly common in customer support. To be effective, they need
+            real-time access to data changes across multiple systems. This example shows that
+            change-driven architecture isn't just about automation — it's about giving AI
+            systems the fresh context they need to be useful. Four systems, one agent, zero lag.
           </aside>
         </section>
 
@@ -163,15 +168,17 @@
             </ul>
           </div>
           <aside class="notes">
-            Walk through the architecture diagram and highlight each component before
-            switching to the live demo on the next slide.
+            Walk through the trading app features — market data, portfolio, orders, watchlist,
+            sector overviews, gainers/losers. Emphasize that every piece of data on screen is
+            dynamic and updates in real time. This is the kind of system we're going to build.
           </aside>
         </section>
 
         <section data-background-iframe="http://localhost:5273" data-background-interactive>
           <aside class="notes">
-            Live demo embedded via iframe. Press Esc to exit interactive mode.
-            Keep this brief — just enough to show what we're trying to achieve.
+            Live demo of the trading app. Press Esc to exit interactive mode.
+            Keep this brief — just enough to show the dynamism. Prices updating,
+            portfolio values changing, gainers/losers shuffling. 1-2 minutes max.
           </aside>
         </section>
 
@@ -193,8 +200,11 @@
             </ul>
           </div>
           <aside class="notes">
-            Walk through the architecture diagram and highlight each component before
-            switching to the live demo on the next slide.
+            Now that they've seen the app, walk through the hard questions. Each bullet
+            represents real engineering work: source integration, multi-source correlation,
+            cascading updates, real-time push, concurrency, fault recovery. Build the
+            fragments slowly — let the audience feel the weight of these requirements.
+            The "Oh no... not again" moment should get knowing laughs.
           </aside>
         </section>
       </section>
@@ -223,6 +233,8 @@
             <li>Event Stream Processing</li>
           </ol>
           <aside class="notes">
+            Quick overview — three approaches teams commonly use. We'll look at each
+            briefly before examining the shared problems they all have.
           </aside>
         </section>
 
@@ -237,9 +249,9 @@
                style="width: 92%; max-width: 860px; display: block; margin: 0.4em auto 0;">
           <p class="callout" style="font-size: 0.9em; margin-top: 1em;">Polling a database is like opening the fridge every five seconds to see if new food appeared</p>
           <aside class="notes">
-            Polling is everyone's first solution — intuitive, requires no new infrastructure.
-            Query, compare to last time, act on differences. Simple mental model.
-            But as you'll see, this simplicity hides real problems that emerge at scale.
+            Polling is everyone's first solution — intuitive, no new infrastructure needed.
+            Query, compare to last time, act on differences. The fridge analogy gets a laugh
+            and makes the inefficiency tangible. Pause on it before moving to the next approach.
           </aside>
         </section>
 
@@ -336,10 +348,11 @@
           </div>
           <p class="fragment callout" style="font-size: 0.9em; margin-top: 1em;">I just want to know if something changed ?!</p>
           <aside class="notes">
-            This single slide replaces the three individual problem slides.
-            Each card captures the key trade-offs for its approach.
-            The callout at the bottom ties them together: regardless of approach,
-            most effort goes to infrastructure, not expressing what changes matter.
+            All three cards appear together on one click. Walk through each briefly:
+            Polling — lag, waste, state management, duplication.
+            Analytics — expensive, stale copies, ETL delays, insight not reaction.
+            Event Streaming — heavy infra, consumer owns logic, cross-source is painful.
+            The callout at the bottom lands the punch: all this work just to know if something changed.
           </aside>
         </section>
 
@@ -361,10 +374,10 @@
           </ul>        
           
           <aside class="notes">
-            These are the characteristics we need. Expressive queries over live data.
-            Reliable handling of state, restarts, schema changes. Minimal ops burden.
-            Open source with no vendor lock-in. The key message for skeptical engineers:
-            you can start with a single query — no migration, no big-bang deployment.
+            Transition slide — pivot from problem to solution. The wishlist sets up
+            exactly what Drasi delivers. Read the bullets conversationally, not robotically.
+            The "no vendor lock-in, community-driven" callout matters for the SCaLE audience.
+            Key message: you should be able to start with one query, no migration required.
           </aside>
         </section>
 
@@ -483,7 +496,7 @@
           <ul>
             <li>Subscribe to one or more Sources</li>
             <li>Declarative openCypher or GQL queries</li>
-            <li>Describe the kind of change your are interest in</li>
+            <li>Describe the kind of change you are interest in</li>
             <li>Take Source Change Events as input</li>
             <li>Keep result set perpetually up to date</li>
             <li>Emit <strong>Result Change Notifications</strong> containing diff</li>
@@ -518,6 +531,12 @@ RETURN sp.symbol AS symbol,
        sp.previous_close AS previousClose,
        ((sp.price - sp.previous_close) / sp.previous_close * 100) AS changePercent
           </code></pre>
+          <aside class="notes">
+            Simple example — match all stock prices and compute the change percentage.
+            This query runs perpetually. Every time a price updates, the result set
+            changes and Drasi emits the diff. Point out: this looks like a normal query,
+            but it's live — not a one-time SELECT.
+          </aside>
         </section>
 
         <section>
@@ -532,6 +551,12 @@ RETURN s.symbol AS symbol,
        sp.previous_close AS previousClose,
        ((sp.price - sp.previous_close) / sp.previous_close * 100) AS changePercent
           </code></pre>
+          <aside class="notes">
+            Now we add a relationship traversal and a WHERE filter. This query joins
+            stocks with their prices and only returns gainers. As prices change, stocks
+            enter and leave this result set automatically. Highlight the MATCH pattern —
+            this is graph query syntax, not SQL JOINs.
+          </aside>
         </section>
 
         <section>
@@ -546,6 +571,12 @@ RETURN s.sector AS sector,
        min(sp.price) AS minPrice,
        max(sp.price) AS maxPrice
           </code></pre>
+          <aside class="notes">
+            Aggregation example — sector-level rollups computed live. Every individual
+            price change triggers a recalculation of the sector averages, counts, and
+            totals. Drasi maintains aggregation indexes so these don't recompute from
+            scratch. This is the kind of derived view that's painful to maintain manually.
+          </aside>
         </section>
 
         <section>
@@ -691,10 +722,11 @@ RETURN s.sector AS sector,
             </div>            
           </div>
           <aside class="notes">
-            Single overview of advanced capabilities. Each card summarizes a key
-            differentiator. Multi-source: cross-database joins. Absence of change:
-            trueFor/trueLater temporal functions. Middleware: transform pipeline.
-            AI: continuous freshness for RAG and model inputs.
+            Overview of advanced capabilities — six cards covering extensibility, middleware,
+            multi-source queries, absence of change detection, temporal functions, and
+            change-driven UI components. Don't read every bullet — hit the highlights:
+            extensibility model, cross-database joins, trueFor/trueLater for detecting
+            what didn't happen, and drop-in React/Vue components for live UIs.
           </aside>
         </section>
 
@@ -764,8 +796,9 @@ RETURN s.sector AS sector,
           <h2>Demo: Drasi Trading</h2>
           <p class="slide-intro" style="font-style: italic;">Let's explore the change-driven trading solution built using Drasi</p>
           <aside class="notes">
-            Time to see Drasi in action. This demo shows the core Source → Query → Reaction
-            flow with a concrete scenario: detecting delayed orders in real time.
+            Transition to the live demo. We've covered the concepts — now let's see
+            Drasi running the trading application we showed earlier. This time, we'll
+            look under the hood at the Sources, Queries, and Reactions that power it.
           </aside>
         </section>
 
@@ -774,12 +807,20 @@ RETURN s.sector AS sector,
           <img src="images/diagrams/trading-architecture.svg"
                alt="Drasi Trading Application Architecture"
                style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
+          <aside class="notes">
+            Walk through the architecture diagram: data sources on the left (PostgreSQL
+            for stocks/orders, HTTP for market data), Drasi in the middle (Sources,
+            Continuous Queries, SSE Reaction), trading app on the right consuming the
+            live result stream. Then switch to the live demo.
+          </aside>
         </section>
 
         <section data-background-iframe="http://localhost:5273" data-background-interactive>
           <aside class="notes">
-            Live demo via Drasi Server's built-in web UI. Press Esc to exit interactive mode.
-            Show: create a delayed order, watch it appear in query results, see reaction fire.
+            Live demo of the trading app powered by Drasi. Press Esc to exit interactive mode.
+            Show: the Drasi Server UI with Sources, Queries, and Reactions configured.
+            Make a data change and watch it propagate through the query results to the app.
+            Highlight the speed — changes appear in milliseconds.
           </aside>
         </section>
       </section>
@@ -803,10 +844,11 @@ RETURN s.sector AS sector,
             <li>Free and open-source</li>
           </ul>
           <aside class="notes">
-            Drasi complements existing infrastructure — it's not replacing Kafka or your CDC pipeline.
-            Use Drasi when you need change-driven logic: detect specific conditions, react precisely.
-            Key message: start with one query, no big-bang migration. Scale incrementally.
-            CNCF Sandbox means active development, open governance, but still maturing.
+            Closing argument slide. Frame this as the payoff — Drasi is purpose-built for
+            exactly the problems we discussed. It's simple to start with, works alongside
+            existing infrastructure, and is free and open source. Don't just read the bullets —
+            connect them back to the pain points: "Remember the polling loops? Gone. The ETL
+            pipelines? Not needed. The consumer logic? It's a query now."
           </aside>
         </section>
 
