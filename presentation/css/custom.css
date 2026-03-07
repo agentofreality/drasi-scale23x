@@ -424,6 +424,12 @@
   transform: translateX(-120px);
 }
 
+.reveal .accent-row-item img {
+  width: 1.3em;
+  height: 1.3em;
+  flex-shrink: 0;
+}
+
 /* When the parent fragment becomes visible, items stream in */
 .reveal .fragment.visible .accent-row-item {
   animation: stream-in-left 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;

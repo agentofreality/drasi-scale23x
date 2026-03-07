@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Code brackets with gear -->
+  <polyline points="8,4 3,12 8,20"/>
+  <polyline points="16,4 21,12 16,20"/>
+  <circle cx="12" cy="12" r="3"/>
+  <line x1="12" y1="8" x2="12" y2="9"/>
+  <line x1="12" y1="15" x2="12" y2="16"/>
+</svg>
