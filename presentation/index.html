@@ -18,7 +18,7 @@
       <!-- TITLE -->
       <!-- ============================================================ -->
       <section>
-        <img src="images/drasi/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 320px; margin-bottom: 0.3em; filter: drop-shadow(0 0 20px rgba(66,175,250,0.4));">
+        <img src="images/drasi-logo/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 320px; margin-bottom: 0.3em; filter: drop-shadow(0 0 20px rgba(66,175,250,0.4));">
         <h3>A New Take on Change-Driven Architectures</h3>
         <p>
           <small>Allen Jones — SCaLE 23x</small>
@@ -139,7 +139,7 @@
         <section>
           <h3>Example: Trading Application</h3>
           <div style="display: flex; align-items: center; justify-content: center; gap: 2em; margin-top: 0.5em;">
-            <img src="images/trading-demo-overview.svg"
+            <img src="images/diagrams/trading-demo-overview.svg"
                  alt="Demo architecture: Trading App → Drasi Server (PostgreSQL Sources, HTTP Source, Query Engine, SSE Reaction)"
                  style="width: 55%; max-width: 520px;">
             <ul style="text-align: left; font-size: 0.75em; flex: 1;">
@@ -168,7 +168,7 @@
         <section>
           <h3>Trading Application: How to ...</h3>
           <div style="display: flex; align-items: center; justify-content: center; gap: 2em; margin-top: 0.5em;">
-            <img src="images/trading-demo-overview-expanded.svg"
+            <img src="images/diagrams/trading-demo-overview-expanded.svg"
                  alt="Demo architecture: Trading App → Drasi Server (PostgreSQL Sources, HTTP Source, Query Engine, SSE Reaction)"
                  style="width: 55%; max-width: 520px;">
             <ul class="fragment" style="text-align: left; font-size: 0.75em; flex: 1;">
@@ -193,7 +193,7 @@
       <!-- III. BUILDING CHANGE-DRIVEN SYSTEMS TODAY -->
       <!-- ============================================================ -->
       <section>
-        <section data-background-image="images/focus-lens.jpg" data-background-opacity="0.15">
+        <section>
           <h2>Building Change-Driven Systems</h2>
           <h4>How Teams Do It Today</h4>
           <aside class="notes">
@@ -222,7 +222,7 @@
           <p class="slide-intro">
             Your system queries the data store periodically, compares the results to what it saw previously, and acts on the differences.
           </p>
-          <img src="images/polling-diagram.svg"
+          <img src="images/diagrams/polling-diagram.svg"
                alt="Polling flow: Timer/Scheduler → Query Database → Compare Results → Act on Difference → repeat"
                style="width: 92%; max-width: 860px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
@@ -259,7 +259,7 @@
           <p class="slide-intro">
             Bring data together in a central analytics platform where rich queries and dashboards can surface meaningful conditions across all your data.
           </p>
-          <img src="images/analytics-diagram.svg"
+          <img src="images/diagrams/analytics-diagram.svg"
                alt="Analytics platform flow: multiple source systems → ETL Pipeline (copy, mins–hours lag) → Analytics Platform (snapshot, not live) → Reports &amp; Alerts"
                style="width: 96%; max-width: 900px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
@@ -295,7 +295,7 @@
           <p class="slide-intro">
             CDC reads row-level changes from the data store and streams them to an event processing engine for filtering, joining, and transformation.
           </p>
-          <img src="images/cdc-diagram.svg"
+          <img src="images/diagrams/cdc-diagram.svg"
                alt="CDC pipeline: Database → Debezium → Kafka Topic → Stream Processor → Consumer App, plus required supporting infrastructure"
                style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
@@ -334,32 +334,32 @@
           </p>
           <div class="icon-card-grid">
             <div class="icon-card fragment">
-              <div class="icon-card-icon"><img src="images/icon-ops-burden.svg"></div>
+              <div class="icon-card-icon"><img src="images/logos/icon-ops-burden.svg"></div>
               <div class="icon-card-title">Ops Burden</div>
               <div class="icon-card-desc">Clusters, connectors, registries — all yours to run</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon"><img src="images/icon-schema-evolution.svg"></div>
+              <div class="icon-card-icon"><img src="images/logos/icon-schema-evolution.svg"></div>
               <div class="icon-card-title">Schema Evolution</div>
               <div class="icon-card-desc">Changes ripple through the entire pipeline</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon"><img src="images/icon-consumer-logic.svg"></div>
+              <div class="icon-card-icon"><img src="images/logos/icon-consumer-logic.svg"></div>
               <div class="icon-card-title">Consumer Logic</div>
               <div class="icon-card-desc">Filtering, joins, dedup — still your code</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon"><img src="images/icon-cross-source.svg"></div>
+              <div class="icon-card-icon"><img src="images/logos/icon-cross-source.svg"></div>
               <div class="icon-card-title">Cross-Source Joins</div>
               <div class="icon-card-desc">Windowing and state management required</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon"><img src="images/icon-time-to-prod.svg"></div>
+              <div class="icon-card-icon"><img src="images/logos/icon-time-to-prod.svg"></div>
               <div class="icon-card-title">Time to Production</div>
               <div class="icon-card-desc">Weeks from idea to running system</div>
             </div>
             <div class="icon-card fragment">
-              <div class="icon-card-icon"><img src="images/icon-plumbing.svg"></div>
+              <div class="icon-card-icon"><img src="images/logos/icon-plumbing.svg"></div>
               <div class="icon-card-title">The Bottom Line</div>
               <div class="icon-card-desc">Most effort is plumbing, not business logic</div>
             </div>
@@ -405,7 +405,7 @@
       <section>
         <section>
           <h2>Introducing</h2>
-          <img src="images/drasi/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 480px; margin-bottom: 0.2em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
+          <img src="images/drasi-logo/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 480px; margin-bottom: 0.2em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <aside class="notes">
             Now let's meet Drasi. We've established the problem and the limitations
             of current approaches. Drasi is an open-source platform designed specifically
@@ -431,10 +431,10 @@
         <section>
           <h3>Core Concepts</h3>
           <div class="r-stack" style="margin-top: 1em;">
-            <img src="images/core-concept.svg"
+            <img src="images/diagrams/core-concept.svg"
                  alt="Source → Continuous Query → Reaction"
                  class="fragment semi-fade-out" data-fragment-index="1">
-            <img src="images/core-mental-model.svg"
+            <img src="images/diagrams/core-mental-model.svg"
                  alt="Drasi core model: Sources (PostgreSQL, Cosmos DB, Kubernetes) → Continuous Queries → Reactions (Webhook, SignalR, Event Grid)"
                  class="fragment fade-in" data-fragment-index="1">
           </div>
@@ -453,7 +453,7 @@
             <li>Tx change events to property graph node/relation updates</li>
             <li>Emit <strong>Source Change Events</strong> to Continuous Queries</li>
           </ul>
-          <img src="images/source-change-events-expanded.svg"
+          <img src="images/diagrams/source-change-events-expanded.svg"
                alt="Data flow: Source emits Insert, Update, and Delete Source Change Events to Continuous Query"
                style="width: 96%; max-width: 920px; display: block; margin: 0.2em auto 0;">
           <aside class="notes">
@@ -517,7 +517,7 @@
             <li>Keep result set perpetually up to date</li>
             <li>Emit <strong>Result Change Notifications</strong> containing diff</li>
           </ul>
-          <img src="images/continuous-query-flow.svg"
+          <img src="images/diagrams/continuous-query-flow.svg"
                alt="Source Change Events flow into the Continuous Query engine which maintains Element, Aggregation, and Result indexes, then emits Result Change Notifications (Added, Updated, Deleted)"
                style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
@@ -645,7 +645,7 @@ RETURN o
               padding: 1.2em 1em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <img src="images/rust-logo.png" alt="Rust" class="deployment-icon">
+              <img src="images/logos/rust-logo.png" alt="Rust" class="deployment-icon">
               <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em;">drasi-lib</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
                 <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Rust crate</span>
@@ -660,7 +660,7 @@ RETURN o
               padding: 1.2em 1em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <img src="images/docker-logo.png" alt="Docker" class="deployment-icon">
+              <img src="images/logos/docker-logo.png" alt="Docker" class="deployment-icon">
               <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em;">Drasi Server</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
                 <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Simplicity &amp; performance</span>
@@ -675,7 +675,7 @@ RETURN o
               padding: 1.2em 1em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <img src="images/kubernetes-logo.svg" alt="Kubernetes" class="deployment-icon">
+              <img src="images/logos/kubernetes-logo.svg" alt="Kubernetes" class="deployment-icon">
               <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.85em; letter-spacing: 0.1em;">Drasi for K8s</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
                 <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Scaling &amp; observability</span>
@@ -743,7 +743,7 @@ RETURN o
       <!-- VI. PATTERNS & ADVANCED CAPABILITIES -->
       <!-- ============================================================ -->
       <section>
-        <section data-background-image="images/network-abstract.jpg" data-background-opacity="0.2">
+        <section>
           <h2>Patterns &amp; Advanced Capabilities</h2>
           <aside class="notes">
             Now let's look at some advanced patterns that differentiate Drasi from
@@ -921,7 +921,7 @@ RETURN p.name, p.room, m.lastReading
                 </tr>
               </tbody>
             </table>
-            <img src="images/qr-drasi.svg" alt="QR code for drasi.io" style="width: 180px; height: 180px; background: white; padding: 8px; border-radius: 8px;">
+            <img src="images/drasi-logo/qr-drasi.svg" alt="QR code for drasi.io" style="width: 180px; height: 180px; background: white; padding: 8px; border-radius: 8px;">
           </div>
           <aside class="notes">
             Getting started is quick. drasi.io has docs and tutorials. Drasi Server runs locally
@@ -979,8 +979,8 @@ RETURN p.name, p.room, m.lastReading
           </aside>
         </section>
 
-        <section data-background-image="images/water-ripple.jpg" data-background-opacity="0.2">
-          <img src="images/drasi/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 200px; margin-bottom: 0.3em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
+        <section data-background-image="images/backgrounds/water-ripple.jpg" data-background-opacity="0.2">
+          <img src="images/drasi-logo/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 200px; margin-bottom: 0.3em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <p class="callout" style="font-size: 1.1em; margin-bottom: 1.2em;">
             Stop writing code to watch for changes.<br>
             Describe what matters. Let Drasi do the rest.
