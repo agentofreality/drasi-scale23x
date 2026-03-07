@@ -187,12 +187,12 @@
             <img src="images/diagrams/trading-demo-overview-expanded.svg"
                  alt="Demo architecture: Trading App → Drasi Server (PostgreSQL Sources, HTTP Source, Query Engine, SSE Reaction)">
             <ul class="fragment" style="font-size: 0.75em;">
-              <li>... get data from the source systems?</li>              
-              <li>... integrate data from multiple sources?</li>
+              <li>... get changes from the source systems?</li>              
+              <li>... integrate changing data from multiple sources?</li>
               <li>... update all dependencies when there is a change?</li>
-              <li>... update the Trading App in real time?</li>
+              <li>... update the Trading Web App in real time?</li>
               <li>... support multiple concurrent users?</li>
-              <li>... recover if the sources or my system goes down?</li>
+              <li>... re-sync if the sources or my system goes down?</li>
               <li class="fragment callout" style="margin-top: 0.8em;">Oh no...???</li>
               <li class="fragment callout" style="margin-top: 0.8em;">... not again !!!</li>
             </ul>
@@ -285,7 +285,7 @@
         <section>
           <h3>The Problems</h3>
           <p class="slide-intro">
-            Dev and Ops complexity, focus on plumbing not business solution, often one-off brittle solutions...
+            Introduce significant complexity for both Dev and Ops; focus on plumbing not the business solution; often result in one-off brittle solutions...
           </p>
           <div class="deployment-options" style="gap: 0.8em; margin-top: 0.8em; padding: 0 0.5em;">
             <div class="fragment" data-fragment-index="1" style="
