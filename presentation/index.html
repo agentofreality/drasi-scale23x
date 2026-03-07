@@ -258,6 +258,7 @@
           <img src="images/diagrams/analytics-diagram.svg"
                alt="Analytics platform flow: multiple source systems → ETL Pipeline (copy, mins–hours lag) → Analytics Platform (snapshot, not live) → Reports &amp; Alerts"
                style="width: 96%; max-width: 1400px; display: block; margin: 0.4em auto 0;">
+          <p class="callout" style="font-size: 0.9em; margin-top: 1em;">Using analytics for real-time detection is like reading yesterday's newspaper to find out if your house is on fire</p>
           <aside class="notes">
             PURPOSE: Explain analytics approach — powerful but retrospective.
             KEY POINTS: Rich queries across all data, but you're analyzing stale copies. ETL = delay.
@@ -273,6 +274,7 @@
           <img src="images/diagrams/cdc-diagram-slim.svg"
                alt="CDC pipeline: Database → Debezium → Kafka Topic → Stream Processor → Consumer App, plus required supporting infrastructure"
                style="width: 96%; max-width: 1400px; display: block; margin: 0.4em auto 0;">
+          <p class="callout" style="font-size: 0.9em; margin-top: 1em;">Setting up event stream processing to detect a data change is like hiring an entire orchestra when you just need someone to ring a doorbell</p>
           <aside class="notes">
             PURPOSE: Explain CDC/event streaming — powerful but heavy.
             KEY POINTS: Battle-tested, not dismissing it. But event-driven ≠ change-driven. Heavy infra, consumer owns logic.
@@ -422,7 +424,7 @@
             <li>Manage connection (and reconnection) to data source</li>
             <li>Receive / retrieve change events or mimic change feed</li>
             <li>Transform change events to property graph node/relation updates</li>
-            <li>Emit <strong>Source Change Events</strong> to subscribed Continuous Queries</li>
+            <li>Send <strong>Source Change Events</strong> to subscribed Continuous Queries</li>
           </ul>
           <img src="images/diagrams/source-change-events-expanded.svg"
                alt="Data flow: Source emits Insert, Update, and Delete Source Change Events to Continuous Query"
@@ -884,6 +886,14 @@ RETURN s.sector AS sector,
                 <tr>
                   <td><img src="images/logos/icon-governance.svg" alt="" style="width: 1.4em; height: 1.4em; vertical-align: middle;"></td>
                   <td>CNCF Sandbox · Open governance · Apache 2.0</td>
+                </tr>
+                <tr>
+                  <td><img src="images/logos/icon-discord.svg" alt="" style="width: 1.4em; height: 1.4em; vertical-align: middle;"></td>
+                  <td><a href="https://aka.ms/drasidiscord">Join the community</a> on Discord</td>
+                </tr>
+                <tr>
+                  <td><img src="images/logos/icon-follow.svg" alt="" style="width: 1.4em; height: 1.4em; vertical-align: middle;"></td>
+                  <td>Follow — <a href="https://bsky.app/profile/drasi-project.bsky.social">Bluesky</a> · <a href="https://x.com/drasi_project">X</a> · <a href="https://www.youtube.com/@DrasiProject">YouTube</a></td>
                 </tr>
               </tbody>
             </table>
