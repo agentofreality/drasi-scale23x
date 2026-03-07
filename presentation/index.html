@@ -560,22 +560,39 @@
         </section>
 
         <section>
-          <h3>Continuous Queries</h3>
-          <p>Declarative queries that run <strong>perpetually</strong> in <strong>openCypher</strong> or <strong>GQL</strong></p>
-          <p><small>Simple — find all delayed orders</small></p>
+          <h3>Continuous Query - Example</h3>
+          <p>TODO</p>
           <pre><code class="language-cypher" data-trim>
 MATCH (o:Order)
 WHERE o.status = 'delayed'
 RETURN o
           </code></pre>
-          <div class="fragment">
-            <p><small>Cross-source — orders with customer details from different databases</small></p>
-            <pre><code class="language-cypher" data-trim>
-MATCH (o:Order)-[:PLACED_BY]->(c:Customer)
-WHERE o.total > 1000
-RETURN o, c.name, c.email
-            </code></pre>
-          </div>
+          <aside class="notes">
+            This is the core innovation. Queries run perpetually, maintaining a live result set.
+            When source data changes, Drasi determines which results are added, updated, or deleted.
+
+            Why graph instead of SQL? Data is rarely isolated — its value comes from how it
+            relates to other data. Graph queries (openCypher/GQL) express relationships naturally:
+            MATCH (order)-[:PLACED_BY]->(customer) is intuitive. SQL requires explicit JOINs
+            and doesn't model relationships as first-class citizens.
+
+            Critical: queries can span multiple sources in a single statement — what the
+            transcript calls "synthetic relationships." Order from Postgres, Customer from
+            Cosmos DB, joined in one query. No shared schema or event bus required.
+            
+            If asked about streaming SQL (Materialize, ksqlDB): Drasi is for change detection
+            across existing systems. Streaming SQL processes event streams. Different problem shapes.
+          </aside>
+        </section>
+
+                <section>
+          <h3>Continuous Query - Example</h3>
+          <p>TODO</p>
+          <pre><code class="language-cypher" data-trim>
+MATCH (o:Order)
+WHERE o.status = 'delayed'
+RETURN o
+          </code></pre>
           <aside class="notes">
             This is the core innovation. Queries run perpetually, maintaining a live result set.
             When source data changes, Drasi determines which results are added, updated, or deleted.

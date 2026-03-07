@@ -31,37 +31,23 @@
         font-size="15" font-weight="700" fill="white">Kubernetes</text>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- FAN-IN ROUTING: circuit-board convergence       -->
+  <!-- FAN-IN ROUTING                                  -->
   <!-- ═══════════════════════════════════════════════ -->
 
   <!-- Branch from PostgreSQL (y=54) -->
-  <line x1="152" y1="54" x2="195" y2="54"
-        stroke="#42affa" stroke-width="2"/>
-  <circle cx="195" cy="54" r="3.5" fill="#42affa"/>
-  <polyline points="195,54 220,54 220,152"
+  <polyline points="152,54 210,54 210,152"
         fill="none" stroke="#42affa" stroke-width="2" stroke-linejoin="round"/>
-  <circle cx="220" cy="54" r="3.5" fill="#42affa"/>
 
-  <!-- Branch from Cosmos DB (y=152) — straight to trunk -->
-  <line x1="152" y1="152" x2="195" y2="152"
-        stroke="#42affa" stroke-width="2"/>
-  <circle cx="195" cy="152" r="3.5" fill="#42affa"/>
-  <line x1="195" y1="152" x2="220" y2="152"
+  <!-- Branch from Cosmos DB (y=152) — straight -->
+  <line x1="152" y1="152" x2="210" y2="152"
         stroke="#42affa" stroke-width="2"/>
 
   <!-- Branch from Kubernetes (y=250) -->
-  <line x1="152" y1="250" x2="195" y2="250"
-        stroke="#42affa" stroke-width="2"/>
-  <circle cx="195" cy="250" r="3.5" fill="#42affa"/>
-  <polyline points="195,250 220,250 220,152"
+  <polyline points="152,250 210,250 210,152"
         fill="none" stroke="#42affa" stroke-width="2" stroke-linejoin="round"/>
-  <circle cx="220" cy="250" r="3.5" fill="#42affa"/>
 
-  <!-- Junction node -->
-  <circle cx="240" cy="152" r="5" fill="#42affa"/>
-
-  <!-- Trunk: fan-in merge → Source -->
-  <line x1="220" y1="152" x2="285" y2="152"
+  <!-- Trunk → Source -->
+  <line x1="210" y1="152" x2="285" y2="152"
         stroke="#42affa" stroke-width="2.5" marker-end="url(#arr-sce)"/>
 
   <!-- ═══════════════════════════════════════════════ -->
@@ -76,50 +62,44 @@
   <!-- ═══════════════════════════════════════════════ -->
   <!-- Arrow: Source → Source Change Events             -->
   <!-- ═══════════════════════════════════════════════ -->
-  <line x1="410" y1="152" x2="449" y2="152"
+  <line x1="410" y1="152" x2="455" y2="152"
         stroke="#42affa" stroke-width="2.5" marker-end="url(#arr-sce)"/>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- SOURCE CHANGE EVENTS (compact)                  -->
+  <!-- SOURCE CHANGE EVENTS (centered, narrower)       -->
   <!-- ═══════════════════════════════════════════════ -->
-  <text x="575" y="30" text-anchor="middle"
+  <text x="558" y="74" text-anchor="middle"
         font-family="system-ui,-apple-system,sans-serif"
         font-size="13" font-weight="600" fill="#42affa">Source Change Events</text>
-  <rect x="450" y="38" width="250" height="180" rx="10"
+  <rect x="458" y="82" width="200" height="140" rx="10"
         fill="rgba(66,175,250,0.03)" stroke="rgba(66,175,250,0.20)"
         stroke-width="1" stroke-dasharray="6,3"/>
 
   <!-- Insert Card -->
-  <rect x="461" y="50" width="228" height="44" rx="8"
+  <rect x="468" y="94" width="180" height="32" rx="8"
         fill="rgba(66,175,250,0.12)" stroke="rgba(66,175,250,0.50)" stroke-width="1.5"/>
-  <circle cx="476" cy="66" r="5" fill="#4ade80"/>
-  <text x="490" y="66" font-family="system-ui,-apple-system,sans-serif"
+  <circle cx="482" cy="110" r="5" fill="#4ade80"/>
+  <text x="496" y="115" font-family="system-ui,-apple-system,sans-serif"
         font-size="13" font-weight="700" fill="white">Insert</text>
-  <text x="490" y="82" font-family="system-ui,-apple-system,sans-serif"
-        font-size="10" fill="rgba(255,255,255,0.55)">Node { labels, ref, properties }</text>
 
   <!-- Update Card -->
-  <rect x="461" y="106" width="228" height="44" rx="8"
+  <rect x="468" y="136" width="180" height="32" rx="8"
         fill="rgba(66,175,250,0.12)" stroke="rgba(66,175,250,0.50)" stroke-width="1.5"/>
-  <circle cx="476" cy="122" r="5" fill="#42affa"/>
-  <text x="490" y="122" font-family="system-ui,-apple-system,sans-serif"
+  <circle cx="482" cy="152" r="5" fill="#42affa"/>
+  <text x="496" y="157" font-family="system-ui,-apple-system,sans-serif"
         font-size="13" font-weight="700" fill="white">Update</text>
-  <text x="490" y="138" font-family="system-ui,-apple-system,sans-serif"
-        font-size="10" fill="rgba(255,255,255,0.55)">Node { labels, ref, properties }</text>
 
   <!-- Delete Card -->
-  <rect x="461" y="162" width="228" height="44" rx="8"
+  <rect x="468" y="178" width="180" height="32" rx="8"
         fill="rgba(66,175,250,0.12)" stroke="rgba(66,175,250,0.50)" stroke-width="1.5"/>
-  <circle cx="476" cy="178" r="5" fill="#f87171"/>
-  <text x="490" y="178" font-family="system-ui,-apple-system,sans-serif"
+  <circle cx="482" cy="194" r="5" fill="#f87171"/>
+  <text x="496" y="199" font-family="system-ui,-apple-system,sans-serif"
         font-size="13" font-weight="700" fill="white">Delete</text>
-  <text x="490" y="194" font-family="system-ui,-apple-system,sans-serif"
-        font-size="10" fill="rgba(255,255,255,0.55)">metadata: { ref, labels }</text>
 
   <!-- ═══════════════════════════════════════════════ -->
   <!-- Arrow: Source Change Events → Continuous Query   -->
   <!-- ═══════════════════════════════════════════════ -->
-  <line x1="702" y1="152" x2="733" y2="152"
+  <line x1="660" y1="152" x2="733" y2="152"
         stroke="#42affa" stroke-width="2.5" marker-end="url(#arr-sce)"/>
 
   <!-- ═══════════════════════════════════════════════ -->
@@ -127,13 +107,10 @@
   <!-- ═══════════════════════════════════════════════ -->
   <rect x="736" y="82" width="172" height="140" rx="12"
         fill="rgba(66,175,250,0.18)" stroke="#42affa" stroke-width="3"/>
-  <text x="822" y="142" text-anchor="middle"
+  <text x="822" y="148" text-anchor="middle"
         font-family="system-ui,-apple-system,sans-serif"
         font-size="18" font-weight="700" fill="white">Continuous</text>
-  <text x="822" y="164" text-anchor="middle"
+  <text x="822" y="170" text-anchor="middle"
         font-family="system-ui,-apple-system,sans-serif"
         font-size="18" font-weight="700" fill="white">Query</text>
-  <text x="822" y="184" text-anchor="middle"
-        font-family="system-ui,-apple-system,sans-serif"
-        font-size="11" fill="rgba(255,255,255,0.40)">processes changes</text>
 </svg>
