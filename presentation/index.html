@@ -296,7 +296,7 @@
         <section>
           <h3>The Problems</h3>
           <p class="slide-intro">
-            Dev and Ops complexity, mostly plumbing not business logic, unique often brittle solutions...
+            Dev and Ops complexity, focus on plumbing not business solution, often one-off brittle solutions...
           </p>
           <div class="deployment-options" style="gap: 0.6em; margin-top: 0.8em; padding: 0 0.5em;">
             <div class="fragment" data-fragment-index="1" style="
@@ -591,6 +591,16 @@ RETURN s.sector AS sector,
             <li>Receive Result Change Notifications</li>
             <li>Act based on changes</li>
           </ul>
+          <img src="images/diagrams/result-change-events-expanded.svg"
+               alt="Data flow: Continuous Query emits Result Change Notification to Reaction, which is used to interact with a downstream system."
+               style="width: 96%; max-width: 920px; display: block; margin: 0.2em auto 0;">
+          <aside class="notes">
+          </aside>
+        </section>
+
+        <section>
+          <h3>Reactions</h3>
+          <p class="subtitle">Integrate with downstream systems</p>
           <div class="accent-rows" style="margin-top: 1em;">
             <div class="accent-row-group fragment">
               <div class="accent-row-category">Push</div>
@@ -800,16 +810,7 @@ RETURN s.sector AS sector,
         <section>
           <h2>Demo: Drasi Trading</h2>
           <p class="slide-intro" style="font-style: italic;">Let's explore the change-driven trading solution built using Drasi</p>
-          <aside class="notes">
-            Transition to the live demo. We've covered the concepts — now let's see
-            Drasi running the trading application we showed earlier. This time, we'll
-            look under the hood at the Sources, Queries, and Reactions that power it.
-          </aside>
-        </section>
-
-        <section>
-          <h2>Demo: Drasi Trading Architecture</h2>
-          <img src="images/diagrams/trading-architecture.svg"
+          <img class="fragment" src="images/diagrams/trading-architecture.svg"
                alt="Drasi Trading Application Architecture"
                style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
