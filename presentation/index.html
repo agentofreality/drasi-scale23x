@@ -405,7 +405,7 @@
       <section>
         <section>
           <h2>Introducing</h2>
-          <img src="images/drasi/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 260px; margin-bottom: 0.2em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
+          <img src="images/drasi/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 480px; margin-bottom: 0.2em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
           <aside class="notes">
             Now let's meet Drasi. We've established the problem and the limitations
             of current approaches. Drasi is an open-source platform designed specifically
@@ -470,57 +470,34 @@
 
         <section>
           <h3>Sources</h3>
-          <p>Connect to your existing data where it is</p>
-          <div class="deployment-options" style="gap: 1.5em; margin-top: 0.8em;">
-            <div class="fragment" style="
-              flex: 1; max-width: 260px; text-align: center;
-              background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
-              border: 1px solid transparent;
-              border-image: linear-gradient(135deg, #42affa, #48e263) 1;
-              padding: 1.2em 1em;
-              box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
-            ">
-              <h4 style="color: #42affa; margin: 0 0 0.6em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">Relational</h4>
-              <div style="display: flex; flex-direction: column; gap: 0.5em; align-items: center;">
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">PostgreSQL</span>
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">MySQL</span>
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">SQL Server</span>
+          <p class="subtitle">Connect to your existing data where it is</p>
+          <div class="accent-rows" style="margin-top: 1em;">
+            <div class="accent-row-group fragment">
+              <div class="accent-row-category">Relational</div>
+              <div class="accent-row-items">
+                <div class="accent-row-item">🐘 PostgreSQL</div>
+                <div class="accent-row-item">🐬 MySQL</div>
+                <div class="accent-row-item">🗄️ SQL Server</div>
               </div>
             </div>
-            <div class="fragment" style="
-              flex: 1; max-width: 260px; text-align: center;
-              background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
-              border: 1px solid transparent;
-              border-image: linear-gradient(135deg, #42affa, #48e263) 1;
-              padding: 1.2em 1em;
-              box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
-            ">
-              <h4 style="color: #42affa; margin: 0 0 0.6em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">Graph</h4>
-              <div style="display: flex; flex-direction: column; gap: 0.5em; align-items: center;">
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Cosmos DB</span>
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Dataverse</span>
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">Kubernetes</span>
+            <div class="accent-row-group fragment">
+              <div class="accent-row-category">Graph / Doc</div>
+              <div class="accent-row-items">
+                <div class="accent-row-item">🌐 Cosmos DB</div>
+                <div class="accent-row-item">📊 Dataverse</div>
+                <div class="accent-row-item">☸️ Kubernetes</div>
               </div>
             </div>
-            <div class="fragment" style="
-              flex: 1; max-width: 260px; text-align: center;
-              background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
-              border: 1px solid transparent;
-              border-image: linear-gradient(135deg, #42affa, #48e263) 1;
-              padding: 1.2em 1em;
-              box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
-            ">
-              <h4 style="color: #42affa; margin: 0 0 0.6em; font-size: 0.85em; letter-spacing: 0.1em; text-transform: uppercase;">Stream</h4>
-              <div style="display: flex; flex-direction: column; gap: 0.5em; align-items: center;">
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Event Hubs</span>
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">HTTP</span>
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; width: 80%;">gRPC</span>
+            <div class="accent-row-group fragment">
+              <div class="accent-row-category">Stream</div>
+              <div class="accent-row-items">
+                <div class="accent-row-item">📡 Event Hubs</div>
+                <div class="accent-row-item">🌍 HTTP</div>
+                <div class="accent-row-item">⚡ gRPC</div>
               </div>
             </div>
           </div>
-          <p class="fragment subtext" style="margin-top: 0.8em;">
-            Table/Stream name → Node label · Columns → properties · Primary key → element ID
-          </p>
+          <p class="fragment subtext" style="margin-top: 1em;">No code changes to your applications — connects to what you already run</p>
           <aside class="notes">
             Sources connect to your existing infrastructure — no rip-and-replace required.
             Key point from the "observability without modification" principle: Drasi tails
@@ -619,16 +596,31 @@ RETURN o
             <li>Receive Result Change Notifications</li>
             <li>Act based on changes</li>
           </ul>
-          <div class="source-grid">
-            <span class="source-badge">Webhooks</span>
-            <span class="source-badge">SSE</span>
-            <span class="source-badge">gRPC</span>
-            <span class="source-badge">Stored Procs</span>
-            <span class="source-badge">Debezium</span>
-            <span class="source-badge">SignalR</span>
-            <span class="source-badge">Event Grid</span>
-            <span class="source-badge">Dapr</span>
-            <span class="source-badge">Gremlin</span>
+          <div class="accent-rows" style="margin-top: 1em;">
+            <div class="accent-row-group fragment">
+              <div class="accent-row-category">Push</div>
+              <div class="accent-row-items">
+                <div class="accent-row-item">🔗 Webhooks</div>
+                <div class="accent-row-item">📺 SSE</div>
+                <div class="accent-row-item">⚡ gRPC</div>
+                <div class="accent-row-item">📡 SignalR</div>
+              </div>
+            </div>
+            <div class="accent-row-group fragment">
+              <div class="accent-row-category">Write</div>
+              <div class="accent-row-items">
+                <div class="accent-row-item">🗃️ Stored Procs</div>
+                <div class="accent-row-item">🕸️ Gremlin</div>
+              </div>
+            </div>
+            <div class="accent-row-group fragment">
+              <div class="accent-row-category">Integrate</div>
+              <div class="accent-row-items">
+                <div class="accent-row-item">🔄 Debezium</div>
+                <div class="accent-row-item">🔲 Event Grid</div>
+                <div class="accent-row-item">🧩 Dapr</div>
+              </div>
+            </div>
           </div>
           <p class="fragment subtext" style="margin-top: 1.2em;">One query → many reactions · One reaction → many queries</p>
           <aside class="notes">

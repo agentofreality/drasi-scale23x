@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integration Display Alternatives — Drasi Presentation</title>
+  <style>
+    :root {
+      --brand: #42affa;
+      --brand-glow: rgba(66,175,250,0.25);
+      --bg: #111;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(66,175,250,0.25);
+      --text: #e0e0e0;
+      --muted: rgba(255,255,255,0.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      padding: 2em;
+    }
+
+    h1 { text-align: center; margin-bottom: 0.3em; font-size: 1.8em; }
+    .page-intro { text-align: center; color: var(--muted); font-size: 0.9em; margin-bottom: 3em; }
+
+    /* Each option is a simulated slide */
+    .option {
+      max-width: 960px;
+      margin: 0 auto 4em;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .option-header {
+      background: rgba(66,175,250,0.08);
+      padding: 0.8em 1.5em;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: baseline;
+      gap: 1em;
+    }
+
+    .option-header h2 {
+      font-size: 1em;
+      color: var(--brand);
+      white-space: nowrap;
+    }
+
+    .option-header p {
+      font-size: 0.75em;
+      color: var(--muted);
+    }
+
+    .slide-frame {
+      background: #1a1a2e;
+      padding: 2.5em 2em;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide-frame h3 {
+      font-size: 1.4em;
+      margin-bottom: 0.3em;
+    }
+
+    .slide-frame .subtitle {
+      font-size: 0.8em;
+      color: var(--muted);
+      margin-bottom: 1.8em;
+    }
+
+    /* ═══════════════════════════════════════════════
+       OPTION A: Logo Grid (Zapier / n8n style)
+       ═══════════════════════════════════════════════ */
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 1em;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .logo-grid-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5em;
+      padding: 1em 0.5em;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid transparent;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .logo-grid-item:hover {
+      border-color: var(--brand);
+      box-shadow: 0 0 12px var(--brand-glow);
+    }
+
+    .logo-grid-item .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      background: rgba(66,175,250,0.1);
+    }
+
+    .logo-grid-item .logo-name {
+      font-size: 0.65em;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* ═══════════════════════════════════════════════
+       OPTION B: Hub-and-Spoke / Radial
+       ═══════════════════════════════════════════════ */
+    .radial-container {
+      position: relative;
+      width: 460px;
+      height: 460px;
+    }
+
+    .radial-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(66,175,250,0.2), rgba(72,226,99,0.15));
+      border: 2px solid var(--brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.9em;
+      color: var(--brand);
+      box-shadow: 0 0 30px var(--brand-glow), 0 0 60px rgba(66,175,250,0.1);
+      z-index: 2;
+    }
+
+    .radial-item {
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55em;
+      font-weight: 600;
+      gap: 0.2em;
+      z-index: 2;
+    }
+
+    .radial-item .radial-icon { font-size: 1.6em; }
+
+    .radial-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px dashed rgba(66,175,250,0.15);
+    }
+
+    .radial-ring.inner { width: 260px; height: 260px; }
+    .radial-ring.outer { width: 400px; height: 400px; }
+
+    .radial-label {
+      position: absolute;
+      font-size: 0.55em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--brand);
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════════════
+       OPTION C: Two-Column Flow (Segment / Fivetran)
+       ═══════════════════════════════════════════════ */
+    .flow-layout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .flow-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6em;
+    }
+
+    .flow-column.sources { align-items: flex-end; }
+    .flow-column.reactions { align-items: flex-start; }
+
+    .flow-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      padding: 0.5em 1em;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.72em;
+      font-weight: 600;
+      min-width: 160px;
+    }
+
+    .flow-item .flow-icon {
+      font-size: 1.3em;
+      flex-shrink: 0;
+    }
+
+    .flow-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 1.5em;
+      gap: 0.3em;
+      flex-shrink: 0;
+    }
+
+    .flow-center-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(66,175,250,0.2), rgba(72,226,99,0.15));
+      border: 2px solid var(--brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.8em;
+      color: var(--brand);
+      box-shadow: 0 0 20px var(--brand-glow);
+    }
+
+    .flow-arrows {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3em;
+      padding: 0.5em 0;
+    }
+
+    .flow-arrow {
+      color: var(--brand);
+      font-size: 1.5em;
+      opacity: 0.6;
+    }
+
+    .flow-label {
+      font-size: 0.6em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--brand);
+      opacity: 0.7;
+      margin-bottom: 0.6em;
+    }
+
+    /* ═══════════════════════════════════════════════
+       OPTION D: Compact Rows with Category Accent
+       ═══════════════════════════════════════════════ */
+    .row-layout {
+      width: 100%;
+      max-width: 750px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2em;
+    }
+
+    .row-group {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+
+    .row-category {
+      writing-mode: vertical-lr;
+      transform: rotate(180deg);
+      font-size: 0.55em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--brand);
+      opacity: 0.8;
+      white-space: nowrap;
+      min-width: 1.5em;
+    }
+
+    .row-items {
+      display: flex;
+      gap: 0.8em;
+      flex-wrap: wrap;
+      flex: 1;
+      padding-left: 0.8em;
+      border-left: 2px solid rgba(66,175,250,0.3);
+    }
+
+    .row-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0.55em 1em;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.7em;
+      font-weight: 600;
+      transition: border-color 0.2s;
+    }
+
+    .row-item:hover {
+      border-color: var(--brand);
+    }
+
+    .row-item .row-icon {
+      font-size: 1.2em;
+    }
+
+    /* ═══════════════════════════════════════════════
+       OPTION A-ALT: Combined Sources + Reactions
+       single slide with logo grid for both
+       ═══════════════════════════════════════════════ */
+    .dual-grid-container {
+      display: flex;
+      gap: 3em;
+      width: 100%;
+      max-width: 850px;
+    }
+
+    .dual-grid-half {
+      flex: 1;
+    }
+
+    .dual-grid-half h4 {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--brand);
+      margin-bottom: 0.8em;
+      padding-bottom: 0.4em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dual-grid-half .logo-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .footnote {
+      font-size: 0.65em;
+      color: var(--muted);
+      margin-top: 1.5em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Integration Display — Alternative Approaches</h1>
+<p class="page-intro">Four options for replacing the Sources cards and Reactions pills. Open in browser to preview.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     OPTION A: LOGO GRID
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="option">
+  <div class="option-header">
+    <h2>Option A — Logo Grid</h2>
+    <p>Clean grid of logos + names. No category grouping. Lets the breadth speak for itself. (Zapier / n8n style)</p>
+  </div>
+
+  <!-- Sources slide -->
+  <div class="slide-frame">
+    <h3>Sources</h3>
+    <p class="subtitle">Connect to your existing data where it is</p>
+    <div class="logo-grid">
+      <div class="logo-grid-item"><div class="logo-icon">🐘</div><div class="logo-name">PostgreSQL</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">🐬</div><div class="logo-name">MySQL</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">🗄️</div><div class="logo-name">SQL Server</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">🌐</div><div class="logo-name">Cosmos DB</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">📊</div><div class="logo-name">Dataverse</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">☸️</div><div class="logo-name">Kubernetes</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">📡</div><div class="logo-name">Event Hubs</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">🌍</div><div class="logo-name">HTTP</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">⚡</div><div class="logo-name">gRPC</div></div>
+    </div>
+    <p class="footnote">No code changes to your applications — connects to what you already run</p>
+  </div>
+
+  <!-- Reactions slide -->
+  <div class="slide-frame" style="border-top: 1px solid var(--border);">
+    <h3>Reactions</h3>
+    <p class="subtitle">Act when query results change</p>
+    <div class="logo-grid">
+      <div class="logo-grid-item"><div class="logo-icon">🔗</div><div class="logo-name">Webhooks</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">📺</div><div class="logo-name">SSE</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">⚡</div><div class="logo-name">gRPC</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">🗃️</div><div class="logo-name">Stored Procs</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">🔄</div><div class="logo-name">Debezium</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">📡</div><div class="logo-name">SignalR</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">🔲</div><div class="logo-name">Event Grid</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">🧩</div><div class="logo-name">Dapr</div></div>
+      <div class="logo-grid-item"><div class="logo-icon">🕸️</div><div class="logo-name">Gremlin</div></div>
+    </div>
+    <p class="footnote">One query → many reactions · One reaction → many queries</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     OPTION B: HUB-AND-SPOKE / RADIAL
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="option">
+  <div class="option-header">
+    <h2>Option B — Hub-and-Spoke</h2>
+    <p>Drasi at center, integrations radiating outward. Sources on the left arc, Reactions on the right. Tells the ecosystem story visually. (Segment / Mulesoft style)</p>
+  </div>
+
+  <div class="slide-frame">
+    <h3>Ecosystem</h3>
+    <p class="subtitle">Sources flow in · Reactions flow out</p>
+    <div class="radial-container">
+      <!-- Rings -->
+      <div class="radial-ring inner"></div>
+      <div class="radial-ring outer"></div>
+
+      <!-- Center -->
+      <div class="radial-center">Drasi</div>
+
+      <!-- Labels -->
+      <div class="radial-label" style="left: 20px; top: 50%; transform: translateY(-50%);">Sources</div>
+      <div class="radial-label" style="right: 10px; top: 50%; transform: translateY(-50%);">Reactions</div>
+
+      <!-- Sources (left semicircle, inner ring) -->
+      <div class="radial-item" style="top: 58px;  left: 60px;"><span class="radial-icon">🐘</span>Postgres</div>
+      <div class="radial-item" style="top: 195px; left: 20px;"><span class="radial-icon">🐬</span>MySQL</div>
+      <div class="radial-item" style="top: 330px; left: 60px;"><span class="radial-icon">🗄️</span>SQL Server</div>
+
+      <!-- Sources (left semicircle, outer ring) -->
+      <div class="radial-item" style="top: 10px;  left: 145px;"><span class="radial-icon">🌐</span>Cosmos</div>
+      <div class="radial-item" style="top: 380px; left: 145px;"><span class="radial-icon">☸️</span>K8s</div>
+
+      <!-- Reactions (right semicircle, inner ring) -->
+      <div class="radial-item" style="top: 58px;  right: 60px;"><span class="radial-icon">🔗</span>Webhook</div>
+      <div class="radial-item" style="top: 195px; right: 20px;"><span class="radial-icon">📺</span>SSE</div>
+      <div class="radial-item" style="top: 330px; right: 60px;"><span class="radial-icon">⚡</span>gRPC</div>
+
+      <!-- Reactions (right semicircle, outer ring) -->
+      <div class="radial-item" style="top: 10px;  right: 145px;"><span class="radial-icon">📡</span>SignalR</div>
+      <div class="radial-item" style="top: 380px; right: 145px;"><span class="radial-icon">🧩</span>Dapr</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     OPTION C: TWO-COLUMN FLOW (single slide replaces both)
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="option">
+  <div class="option-header">
+    <h2>Option C — Two-Column Flow</h2>
+    <p>Sources on the left, Reactions on the right, Drasi in the center. Combines both slides into one and tells the data flow story. (Fivetran / Airbyte style)</p>
+  </div>
+
+  <div class="slide-frame">
+    <h3>Sources → Drasi → Reactions</h3>
+    <p class="subtitle">Connect. Detect. Act.</p>
+    <div class="flow-layout">
+      <!-- Sources column -->
+      <div class="flow-column sources">
+        <div class="flow-label">Sources</div>
+        <div class="flow-item"><span class="flow-icon">🐘</span> PostgreSQL</div>
+        <div class="flow-item"><span class="flow-icon">🐬</span> MySQL</div>
+        <div class="flow-item"><span class="flow-icon">🗄️</span> SQL Server</div>
+        <div class="flow-item"><span class="flow-icon">🌐</span> Cosmos DB</div>
+        <div class="flow-item"><span class="flow-icon">☸️</span> Kubernetes</div>
+        <div class="flow-item"><span class="flow-icon">📡</span> Event Hubs</div>
+        <div class="flow-item"><span class="flow-icon">🌍</span> HTTP</div>
+        <div class="flow-item"><span class="flow-icon">⚡</span> gRPC</div>
+      </div>
+
+      <!-- Center -->
+      <div class="flow-center">
+        <div class="flow-arrows"><span class="flow-arrow">→</span><span class="flow-arrow">→</span><span class="flow-arrow">→</span></div>
+        <div class="flow-center-logo">Drasi</div>
+        <div class="flow-arrows"><span class="flow-arrow">→</span><span class="flow-arrow">→</span><span class="flow-arrow">→</span></div>
+      </div>
+
+      <!-- Reactions column -->
+      <div class="flow-column reactions">
+        <div class="flow-label">Reactions</div>
+        <div class="flow-item"><span class="flow-icon">🔗</span> Webhooks</div>
+        <div class="flow-item"><span class="flow-icon">📺</span> SSE</div>
+        <div class="flow-item"><span class="flow-icon">⚡</span> gRPC</div>
+        <div class="flow-item"><span class="flow-icon">🗃️</span> Stored Procs</div>
+        <div class="flow-item"><span class="flow-icon">🔄</span> Debezium</div>
+        <div class="flow-item"><span class="flow-icon">📡</span> SignalR</div>
+        <div class="flow-item"><span class="flow-icon">🔲</span> Event Grid</div>
+        <div class="flow-item"><span class="flow-icon">🧩</span> Dapr</div>
+        <div class="flow-item"><span class="flow-icon">🕸️</span> Gremlin</div>
+      </div>
+    </div>
+    <p class="footnote">No code changes · One query → many reactions · One reaction → many queries</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     OPTION D: COMPACT ROWS WITH CATEGORY ACCENT
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="option">
+  <div class="option-header">
+    <h2>Option D — Accent Rows</h2>
+    <p>Horizontal rows with a vertical category label on the left and items flowing right. Keeps lightweight grouping without heavy cards. Clean and scannable.</p>
+  </div>
+
+  <!-- Sources slide -->
+  <div class="slide-frame">
+    <h3>Sources</h3>
+    <p class="subtitle">Connect to your existing data where it is</p>
+    <div class="row-layout">
+      <div class="row-group">
+        <div class="row-category">Relational</div>
+        <div class="row-items">
+          <div class="row-item"><span class="row-icon">🐘</span> PostgreSQL</div>
+          <div class="row-item"><span class="row-icon">🐬</span> MySQL</div>
+          <div class="row-item"><span class="row-icon">🗄️</span> SQL Server</div>
+        </div>
+      </div>
+      <div class="row-group">
+        <div class="row-category">Graph / Doc</div>
+        <div class="row-items">
+          <div class="row-item"><span class="row-icon">🌐</span> Cosmos DB</div>
+          <div class="row-item"><span class="row-icon">📊</span> Dataverse</div>
+          <div class="row-item"><span class="row-icon">☸️</span> Kubernetes</div>
+        </div>
+      </div>
+      <div class="row-group">
+        <div class="row-category">Stream</div>
+        <div class="row-items">
+          <div class="row-item"><span class="row-icon">📡</span> Event Hubs</div>
+          <div class="row-item"><span class="row-icon">🌍</span> HTTP</div>
+          <div class="row-item"><span class="row-icon">⚡</span> gRPC</div>
+        </div>
+      </div>
+    </div>
+    <p class="footnote">No code changes to your applications — connects to what you already run</p>
+  </div>
+
+  <!-- Reactions slide -->
+  <div class="slide-frame" style="border-top: 1px solid var(--border);">
+    <h3>Reactions</h3>
+    <p class="subtitle">Act when query results change</p>
+    <div class="row-layout">
+      <div class="row-group">
+        <div class="row-category">Push</div>
+        <div class="row-items">
+          <div class="row-item"><span class="row-icon">🔗</span> Webhooks</div>
+          <div class="row-item"><span class="row-icon">📺</span> SSE</div>
+          <div class="row-item"><span class="row-icon">⚡</span> gRPC</div>
+          <div class="row-item"><span class="row-icon">📡</span> SignalR</div>
+        </div>
+      </div>
+      <div class="row-group">
+        <div class="row-category">Write</div>
+        <div class="row-items">
+          <div class="row-item"><span class="row-icon">🗃️</span> Stored Procs</div>
+          <div class="row-item"><span class="row-icon">🕸️</span> Gremlin</div>
+        </div>
+      </div>
+      <div class="row-group">
+        <div class="row-category">Integrate</div>
+        <div class="row-items">
+          <div class="row-item"><span class="row-icon">🔄</span> Debezium</div>
+          <div class="row-item"><span class="row-icon">🔲</span> Event Grid</div>
+          <div class="row-item"><span class="row-icon">🧩</span> Dapr</div>
+        </div>
+      </div>
+    </div>
+    <p class="footnote">One query → many reactions · One reaction → many queries</p>
+  </div>
+</div>
+
+</body>
+</html>
