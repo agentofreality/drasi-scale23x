@@ -20,13 +20,20 @@
       <section>
         <img src="images/drasi-logo/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 320px; margin-bottom: 0.3em; filter: drop-shadow(0 0 20px rgba(66,175,250,0.4));">
         <h3>A New Take on Change-Driven Architectures</h3>
+        <p style="margin-top: 0.2em; margin-bottom: 1em;">
+          <small style="font-size: 0.5em; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.55;">Presented at SCaLE 23x</small>
+        </p>
         <p>
-          <small>Allen Jones — SCaLE 23x</small>
+          <small>Allen Jones</small><br>
+          <small>
+            <a href="mailto:alljones@microsoft.com" target="_blank">alljones@microsoft.com</a> ·
+            <a href="https://github.com/agentofreality" target="_blank"><svg viewBox="0 0 16 16" width="16" height="16" style="vertical-align: middle; fill: currentColor; margin-right: 0.2em;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>@agentofreality</a>
+          </small>
         </p>
         <p>
           <small>
-            <a href="https://drasi.io">drasi.io</a> ·
-            <a href="https://github.com/drasi-project">github.com/drasi-project</a>
+            <a href="https://drasi.io" target="_blank">drasi.io</a> ·
+            <a href="https://github.com/drasi-project" target="_blank">github.com/drasi-project</a>
           </small>
         </p>
         <aside class="notes">
@@ -128,16 +135,8 @@
       <!-- ============================================================ -->
       <section>
         <section>
-          <h2>Example</h2>
-          <p class="slide-intro" style="font-style: italic;">Let's take a quick look at a change-driven system</p>
-          <aside class="notes">
-            Before diving into how teams typically solve this, let's see a concrete example
-            of a change-driven system in action. This grounds the abstract problem in reality.
-          </aside>
-        </section>
-
-        <section>
           <h3>Example: Trading Application</h3>
+          <p class="slide-intro" style="font-style: italic;">Let's take a quick look at a change-driven system</p>
           <div style="display: flex; align-items: center; justify-content: center; gap: 2em; margin-top: 0.5em;">
             <img src="images/diagrams/trading-demo-overview.svg"
                  alt="Demo architecture: Trading App → Drasi Server (PostgreSQL Sources, HTTP Source, Query Engine, SSE Reaction)"
@@ -295,7 +294,7 @@
           <p class="slide-intro">
             CDC reads row-level changes from the data store and streams them to an event processing engine for filtering, joining, and transformation.
           </p>
-          <img src="images/diagrams/cdc-diagram.svg"
+          <img src="images/diagrams/cdc-diagram-slim.svg"
                alt="CDC pipeline: Database → Debezium → Kafka Topic → Stream Processor → Consumer App, plus required supporting infrastructure"
                style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
@@ -497,7 +496,7 @@
               </div>
             </div>
           </div>
-          <p class="fragment subtext" style="margin-top: 1em;">No code changes to your applications — connects to what you already run</p>
+          <p class="fragment subtext" style="margin-top: 1em;"><strong>Extensible</strong> - SDK, AI Agents, and working examples to create new Sources</p>
           <aside class="notes">
             Sources connect to your existing infrastructure — no rip-and-replace required.
             Key point from the "observability without modification" principle: Drasi tails
@@ -622,7 +621,7 @@ RETURN o
               </div>
             </div>
           </div>
-          <p class="fragment subtext" style="margin-top: 1.2em;">One query → many reactions · One reaction → many queries</p>
+          <p class="fragment subtext" style="margin-top: 1em;"><strong>Extensible</strong> - SDK, AI Agents, and working examples to create new Reactions</p>
           <aside class="notes">
             Reactions receive typed change events: added (new result matches), updated (result
             changed but still matches, with before/after), deleted (no longer matches).
@@ -660,7 +659,7 @@ RETURN o
               padding: 1.2em 1em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <img src="images/logos/docker-logo.png" alt="Docker" class="deployment-icon">
+              <img src="images/logos/docker-logo.png" alt="Docker" class="deployment-icon" style="transform: scale(1.35);">
               <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.72em; letter-spacing: 0.08em; white-space: nowrap;">Drasi Server</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
                 <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Simplicity &amp; performance</span>
