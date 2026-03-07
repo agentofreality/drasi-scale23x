@@ -647,17 +647,17 @@ RETURN s.sector AS sector,
 
         <section>
           <h3>Advanced Capabilities</h3>
-          <div class="deployment-options" style="gap: 0.6em; margin-top: 1em; padding: 0 0.3em; flex-wrap: wrap;">
+          <div class="deployment-options" style="gap: 0.6em; margin-top: 1em; padding: 0 0.3em; flex-wrap: wrap; max-width: 95%; margin-left: auto; margin-right: auto; justify-content: center;">
             <div class="fragment" style="
-              flex: 1; min-width: 240px; max-width: 280px; text-align: left;
+              flex: 0 0 30%; box-sizing: border-box; text-align: left;
               background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
               border: 1px solid transparent;
               border-image: linear-gradient(135deg, #42affa, #48e263) 1;
               padding: 0.8em 0.9em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.55em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Highly Extensible</h4>
-              <ul style="font-size: 0.45em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
+              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Highly Extensible</h4>
+              <ul style="font-size: 0.55em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
                 <li>Sources</li>
                 <li>Reactions</li>
                 <li>Bootstrap Providers</li>
@@ -667,45 +667,45 @@ RETURN s.sector AS sector,
               </ul>
             </div>            
             <div class="fragment" style="
-              flex: 1; min-width: 240px; max-width: 280px; text-align: left;
+              flex: 0 0 30%; box-sizing: border-box; text-align: left;
               background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
               border: 1px solid transparent;
               border-image: linear-gradient(135deg, #42affa, #48e263) 1;
               padding: 0.8em 0.9em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.55em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Middleware Pipeline</h4>
-              <ul style="font-size: 0.45em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
+              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Middleware Pipeline</h4>
+              <ul style="font-size: 0.55em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
                 <li>Transform &amp; enrich Source Change Events before queries</li>
                 <li>jq transforms, Unwind, Decode</li>
                 <li>Relabel &amp; Promote fields</li>
               </ul>
             </div>
             <div class="fragment" style="
-              flex: 1; min-width: 240px; max-width: 280px; text-align: left;
+              flex: 0 0 30%; box-sizing: border-box; text-align: left;
               background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
               border: 1px solid transparent;
               border-image: linear-gradient(135deg, #42affa, #48e263) 1;
               padding: 0.8em 0.9em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.55em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Multi-Source Queries</h4>
-              <ul style="font-size: 0.45em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
+              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Multi-Source Queries</h4>
+              <ul style="font-size: 0.55em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
                 <li>Join across heterogeneous systems in one query</li>
                 <li>Synthetic relationships between databases</li>
                 <li>No shared schema or event bus</li>
               </ul>
             </div>
             <div class="fragment" style="
-              flex: 1; min-width: 240px; max-width: 280px; text-align: left;
+              flex: 0 0 30%; box-sizing: border-box; text-align: left;
               background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
               border: 1px solid transparent;
               border-image: linear-gradient(135deg, #42affa, #48e263) 1;
               padding: 0.8em 0.9em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.55em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Absence of Change</h4>
-              <ul style="font-size: 0.45em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
+              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Absence of Change</h4>
+              <ul style="font-size: 0.55em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
                 <li>Detect what <em>didn't</em> happen</li>
                 <li><strong>trueFor</strong> — condition persists for duration</li>
                 <li><strong>trueLater</strong> — condition is true at a specific time</li>
@@ -713,30 +713,30 @@ RETURN s.sector AS sector,
               </ul>
             </div>
             <div class="fragment" style="
-              flex: 1; min-width: 240px; max-width: 280px; text-align: left;
+              flex: 0 0 30%; box-sizing: border-box; text-align: left;
               background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
               border: 1px solid transparent;
               border-image: linear-gradient(135deg, #42affa, #48e263) 1;
               padding: 0.8em 0.9em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.55em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Temporal Functionality</h4>
-              <ul style="font-size: 0.45em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
+              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Temporal Functionality</h4>
+              <ul style="font-size: 0.55em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
                 <li>Compare a changed element with its previous values</li>
                 <li>Process a range of previous values for the changed element</li>
                 <li>Get the Continuous Query result as it was at any point in time</li>
               </ul>
             </div>            
             <div class="fragment" style="
-              flex: 1; min-width: 240px; max-width: 280px; text-align: left;
+              flex: 0 0 30%; box-sizing: border-box; text-align: left;
               background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(20,25,45,0.9));
               border: 1px solid transparent;
               border-image: linear-gradient(135deg, #42affa, #48e263) 1;
               padding: 0.8em 0.9em;
               box-shadow: 0 0 15px rgba(66,175,250,0.15), 0 0 30px rgba(66,175,250,0.05);
             ">
-              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.55em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Change-driven UI</h4>
-              <ul style="font-size: 0.45em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
+              <h4 style="color: #42affa; margin: 0 0 0.4em; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; text-align: center;">Change-driven UI</h4>
+              <ul style="font-size: 0.55em; line-height: 1.6; margin: 0; padding-left: 1.2em;">
                 <li>Drive UI content from Continuous Queries</li>
                 <li>Drop in React and Vue components display Continuous Query Result</li>
               </ul>
@@ -765,7 +765,7 @@ RETURN s.sector AS sector,
               <img src="images/logos/kubernetes-logo.svg" alt="Kubernetes" class="deployment-icon">
               <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.72em; letter-spacing: 0.08em; white-space: nowrap;">Drasi for K8s</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Scaling &amp; observability</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 100%;">Scaling &amp; observability</span>
                 <span style="color: #e0e0e0; font-size: 0.57em; font-weight: 500; padding: 0.3em 0; width: 80%;">AKS · EKS · GKE · K3s · Kind</span>
               </div>
             </div>
@@ -780,7 +780,7 @@ RETURN s.sector AS sector,
               <img src="images/logos/rust-logo.png" alt="Rust" class="deployment-icon">
               <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.72em; letter-spacing: 0.08em; white-space: nowrap;">drasi-lib</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Edge · IoT · Embedded</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 100%;">Edge · IoT · Embedded</span>
                 <span style="color: #e0e0e0; font-size: 0.57em; font-weight: 500; padding: 0.3em 0; width: 80%;">Rust crate</span>
               </div>
             </div>
@@ -795,7 +795,7 @@ RETURN s.sector AS sector,
               <img src="images/logos/docker-logo.png" alt="Docker" class="deployment-icon" style="transform: scale(1.35);">
               <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.72em; letter-spacing: 0.08em; white-space: nowrap;">Drasi Server</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
-                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 80%;">Simplicity &amp; performance</span>
+                <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 100%;">Simplicity &amp; performance</span>
                 <span style="color: #e0e0e0; font-size: 0.57em; font-weight: 500; padding: 0.3em 0; width: 80%;">Binary · Docker</span>
               </div>
             </div>
