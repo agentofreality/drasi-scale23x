@@ -693,32 +693,11 @@ RETURN o
       </section>
 
       <!-- ============================================================ -->
-      <!-- V. DEMO 1 -->
-      <!-- ============================================================ -->
-      <section>
-        <section>
-          <h2>Demo: Drasi Trading</h2>
-          <p class="slide-intro" style="font-style: italic;">Let's explore the change-driven trading solution built using Drasi</p>
-          <aside class="notes">
-            Time to see Drasi in action. This demo shows the core Source → Query → Reaction
-            flow with a concrete scenario: detecting delayed orders in real time.
-          </aside>
-        </section>
-
-        <section data-background-iframe="http://localhost:5273" data-background-interactive>
-          <aside class="notes">
-            Live demo via Drasi Server's built-in web UI. Press Esc to exit interactive mode.
-            Show: create a delayed order, watch it appear in query results, see reaction fire.
-          </aside>
-        </section>
-      </section>
-
-      <!-- ============================================================ -->
       <!-- VI. PATTERNS & ADVANCED CAPABILITIES -->
       <!-- ============================================================ -->
       <section>
         <section>
-          <h2>Patterns &amp; Advanced Capabilities</h2>
+          <h2>Advanced Capabilities &amp;<br>Change-Driven Patterns</h2>
           <aside class="notes">
             Now let's look at some advanced patterns that differentiate Drasi from
             simpler change detection approaches.
@@ -749,7 +728,7 @@ RETURN o.id, p.name, p.inventory
         </section>
 
         <section>
-          <h3>Temporal Capabilities</h3>
+          <h3>Detecting the Absence of Change</h3>
           <div class="fragment">
             <p><strong>trueFor</strong></p>
             <p><small>"Alert me if a sensor stays above threshold for 5 minutes"</small></p>
@@ -763,41 +742,6 @@ RETURN o.id, p.name, p.inventory
             trueFor: condition must remain true for a duration before triggering.
             trueLater: schedule a future check — "did this resolve within 30 minutes?"
             Both enable detecting the absence of change, which is critical for SLAs and deadlines.
-          </aside>
-        </section>
-
-        <section>
-          <h3>Detecting the Absence of Change</h3>
-          <p class="fragment slide-intro" style="font-style: italic;">
-            "A patient's vitals haven't updated in 10 minutes.<br>
-            Is the sensor offline — or is it an emergency?"
-          </p>
-          <pre class="fragment"><code class="language-cypher" data-trim>
-MATCH (p:Patient)-[:HAS_MONITOR]->(m:Monitor)
-WHERE m.lastReading IS NOT NULL
-  AND trueFor(m.lastReading = m.lastReading, 10, 'minutes')
-RETURN p.name, p.room, m.lastReading
-          </code></pre>
-          <p class="fragment callout">Most event-driven systems simply can't do this.</p>
-          <aside class="notes">
-            This is often the "aha" moment. Traditional event-driven systems can't do this —
-            there's no event when nothing happens. Drasi's trueFor detects when a value
-            hasn't changed for a specified duration. Critical for healthcare, IoT, SLA monitoring.
-            Let this moment land before the callout fragment.
-          </aside>
-        </section>
-
-        <section>
-          <h3>AI-Driven Workloads</h3>
-          <ul>
-            <li class="fragment">Keep embeddings &amp; model inputs aligned with <strong>live data</strong></li>
-            <li class="fragment">React to <em>specific</em> changes — not entire datasets</li>
-            <li class="fragment"><strong>No stale context</strong> — continuous freshness, no polling</li>
-          </ul>
-          <aside class="notes">
-            AI systems increasingly depend on fresh data. RAG pipelines need updated embeddings.
-            Model inputs must reflect current state. Drasi detects exactly which data changed
-            and triggers targeted updates — no polling entire datasets, no stale context.
           </aside>
         </section>
 
@@ -817,26 +761,50 @@ RETURN p.name, p.room, m.lastReading
           </aside>
         </section>
 
-      </section>
-
-      <!-- ============================================================ -->
-      <!-- VII. DEMO 2 -->
-      <!-- ============================================================ -->
-      <section>
         <section>
-          <h2>Demo 2</h2>
-          <p class="slide-intro" style="font-style: italic;">Can we catch a cross-database inconsistency<br>the moment it happens?</p>
+          <h3>AI-Driven Workloads</h3>
+          <ul>
+            <li class="fragment">Keep embeddings &amp; model inputs aligned with <strong>live data</strong></li>
+            <li class="fragment">React to <em>specific</em> changes — not entire datasets</li>
+            <li class="fragment"><strong>No stale context</strong> — continuous freshness, no polling</li>
+          </ul>
           <aside class="notes">
-            This demo showcases multi-source queries — joining data across PostgreSQL and
-            Cosmos DB to detect inconsistencies the moment they occur. This is the "wow" moment
-            that shows Drasi's differentiation from single-source CDC tools.
+            AI systems increasingly depend on fresh data. RAG pipelines need updated embeddings.
+            Model inputs must reflect current state. Drasi detects exactly which data changed
+            and triggers targeted updates — no polling entire datasets, no stale context.
           </aside>
         </section>
 
-        <section data-background-iframe="http://localhost:8080/ui/?instance=demo-2" data-background-interactive>
+        <section>
+          <h3>Source and Reaction Builder Agents</h3>
+        </section>
+
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- V. DEMO -->
+      <!-- ============================================================ -->
+      <section>
+        <section>
+          <h2>Demo: Drasi Trading</h2>
+          <p class="slide-intro" style="font-style: italic;">Let's explore the change-driven trading solution built using Drasi</p>
           <aside class="notes">
-            Live demo. Delete an order from Postgres, watch Drasi detect the dangling reference
-            in Cosmos DB immediately. Press Esc to exit interactive mode.
+            Time to see Drasi in action. This demo shows the core Source → Query → Reaction
+            flow with a concrete scenario: detecting delayed orders in real time.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Demo: Drasi Trading Architecture</h2>
+          <img src="images/diagrams/trading-architecture.svg"
+               alt="Drasi Trading Application Architecture"
+               style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
+        </section>
+
+        <section data-background-iframe="http://localhost:5273" data-background-interactive>
+          <aside class="notes">
+            Live demo via Drasi Server's built-in web UI. Press Esc to exit interactive mode.
+            Show: create a delayed order, watch it appear in query results, see reaction fire.
           </aside>
         </section>
       </section>
@@ -846,24 +814,12 @@ RETURN p.name, p.room, m.lastReading
       <!-- ============================================================ -->
       <section>
         <section>
-          <h2>Practical Takeaways</h2>
-          <aside class="notes">
-            Let's wrap up with practical guidance on when and how to use Drasi.
-          </aside>
-        </section>
-
-        <section>
-          <h3>When to Reach for Drasi</h3>
+          <h3>Why Drasi</h3>
+          <p class="slide-intro">Not the only way to build change-driven applications but it is the easiest</p>
           <ul>
-            <li class="fragment">You need to react to <strong>specific, meaningful</strong> data changes</li>
-            <li class="fragment">You're tired of writing custom polling / filtering / state code</li>
-            <li class="fragment">You want to <strong>standardize</strong> change detection across your org</li>
-            <li class="fragment">You're building <strong>AI systems</strong> that need continuously fresh data</li>
+            <li class="fragment">Designed specifically to build change-driven architectures</li>
+            <li class="fragment">Easy to get started with minimal effort...</li>
           </ul>
-          <p class="fragment subtext" style="margin-top: 1.2em;">
-            Start with one query. No migration required.<br>
-            CNCF Sandbox — early-stage project with a growing ecosystem.
-          </p>
           <aside class="notes">
             Drasi complements existing infrastructure — it's not replacing Kafka or your CDC pipeline.
             Use Drasi when you need change-driven logic: detect specific conditions, react precisely.
@@ -879,7 +835,7 @@ RETURN p.name, p.room, m.lastReading
               <tbody>
                 <tr>
                   <td>📖</td>
-                  <td><a href="https://drasi.io">drasi.io</a> — docs, tutorials, quickstarts</td>
+                  <td><a href="https://drasi.io">drasi.io</a> — quickstarts, tutorials, docs</td>
                 </tr>
                 <tr>
                   <td>💻</td>
@@ -887,7 +843,7 @@ RETURN p.name, p.room, m.lastReading
                 </tr>
                 <tr>
                   <td>🐳</td>
-                  <td>Try Drasi Server locally with Docker in minutes</td>
+                  <td>Try Drasi Server locally or in the cloud in minutes</td>
                 </tr>
                 <tr>
                   <td>🏛️</td>
@@ -903,99 +859,7 @@ RETURN p.name, p.room, m.lastReading
             directly to drasi.io.
           </aside>
         </section>
-
-        <section>
-          <h3>Open Source &amp; Community</h3>
-          <ul>
-            <li class="fragment"><strong>CNCF Sandbox</strong> — open governance, vendor-neutral home</li>
-            <li class="fragment"><strong>No vendor lock-in</strong> — runs anywhere: your laptop, your cloud, your cluster</li>
-            <li class="fragment"><strong>Contribute</strong> — Sources, Reactions, middleware, docs<br>
-              <small>Rust · Go · TypeScript · You pick</small></li>
-          </ul>
-          <p class="fragment subtext" style="margin-top: 1em;">
-            <a href="https://github.com/drasi-project">github.com/drasi-project</a> — issues tagged <code>good first issue</code> are waiting for you
-          </p>
-          <aside class="notes">
-            CNCF Sandbox provides vendor-neutral governance. Contributions welcome across
-            Rust (core engine, drasi-lib), Go (sources, reactions), TypeScript (web UI).
-            Good first issues are tagged and waiting. No CLA required — standard Apache 2.0.
-          </aside>
-        </section>
-
-        <section>
-          <h3>Try the Tutorials</h3>
-          <div class="deployment-options" style="gap: 1.5em;">
-            <div class="deployment-option">
-              <span style="font-size: 2.5em;">🛒</span>
-              <h4>Curbside Pickup</h4>
-              <p>Reactive dashboards over multiple sources</p>
-            </div>
-            <div class="deployment-option">
-              <span style="font-size: 2.5em;">🏢</span>
-              <h4>Building Comfort</h4>
-              <p>Sensors and HVAC management</p>
-            </div>
-            <div class="deployment-option">
-              <span style="font-size: 2.5em;">🔒</span>
-              <h4>Risky Containers</h4>
-              <p>No-code real-time security dashboard</p>
-            </div>
-            <div class="deployment-option">
-              <span style="font-size: 2.5em;">🤖</span>
-              <h4>GitHub Bot</h4>
-              <p>Automated workflows from data changes</p>
-            </div>
-          </div>
-          <aside class="notes">
-            Four tutorials cover different scenarios. Curbside Pickup: reactive dashboards
-            across multiple sources. Building Comfort: IoT sensors and HVAC. Risky Containers:
-            Kubernetes security monitoring with no code. GitHub Bot: automated workflows.
-          </aside>
-        </section>
-
-        <section data-background-image="images/backgrounds/water-ripple.jpg" data-background-opacity="0.2">
-          <img src="images/drasi-logo/drasi-logo-white-type-cropped.svg" alt="Drasi" style="width: 200px; margin-bottom: 0.3em; filter: drop-shadow(0 0 16px rgba(66,175,250,0.35));">
-          <p class="callout" style="font-size: 1.1em; margin-bottom: 1.2em;">
-            Stop writing code to watch for changes.<br>
-            Describe what matters. Let Drasi do the rest.
-          </p>
-          <div class="fragment">
-            <p>
-              <a href="https://drasi.io">drasi.io</a> ·
-              <a href="https://github.com/drasi-project">github.com/drasi-project</a>
-            </p>
-            <p><small>Allen Jones · SCaLE 23x</small></p>
-          </div>
-          <aside class="notes">
-            Closing summary: Drasi lets you declare what changes matter instead of writing
-            infrastructure code. Visit drasi.io to get started, or find us on GitHub.
-            Thank you — happy to take questions.
-          </aside>
-        </section>
-
-        <section>
-          <h3>Event-Driven vs Change-Driven</h3>
-          <div class="fragment" style="margin-top: 0.8em;">
-            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0; opacity: 0.6;"><strong>Event-Driven</strong></p>
-            <blockquote style="border-left-color: rgba(66,175,250,0.35);">
-              "Here's everything that happened.<br>Figure out what you care about."
-            </blockquote>
-          </div>
-          <div class="fragment" style="margin-top: 1.2em;">
-            <p class="subtext" style="margin-bottom: 0.3em; margin-top: 0;"><strong>Change-Driven</strong></p>
-            <blockquote style="border-left-color: #42affa;">
-              "Tell me exactly what you care about.<br>I'll tell you when it changes."
-            </blockquote>
-          </div>
-          <aside class="notes">
-            Backup slide summarizing the key distinction. Event-driven: producer defines events,
-            consumers parse and filter. Change-driven: consumer declares what matters via query,
-            platform delivers precisely those changes. Drasi implements the change-driven model.
-          </aside>
-        </section>
-
       </section>
-
     </div>
   </div>
 
