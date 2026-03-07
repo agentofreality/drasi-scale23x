@@ -112,17 +112,22 @@
         </section>
 
         <section>
-          <h3>Example: Customer Support Agent</h3>
-          <p>Your customer support staff use an AI Agent to proactively surface
-            relevant information about the customer and issue they are dealing with.
-            To provide timely and accurate information, the Agent needs immediate access to changes 
-            across CRM, order management, inventory, and support ticket systems. 
+          <h3>Example: AI Support Agent</h3>
+          <p>A customer calls about a missing order. Your AI support agent
+            searches its knowledge base — but the embeddings were last
+            refreshed overnight, so it doesn't know the order was
+            rerouted <em>two hours ago</em>. The agent confidently gives
+            the wrong answer.</p>
+          <p class="fragment callout" style="font-size: 0.8em; margin-top: 0.8em;">
+            Ooops. What if the vector DB updated the moment the order status changed — not on the next batch run?
           </p>
           <aside class="notes">
-            AI agents are increasingly common in customer support. To be effective, they need
-            real-time access to data changes across multiple systems. This example shows that
-            change-driven architecture isn't just about automation — it's about giving AI
-            systems the fresh context they need to be useful. Four systems, one agent, zero lag.
+            This example highlights a real problem with RAG-based AI agents: vector databases
+            are typically updated in periodic batches — hourly, nightly. Between refreshes,
+            the agent's knowledge is stale. Drasi enables incremental, immediate updates to
+            the vector DB the moment source data changes. The agent always has fresh context.
+            This reframes change-driven architecture as an AI infrastructure concern, not just
+            a backend automation pattern.
           </aside>
         </section>
 
