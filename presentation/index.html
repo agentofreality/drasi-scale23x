@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Drasi: A New Take on Change-Driven Architectures</title>
+  <link rel="icon" type="image/svg+xml" href="images/drasi-logo/drasi-logomark-cropped.svg">
   <link rel="stylesheet" href="node_modules/reveal.js/dist/reset.css">
   <link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
   <link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme">
@@ -696,8 +697,8 @@ RETURN o
       <!-- ============================================================ -->
       <section>
         <section>
-          <h2>Demo: Change Driven Solution</h2>
-          <p class="slide-intro" style="font-style: italic;">Let's watch Drasi detect delayed orders<br>across a live database — in real time.</p>
+          <h2>Demo: Drasi Trading</h2>
+          <p class="slide-intro" style="font-style: italic;">Let's explore the change-driven trading solution built using Drasi</p>
           <aside class="notes">
             Time to see Drasi in action. This demo shows the core Source → Query → Reaction
             flow with a concrete scenario: detecting delayed orders in real time.
@@ -710,32 +711,6 @@ RETURN o
             Show: create a delayed order, watch it appear in query results, see reaction fire.
           </aside>
         </section>
-
-        <section data-background-iframe="http://localhost:8280/ui?instance=trading-server" data-background-interactive>
-          <aside class="notes">
-            Live demo via Drasi Server's built-in web UI. Press Esc to exit interactive mode.
-            Show: create a delayed order, watch it appear in query results, see reaction fire.
-          </aside>
-        </section>
-
-        <section data-background-iframe="http://localhost:8281/events" data-background-interactive>
-          <aside class="notes">
-            Live demo via Drasi Server's built-in web UI. Press Esc to exit interactive mode.
-            Show: create a delayed order, watch it appear in query results, see reaction fire.
-          </aside>
-        </section>
-
-        <section data-background-color="#000">
-          <div class="split-iframe-overlay">
-            <iframe class="split-left" src="http://localhost:9200/broker"></iframe>
-            <iframe class="split-right" src="http://localhost:5273"></iframe>
-          </div>
-          <aside class="notes">
-            Split view: broker on the left (20%), Drasi UI on the right (80%). Use this to show
-            cause and effect side by side during the demo.
-          </aside>
-        </section>
-
       </section>
 
       <!-- ============================================================ -->
