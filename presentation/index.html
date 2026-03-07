@@ -44,12 +44,6 @@
         </aside>
       </section>
 
-      <!-- TEST SLIDE — remove before presenting -->
-      <section data-background-color="#42affa">
-        <h2 style="color: #000;">1920 × 1080 Test Slide</h2>
-        <p style="color: #000;">If you can see this entire blue rectangle with no black gaps, the slide fills the screen.</p>
-      </section>
-
       <!-- ============================================================ -->
       <!-- I. THE PROBLEM -->
       <!-- ============================================================ -->
@@ -511,7 +505,7 @@
             <li>Subscribe to one or more Sources and receive <strong>Source Change Events</strong></li>
             <li>Declarative openCypher or GQL queries describe the change you are interest in</li>
             <li>Maintain perpetually accurate <strong>Result Set</strong></li>
-            <li>Emit <strong>Result Change Notifications</strong> containing diff to subscribed Reactions</li>
+            <li>Send <strong>Result Change Notifications</strong> containing diff to subscribed Reactions</li>
           </ul>
           <img src="images/diagrams/continuous-query-flow.svg"
                alt="Source Change Events flow into the Continuous Query engine which maintains Element, Aggregation, and Result indexes, then emits Result Change Notifications (Added, Updated, Deleted)"
@@ -536,13 +530,26 @@
         <section>
           <h3>Example: Continuous Query</h3>
           <p>All stock prices</p>
-          <pre class="fragment"><code class="language-cypher" data-trim>
+          <pre class="fragment"><code class="language-sql" data-trim>
 MATCH (sp:stock_prices)
 RETURN sp.symbol AS symbol,
        sp.price AS price,
        sp.previous_close AS previousClose,
        ((sp.price - sp.previous_close) / sp.previous_close * 100) AS changePercent
           </code></pre>
+          <table class="fragment" style="font-size: 0.65em; margin: 1.8em auto 0; border-collapse: collapse; width: auto;">
+            <thead><tr style="border-bottom: 2px solid #42affa;">
+              <th style="padding: 0.35em 1em;">symbol</th>
+              <th style="padding: 0.35em 1em;">price</th>
+              <th style="padding: 0.35em 1em;">previousClose</th>
+              <th style="padding: 0.35em 1em;">changePercent</th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="padding: 0.35em 1em;">AAPL</td><td style="padding: 0.35em 1em;">189.42</td><td style="padding: 0.35em 1em;">187.10</td><td style="padding: 0.35em 1em; color: #48e263;">+1.24</td></tr>
+              <tr><td style="padding: 0.35em 1em;">MSFT</td><td style="padding: 0.35em 1em;">412.35</td><td style="padding: 0.35em 1em;">415.80</td><td style="padding: 0.35em 1em; color: #ff5555;">-0.83</td></tr>
+              <tr><td style="padding: 0.35em 1em;">NVDA</td><td style="padding: 0.35em 1em;">875.60</td><td style="padding: 0.35em 1em;">860.20</td><td style="padding: 0.35em 1em; color: #48e263;">+1.79</td></tr>
+            </tbody>
+          </table>
           <aside class="notes">
             Simple example — match all stock prices and compute the change percentage.
             This query runs perpetually. Every time a price updates, the result set
@@ -554,7 +561,7 @@ RETURN sp.symbol AS symbol,
         <section>
           <h3>Example: Continuous Query</h3>
           <p>All stocks with a price higher than yesterday's close</p>
-          <pre class="fragment"><code class="language-cypher" data-trim>
+          <pre class="fragment"><code class="language-sql" data-trim>
 MATCH (s:stocks)-[:HAS_PRICE]->(sp:stock_prices)
 WHERE sp.price > sp.previous_close
 RETURN s.symbol AS symbol,
@@ -563,6 +570,20 @@ RETURN s.symbol AS symbol,
        sp.previous_close AS previousClose,
        ((sp.price - sp.previous_close) / sp.previous_close * 100) AS changePercent
           </code></pre>
+          <table class="fragment" style="font-size: 0.65em; margin: 1.8em auto 0; border-collapse: collapse; width: auto;">
+            <thead><tr style="border-bottom: 2px solid #42affa;">
+              <th style="padding: 0.35em 1em;">symbol</th>
+              <th style="padding: 0.35em 1em;">name</th>
+              <th style="padding: 0.35em 1em;">price</th>
+              <th style="padding: 0.35em 1em;">previousClose</th>
+              <th style="padding: 0.35em 1em;">changePercent</th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="padding: 0.35em 1em;">AAPL</td><td style="padding: 0.35em 1em;">Apple Inc.</td><td style="padding: 0.35em 1em;">189.42</td><td style="padding: 0.35em 1em;">187.10</td><td style="padding: 0.35em 1em; color: #48e263;">+1.24</td></tr>
+              <tr><td style="padding: 0.35em 1em;">NVDA</td><td style="padding: 0.35em 1em;">NVIDIA Corp.</td><td style="padding: 0.35em 1em;">875.60</td><td style="padding: 0.35em 1em;">860.20</td><td style="padding: 0.35em 1em; color: #48e263;">+1.79</td></tr>
+              <tr><td style="padding: 0.35em 1em;">AMZN</td><td style="padding: 0.35em 1em;">Amazon.com</td><td style="padding: 0.35em 1em;">182.75</td><td style="padding: 0.35em 1em;">180.90</td><td style="padding: 0.35em 1em; color: #48e263;">+1.02</td></tr>
+            </tbody>
+          </table>
           <aside class="notes">
             Now we add a relationship traversal and a WHERE filter. This query joins
             stocks with their prices and only returns gainers. As prices change, stocks
@@ -574,7 +595,7 @@ RETURN s.symbol AS symbol,
         <section>
           <h3>Example: Continuous Query</h3>
           <p>All market sectors</p>
-          <pre class="fragment"><code class="language-cypher" data-trim>
+          <pre class="fragment"><code class="language-sql" data-trim>
 MATCH (s:stocks)-[:HAS_PRICE]->(sp:stock_prices)
 RETURN s.sector AS sector,
        count(s) AS stockCount,
@@ -583,6 +604,21 @@ RETURN s.sector AS sector,
        min(sp.price) AS minPrice,
        max(sp.price) AS maxPrice
           </code></pre>
+          <table class="fragment" style="font-size: 0.65em; margin: 1.8em auto 0; border-collapse: collapse; width: auto;">
+            <thead><tr style="border-bottom: 2px solid #42affa;">
+              <th style="padding: 0.35em 1em;">sector</th>
+              <th style="padding: 0.35em 1em;">stockCount</th>
+              <th style="padding: 0.35em 1em;">avgChangePercent</th>
+              <th style="padding: 0.35em 1em;">totalVolume</th>
+              <th style="padding: 0.35em 1em;">minPrice</th>
+              <th style="padding: 0.35em 1em;">maxPrice</th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="padding: 0.35em 1em;">Technology</td><td style="padding: 0.35em 1em;">8</td><td style="padding: 0.35em 1em; color: #48e263;">+1.35</td><td style="padding: 0.35em 1em;">42,150,000</td><td style="padding: 0.35em 1em;">142.30</td><td style="padding: 0.35em 1em;">875.60</td></tr>
+              <tr><td style="padding: 0.35em 1em;">Healthcare</td><td style="padding: 0.35em 1em;">5</td><td style="padding: 0.35em 1em; color: #ff5555;">-0.42</td><td style="padding: 0.35em 1em;">18,720,000</td><td style="padding: 0.35em 1em;">89.15</td><td style="padding: 0.35em 1em;">485.20</td></tr>
+              <tr><td style="padding: 0.35em 1em;">Finance</td><td style="padding: 0.35em 1em;">6</td><td style="padding: 0.35em 1em; color: #48e263;">+0.78</td><td style="padding: 0.35em 1em;">31,400,000</td><td style="padding: 0.35em 1em;">52.40</td><td style="padding: 0.35em 1em;">312.85</td></tr>
+            </tbody>
+          </table>
           <aside class="notes">
             Aggregation example — sector-level rollups computed live. Every individual
             price change triggers a recalculation of the sector averages, counts, and
@@ -607,7 +643,7 @@ RETURN s.sector AS sector,
 
         <section>
           <h3>Reaction Ecosystem</h3>
-          <p class="subtitle">Take action</p>
+          <p class="subtitle">Take action using existing systems</p>
           <div class="accent-rows" style="margin-top: 1em;">
             <div class="accent-row-group fragment">
               <div class="accent-row-category">Push</div>
@@ -777,7 +813,7 @@ RETURN s.sector AS sector,
               <h4 style="color: #42affa; margin: 0.4em 0 0.3em; font-size: 0.72em; letter-spacing: 0.08em; white-space: nowrap;">Drasi for K8s</h4>
               <div style="display: flex; flex-direction: column; gap: 0.4em; align-items: center;">
                 <span style="color: #e0e0e0; font-size: 0.62em; font-weight: 500; padding: 0.3em 0; border-bottom: 1px solid rgba(66,175,250,0.15); width: 100%;">Scaling &amp; observability</span>
-                <span style="color: #e0e0e0; font-size: 0.57em; font-weight: 500; padding: 0.3em 0; width: 80%;">AKS · EKS · GKE · K3s · Kind</span>
+                <span style="color: #e0e0e0; font-size: 0.57em; font-weight: 500; padding: 0.3em 0; width: 100%;">AKS · EKS · GKE · K3s · Kind</span>
               </div>
             </div>
             <div class="fragment" style="
@@ -907,6 +943,13 @@ RETURN s.sector AS sector,
           </aside>
         </section>
       </section>
+
+      <!-- TEST SLIDE — remove before presenting
+      <section data-background-color="#42affa">
+        <h2 style="color: #000;">1920 × 1080 Test Slide</h2>
+        <p style="color: #000;">If you can see this entire blue rectangle with no black gaps, the slide fills the screen.</p>
+      </section>
+      -->
     </div>
   </div>
 
