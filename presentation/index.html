@@ -447,7 +447,30 @@
 
         <section>
           <h3>Sources</h3>
-          <p>Connect to your existing data</p>
+          <ul>
+            <li>Manage (re)connection to data source</li>
+            <li>Receive / retrieve change events or mimic change feed</li>
+            <li>Tx change events to property graph node/relation updates</li>
+            <li>Emit Source Change Events stream to Continuous Queries</li>
+          </ul>
+          <img src="images/source-change-events.svg"
+               alt="Data flow: Source emits Insert, Update, and Delete Source Change Events to Continuous Query"
+               style="width: 96%; max-width: 920px; display: block; margin: 0.2em auto 0;">
+          <aside class="notes">
+            Source Change Events are the internal data format that Sources use to communicate
+            changes to Continuous Queries. Three variants: Insert (new element with full data),
+            Update (changed element with full data), Delete (only metadata — identity and labels,
+            no properties needed since the element is gone).
+
+            Key point: the Source handles all the CDC complexity — reading WAL logs, tracking
+            offsets, mapping rows to graph elements. By the time data reaches the Continuous
+            Query, it's a clean, typed change event.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Sources</h3>
+          <p>Connect to your existing data where it is</p>
           <div class="deployment-options" style="gap: 1.5em; margin-top: 0.8em;">
             <div class="fragment" style="
               flex: 1; max-width: 260px; text-align: center;
@@ -495,7 +518,9 @@
               </div>
             </div>
           </div>
-          <p class="fragment subtext" style="margin-top: 1.2em;">No code changes to your applications — connects to what you already run</p>
+          <p class="fragment subtext" style="margin-top: 0.8em;">
+            Table/Stream name → Node label · Columns → properties · Primary key → element ID
+          </p>
           <aside class="notes">
             Sources connect to your existing infrastructure — no rip-and-replace required.
             Key point from the "observability without modification" principle: Drasi tails
@@ -506,56 +531,31 @@
         </section>
 
         <section>
-          <h3>Source Change Events</h3>
-          <p class="slide-intro">Sources emit <strong>Source Change Events</strong> to notify Continuous Queries of data changes</p>
-          <img src="images/source-change-events.svg"
-               alt="Data flow: Source emits Insert, Update, and Delete Source Change Events to Continuous Query"
-               style="width: 96%; max-width: 920px; display: block; margin: 0.2em auto 0;">
+          <h3>Continuous Query</h3>
+          <ul>
+            <li>Declarative openCypher or GQL queries</li>
+            <li>Describe the kind of change your are interest in</li>
+            <li>Take Source Change Events as input</li>
+            <li>Keep result set perpetually up to date</li>
+            <li>Emit Result Change Notifications containing diff</li>
+          </ul>
+          <img src="images/continuous-query-flow.svg"
+               alt="Source Change Events flow into the Continuous Query engine which maintains Element, Aggregation, and Result indexes, then emits Result Change Notifications (Added, Updated, Deleted)"
+               style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
           <aside class="notes">
-            Source Change Events are the internal data format that Sources use to communicate
-            changes to Continuous Queries. Three variants: Insert (new element with full data),
-            Update (changed element with full data), Delete (only metadata — identity and labels,
-            no properties needed since the element is gone).
+            This diagram shows what happens inside a Continuous Query. Source Change Events
+            (Insert, Update, Delete) arrive from Sources. The query engine evaluates each change
+            against the query, updating three internal indexes:
 
-            Key point: the Source handles all the CDC complexity — reading WAL logs, tracking
-            offsets, mapping rows to graph elements. By the time data reaches the Continuous
-            Query, it's a clean, typed change event.
-          </aside>
-        </section>
+            Element Index — stores all Nodes and Relations the query subscribes to.
+            Aggregation Index — maintains running aggregations (count, sum, avg, etc.)
+            so they don't need to be recomputed from scratch.
+            Result Index — the current result set that satisfies the query.
 
-        <section>
-          <h3>Source Change Event Example</h3>
-          <p class="slide-intro">A PostgreSQL row insert mapped to a graph Node:</p>
-          <pre style="width: 80%; margin: 0 auto;"><code class="language-json" data-trim data-noescape>
-{
-  "op": "Insert",
-  "element": {
-    "type": "Node",
-    "labels": ["Order"],
-    "reference": {
-      "source_id": "pg-orders",
-      "element_id": "Order:42"
-    },
-    "effective_from": 1709571234000,
-    "properties": {
-      "id": 42,
-      "status": "delayed",
-      "total": 149.99
-    }
-  }
-}
-          </code></pre>
-          <p class="fragment subtext" style="margin-top: 0.8em;">
-            Table name → Node label · Columns → properties · Primary key → element ID
-          </p>
-          <aside class="notes">
-            Elements can be Nodes (mapped from table rows — table name becomes the label,
-            columns become properties, primary key becomes the element ID) or Relations
-            (mapped from foreign keys or explicit relationships).
-
-            Insert and Update carry the full element (type, labels, reference, properties).
-            Delete carries only metadata (reference and labels) — no properties needed since
-            the element is gone. The query engine never touches raw database protocols.
+            After processing a change, the engine diffs the result set and emits Result Change
+            Notifications: Added (new row matches), Updated (row still matches but values changed,
+            with before/after), Deleted (row no longer matches). These typed notifications flow
+            to Reactions — clean, unambiguous, no parsing required.
           </aside>
         </section>
 
@@ -591,28 +591,6 @@ RETURN o, c.name, c.email
             
             If asked about streaming SQL (Materialize, ksqlDB): Drasi is for change detection
             across existing systems. Streaming SQL processes event streams. Different problem shapes.
-          </aside>
-        </section>
-
-        <section>
-          <h3>Inside a Continuous Query</h3>
-          <img src="images/continuous-query-flow.svg"
-               alt="Source Change Events flow into the Continuous Query engine which maintains Element, Aggregation, and Result indexes, then emits Result Change Notifications (Added, Updated, Deleted)"
-               style="width: 96%; max-width: 920px; display: block; margin: 0.4em auto 0;">
-          <aside class="notes">
-            This diagram shows what happens inside a Continuous Query. Source Change Events
-            (Insert, Update, Delete) arrive from Sources. The query engine evaluates each change
-            against the query, updating three internal indexes:
-
-            Element Index — stores all Nodes and Relations the query subscribes to.
-            Aggregation Index — maintains running aggregations (count, sum, avg, etc.)
-            so they don't need to be recomputed from scratch.
-            Result Index — the current result set that satisfies the query.
-
-            After processing a change, the engine diffs the result set and emits Result Change
-            Notifications: Added (new row matches), Updated (row still matches but values changed,
-            with before/after), Deleted (row no longer matches). These typed notifications flow
-            to Reactions — clean, unambiguous, no parsing required.
           </aside>
         </section>
 
